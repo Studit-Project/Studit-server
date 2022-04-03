@@ -1,0 +1,5 @@
+
+studit/src/main/resources/application.yml
+.DS_Store
+*.gradle
+*.jar
