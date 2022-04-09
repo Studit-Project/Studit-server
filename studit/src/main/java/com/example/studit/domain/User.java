@@ -1,9 +1,6 @@
 package com.example.studit.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Generated;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -29,11 +26,18 @@ public class User {
     @Column(nullable = false)
     private String pwd;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String nickname;
 
     private Gender gender;
 
     private String birth;
 
+    @Builder
+    public User(String userName, String phone, String pwd, String email){
+        this.userName = userName;
+        this.phone = phone;
+        this.pwd = pwd;
+        this.email = email;
+    }
 }
