@@ -5,3 +5,6 @@ studit/src/main/resources/application.yml
 *.jar
 *.yml
 studit/src/main/resources/application.yml
+*.yml
+*.yml
+studit/src/main/resources/application.yml
