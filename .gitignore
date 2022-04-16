@@ -1,7 +1,6 @@
 
 studit/src/main/resources/application.yml
 .DS_Store
-*.gradle
 *.jar
 *.yml
 studit/src/main/resources/application.yml
