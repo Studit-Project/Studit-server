@@ -1,15 +1,12 @@
 package com.example.studit.domain;
 
 import lombok.*;
-import net.bytebuddy.build.Plugin;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Getter
@@ -36,12 +33,23 @@ public class User{
     @Column(unique = true)
     private String nickname;
 
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     private String birth;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    //내가 방장
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<MyStudy> myStudy = new ArrayList<>();
+
+    //나는 스터디원
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //탈퇴하면 스터디, 챌린지에서 나가지도록
+    private List<ParticipatedStudy> participatedStudy = new ArrayList<>();
+
+
 
     @Builder
     public User(String userName, String phone, String pwd, String email){
