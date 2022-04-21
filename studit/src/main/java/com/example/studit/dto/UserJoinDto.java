@@ -13,7 +13,6 @@ public class UserJoinDto {
     private String phone;
     private String password;
     private String email;
-    private String auth;
 
     public User toEntity(){
         return User.builder()
