@@ -1,5 +1,8 @@
 package com.example.studit.domain;
 
+import com.example.studit.domain.challenge.MyChallenge;
+import com.example.studit.domain.study.MyStudy;
+import com.example.studit.domain.study.ParticipatedStudy;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -41,14 +44,17 @@ public class User{
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    //내가 방장
+    //내가 스터디 방장
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<MyStudy> myStudy = new ArrayList<>();
+    private List<MyStudy> myStudies = new ArrayList<>();
 
     //나는 스터디원
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //탈퇴하면 스터디, 챌린지에서 나가지도록
-    private List<ParticipatedStudy> participatedStudy = new ArrayList<>();
+    private List<ParticipatedStudy> participatedStudies = new ArrayList<>();
 
+    //내가 만든 챌린지
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<MyChallenge> myChallenges = new ArrayList<>();
 
 
     @Builder
