@@ -1,5 +1,7 @@
-package com.example.studit.domain;
+package com.example.studit.domain.study;
 
+import com.example.studit.domain.User;
+import com.example.studit.domain.study.Study;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +14,7 @@ public class ParticipatedStudy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "participated_id")
+    @Column(name = "participated_study_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
