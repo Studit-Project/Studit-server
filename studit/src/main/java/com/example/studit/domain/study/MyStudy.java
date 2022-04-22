@@ -1,5 +1,7 @@
-package com.example.studit.domain;
+package com.example.studit.domain.study;
 
+import com.example.studit.domain.User;
+import com.example.studit.domain.study.Study;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,10 +17,11 @@ public class MyStudy {
     Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "leader")
+    @JoinColumn(name = "user_id")
     private User user;
 
     //내가 방장인 스터디
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "study_id")
     private Study study;
 }

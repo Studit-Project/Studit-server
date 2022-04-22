@@ -1,5 +1,6 @@
-package com.example.studit.domain;
+package com.example.studit.domain.study;
 
+import com.example.studit.domain.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
