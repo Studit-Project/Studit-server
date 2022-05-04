@@ -59,6 +59,13 @@ public class User{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyChallenge> myChallenges = new ArrayList<>();
 
+    //내가 쓴 글
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Posting> postings = new ArrayList<>();
+
+    //내가 단 댓글
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public User(String userName, String phone, String pwd, String email){
