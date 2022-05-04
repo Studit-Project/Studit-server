@@ -34,10 +34,10 @@ public class StudyService {
         //현재 로그인한 유저 정보
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        User user = (User) authentication.getPrincipal();
-        User user1 = userRepository.findByUserName(authentication.getName());
+        User user = userRepository.findByUserName(authentication.getName());
 
         MyStudy myStudy = new MyStudy();
-        myStudy.setUser(user1);
+        myStudy.setUser(user);
 
         Study study = studyRepository.save(studyCreateDto.toEntity());
 

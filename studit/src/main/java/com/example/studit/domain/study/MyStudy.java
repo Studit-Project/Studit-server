@@ -1,7 +1,6 @@
 package com.example.studit.domain.study;
 
 import com.example.studit.domain.User;
-import com.example.studit.domain.study.Study;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

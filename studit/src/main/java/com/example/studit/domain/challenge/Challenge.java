@@ -1,6 +1,6 @@
 package com.example.studit.domain.challenge;
 
-import com.example.studit.domain.Status;
+import com.example.studit.domain.enumType.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
