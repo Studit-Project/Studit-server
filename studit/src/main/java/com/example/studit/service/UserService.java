@@ -36,7 +36,6 @@ public class UserService {
         validateDuplicateMember(userJoinDto);
 
         User user = userRepository.save(userJoinDto.toEntity());
-//        user.encryptPassword(passwordEncoder);
         return user.getId();
     }
 

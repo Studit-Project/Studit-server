@@ -2,10 +2,17 @@ package com.example.studit.security;
 
 import com.example.studit.domain.Role;
 import com.example.studit.domain.User;
+import com.example.studit.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import org.apache.http.client.UserTokenHandler;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.ArrayList;
 import java.util.Collection;
