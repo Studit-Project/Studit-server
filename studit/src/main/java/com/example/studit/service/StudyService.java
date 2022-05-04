@@ -6,6 +6,7 @@ import com.example.studit.domain.study.Study;
 import com.example.studit.dto.StudyCreateDto;
 import com.example.studit.repository.MyStudyRepository;
 import com.example.studit.repository.StudyRepository;
+import com.example.studit.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class StudyService {
 
     @Autowired
+    private final UserRepository userRepository;
+
+    @Autowired
     private final StudyRepository studyRepository;
 
     @Autowired
@@ -29,10 +33,11 @@ public class StudyService {
 
         //현재 로그인한 유저 정보
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
+//        User user = (User) authentication.getPrincipal();
+        User user1 = userRepository.findByUserName(authentication.getName());
 
         MyStudy myStudy = new MyStudy();
-        myStudy.setUser(user);
+        myStudy.setUser(user1);
 
         Study study = studyRepository.save(studyCreateDto.toEntity());
 

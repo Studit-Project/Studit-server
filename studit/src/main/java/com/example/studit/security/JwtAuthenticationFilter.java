@@ -23,16 +23,32 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        //헤더 파싱
+//        String authorization = ((HttpServletRequest) request).getHeader("Authorization");
         //헤더에서 JWT 받아옴
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
 
+
         //유효한 토큰인지 확인
-            if (token != null && jwtTokenProvider.validateToken(token)){
-                //토큰이 유효하면 토큰으로부터 유저 정보 받아옴
-                Authentication authentication = jwtTokenProvider.getAuthentication(token);
+//            if (token != null && jwtTokenProvider.validateToken(token)){
+//                //토큰이 유효하면 토큰으로부터 유저 정보 받아옴
+//                Authentication authentication = jwtTokenProvider.getAuthentication(token);
+//                //SecurityContext에 Authentication 객체 저장
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//            }
+
+        //유효한 토큰인지 확인
+        if( token != null && token.startsWith("Bearer ")){
+            val jwtToken = token.substring(7);
+            if(jwtTokenProvider.validateToken(jwtToken)){
+                //토큰이 유효하면 토큰으로부터 유저 정보를 받아옴
+                Authentication authentication = jwtTokenProvider.getAuthentication(jwtToken);
                 //SecurityContext에 Authentication 객체 저장
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else{
+                log.debug("JWT Token does not begin with Bearer String");
             }
+        }
             chain.doFilter(request, response);
     }
 }

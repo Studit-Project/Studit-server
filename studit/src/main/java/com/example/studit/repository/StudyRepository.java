@@ -1,5 +1,6 @@
 package com.example.studit.repository;
 
+import com.example.studit.domain.User;
 import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.Study;
 import org.springframework.data.jpa.repository.JpaRepository;
