@@ -47,6 +47,13 @@ public class User{
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    //목표
+    private String goal;
+
+    //수집한 뱃지
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<MyBadge> badges = new ArrayList<>();
+
     //내가 스터디 방장
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyStudy> myStudies = new ArrayList<>();
