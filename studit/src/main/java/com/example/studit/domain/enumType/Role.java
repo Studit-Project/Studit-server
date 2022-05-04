@@ -1,4 +1,4 @@
-package com.example.studit.domain;
+package com.example.studit.domain.enumType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
