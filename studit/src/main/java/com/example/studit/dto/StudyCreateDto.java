@@ -1,9 +1,7 @@
 package com.example.studit.dto;
 
-import com.example.studit.domain.User;
-import com.example.studit.domain.study.Region;
 import com.example.studit.domain.study.Study;
-import com.example.studit.domain.study.Target;
+import com.example.studit.domain.enumType.Target;
 import lombok.Getter;
 import lombok.Setter;
 
