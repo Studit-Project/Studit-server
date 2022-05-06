@@ -24,4 +24,12 @@ public class ParticipatedStudy {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "study_id")
     private Study study;
+
+    public void setUser(User user){
+        this.user = user;
+    }
+
+    public void setStudy(Study study){
+        this.study = study;
+    }
 }
