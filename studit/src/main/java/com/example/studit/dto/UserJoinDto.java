@@ -3,9 +3,6 @@ package com.example.studit.dto;
 import com.example.studit.domain.User;
 import lombok.*;
 
-import javax.persistence.GeneratedValue;
-import java.util.Collections;
-
 @Getter @Setter
 @NoArgsConstructor
 public class UserJoinDto {

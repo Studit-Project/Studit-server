@@ -1,16 +1,15 @@
 package com.example.studit.domain;
 
 import com.example.studit.domain.challenge.MyChallenge;
+import com.example.studit.domain.enumType.Gender;
+import com.example.studit.domain.enumType.Role;
 import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 

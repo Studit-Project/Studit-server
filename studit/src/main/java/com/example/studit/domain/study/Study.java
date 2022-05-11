@@ -1,7 +1,7 @@
 package com.example.studit.domain.study;
 
-import com.example.studit.domain.Status;
-import com.example.studit.domain.User;
+import com.example.studit.domain.enumType.Status;
+import com.example.studit.domain.enumType.Target;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
