@@ -1,7 +1,5 @@
 package com.example.studit.controller;
 
-import com.example.studit.domain.User;
-import com.example.studit.domain.study.Study;
 import com.example.studit.dto.StudyCreateDto;
 import com.example.studit.dto.StudyManageDto;
 import com.example.studit.service.StudyService;
@@ -24,7 +22,7 @@ public class StudyController {
     private final StudyService studyService;
 
     //스터디룸 개설
-    @PostMapping("/study/create")
+    @PostMapping("/study/manage/create")
     public Long StudyCreate(@RequestBody StudyCreateDto studyCreateDto){
         return studyService.save(studyCreateDto);
     }
