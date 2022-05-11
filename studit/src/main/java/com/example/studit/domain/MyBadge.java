@@ -1,19 +1,21 @@
-package com.example.studit.domain.study;
+package com.example.studit.domain;
 
+import com.example.studit.domain.Badge;
 import com.example.studit.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class ParticipatedStudy {
-
+public class MyBadge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "participated_study_id")
+    @Column(name = "my_badge_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -21,14 +23,6 @@ public class ParticipatedStudy {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "study_id")
-    private Study study;
-
-    public void setUser(User user){
-        this.user = user;
-    }
-
-    public void setStudy(Study study){
-        this.study = study;
-    }
+    @JoinColumn(name = "badge_id")
+    private Badge badge;
 }

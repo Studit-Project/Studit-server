@@ -46,6 +46,13 @@ public class User{
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    //목표
+    private String goal;
+
+    //수집한 뱃지
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<MyBadge> badges = new ArrayList<>();
+
     //내가 스터디 방장
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyStudy> myStudies = new ArrayList<>();
@@ -58,6 +65,13 @@ public class User{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyChallenge> myChallenges = new ArrayList<>();
 
+    //내가 쓴 글
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Posting> postings = new ArrayList<>();
+
+    //내가 단 댓글
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public User(String userName, String phone, String pwd, String email){
