@@ -1,84 +1,94 @@
 package com.example.studit.mapper;
 
-import com.example.studit.domain.User;
-import com.example.studit.domain.User.UserBuilder;
 import com.example.studit.domain.study.Activity;
 import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
 import com.example.studit.domain.study.Study;
 import com.example.studit.domain.study.Study.StudyBuilder;
 import com.example.studit.dto.StudyManageDto;
+import com.example.studit.dto.UserInfoDto;
+import com.example.studit.dto.UserInfoDto.UserInfoDtoBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
-import javax.persistence.Id;
-
 import org.springframework.stereotype.Component;
 
 @Generated(
-        value = "org.mapstruct.ap.MappingProcessor",
-        date = "2022-05-06T17:26:18+0900",
-        comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
+    value = "org.mapstruct.ap.MappingProcessor",
+    date = "2022-05-10T17:15:52+0900",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
 )
 @Component
 public class StudyMapperImpl implements StudyMapper {
+
     @Override
-    public StudyManageDto toDto(Study e) {
-        if ( e == null ) {
+    public StudyManageDto toDto(Study arg0) {
+        if ( arg0 == null ) {
             return null;
         }
 
+//        Long id = null;
         String name = null;
         String introduction = null;
         int number = 0;
         int currentNum = 0;
-        User leader = null;
+        UserInfoDto leader = null;
         Activity activity = null;
 
-        name = e.getName();
-        introduction = e.getIntroduction();
-        number = e.getNumber();
-        currentNum = e.getCurrentNum();
-        leader = myStudyToUser( e.getLeader() );
-        activity = e.getActivity();
+//        id = arg0.getId();
+        name = arg0.getName();
+        introduction = arg0.getIntroduction();
+        number = arg0.getNumber();
+        currentNum = arg0.getCurrentNum();
+        leader = myStudyToUserInfoDto( arg0.getLeader() );
+        activity = arg0.getActivity();
 
-        Long leaderId = leader.getId();
+        List<UserInfoDto> participatedMembers = null;
+        participatedMembers = participatedStudyToUserInfoDto(arg0.getParticipatedMembers());
 
-        List<ParticipatedStudy> followers = new ArrayList<>();
-        followers = e.getParticipatedMembers();
-        List<Long> followerId = new ArrayList<>();
-
-        for(int i = 0; i < followers.size(); i++){
-            followerId.add(followers.get(i).getId());
-        }
-
-        StudyManageDto studyManageDto = new StudyManageDto( name, introduction, number, currentNum, leaderId, activity, followerId );
+        StudyManageDto studyManageDto = new StudyManageDto( name, introduction, number, currentNum, leader, activity, participatedMembers );
 
         return studyManageDto;
     }
 
+    private List<UserInfoDto> participatedStudyToUserInfoDto(List<ParticipatedStudy> participatedMembers) {
+        if ( participatedMembers == null ) {
+            return null;
+        }
+
+        UserInfoDtoBuilder userInfoDto = UserInfoDto.builder();
+
+        List<UserInfoDto> userInfoDtoList = new ArrayList<>();
+        for(int i = 0; i < participatedMembers.size(); i++) {
+            userInfoDto.user(participatedMembers.get(i).getUser());
+            userInfoDtoList.add(userInfoDto.build());
+        }
+
+        return userInfoDtoList;
+    }
+
     @Override
-    public Study toEntity(StudyManageDto d) {
-        if ( d == null ) {
+    public Study toEntity(StudyManageDto arg0) {
+        if ( arg0 == null ) {
             return null;
         }
 
         StudyBuilder study = Study.builder();
 
-        study.number( d.getNumber() );
-        study.activity( d.getActivity() );
+        study.number( arg0.getNumber() );
+        study.activity( arg0.getActivity() );
 
         return study.build();
     }
 
     @Override
-    public List<StudyManageDto> toDtoList(List<Study> entityList) {
-        if ( entityList == null ) {
+    public List<StudyManageDto> toDtoList(List<Study> arg0) {
+        if ( arg0 == null ) {
             return null;
         }
 
-        List<StudyManageDto> list = new ArrayList<StudyManageDto>( entityList.size() );
-        for ( Study study : entityList ) {
+        List<StudyManageDto> list = new ArrayList<StudyManageDto>( arg0.size() );
+        for ( Study study : arg0 ) {
             list.add( toDto( study ) );
         }
 
@@ -86,13 +96,13 @@ public class StudyMapperImpl implements StudyMapper {
     }
 
     @Override
-    public List<Study> toEntityList(List<StudyManageDto> dtoList) {
-        if ( dtoList == null ) {
+    public List<Study> toEntityList(List<StudyManageDto> arg0) {
+        if ( arg0 == null ) {
             return null;
         }
 
-        List<Study> list = new ArrayList<Study>( dtoList.size() );
-        for ( StudyManageDto studyManageDto : dtoList ) {
+        List<Study> list = new ArrayList<Study>( arg0.size() );
+        for ( StudyManageDto studyManageDto : arg0 ) {
             list.add( toEntity( studyManageDto ) );
         }
 
@@ -100,20 +110,21 @@ public class StudyMapperImpl implements StudyMapper {
     }
 
     @Override
-    public void updateFromDto(StudyManageDto dto, Study entity) {
-        if ( dto == null ) {
+    public void updateFromDto(StudyManageDto arg0, Study arg1) {
+        if ( arg0 == null ) {
             return;
         }
     }
 
-    protected User myStudyToUser(MyStudy myStudy) {
+    protected UserInfoDto myStudyToUserInfoDto(MyStudy myStudy) {
         if ( myStudy == null ) {
             return null;
         }
 
-        UserBuilder user = User.builder();
+        UserInfoDtoBuilder userInfoDto = UserInfoDto.builder();
 
-        return user.build();
+        userInfoDto.user( myStudy.getUser() );
+
+        return userInfoDto.build();
     }
-
 }

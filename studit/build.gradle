@@ -48,6 +48,9 @@ dependencies {
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
+	//guava to change from list to set
+	implementation 'com.google.guava:guava:28.2-jre'
+
 //	implementation 'net.minidev:json-smart:2.4.8'
 }
 
