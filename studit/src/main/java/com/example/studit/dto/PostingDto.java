@@ -4,6 +4,7 @@ import com.example.studit.domain.Category;
 import com.example.studit.domain.Comment;
 import com.example.studit.domain.Posting;
 import com.example.studit.domain.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,7 +29,5 @@ public class PostingDto {
     private String content;
 
     private List<Comment> commentList = new ArrayList<>();
-
-
 
 }
