@@ -1,5 +1,7 @@
 package com.example.studit.domain;
 
+import com.example.studit.dto.PostingDto;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -33,4 +35,12 @@ public class Posting {
 
     @OneToMany(mappedBy = "posting", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
+
+    @Builder
+    public Posting(Category category, User user, LocalDateTime localDateTime, String content){
+        this.category = category;
+        this.user = user;
+        this.localDateTime = localDateTime;
+        this.content = content;
+    }
 }
