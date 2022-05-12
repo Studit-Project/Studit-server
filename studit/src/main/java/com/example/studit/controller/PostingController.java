@@ -1,5 +1,6 @@
 package com.example.studit.controller;
 
+import com.example.studit.domain.Posting;
 import com.example.studit.domain.User;
 import com.example.studit.dto.PostingDto;
 import com.example.studit.dto.UserInfoDto;
@@ -7,9 +8,12 @@ import com.example.studit.service.PostingService;
 import com.example.studit.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +28,11 @@ public class PostingController {
     @PostMapping("/posting/create")
     public Long createPosting(@RequestBody PostingDto postingDto){
         return postingService.save(postingDto);
+    }
+
+    @GetMapping("/posting")
+    public List<PostingDto> studyPostings(){
+        return postingService.findAllStudyPosting("STUDY");
     }
 
 }
