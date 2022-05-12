@@ -3,6 +3,7 @@ package com.example.studit.domain;
 import com.example.studit.domain.challenge.MyChallenge;
 import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
+import com.example.studit.dto.UserInfoDto;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -73,6 +74,13 @@ public class User{
     //내가 단 댓글
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
+
+    public UserInfoDto toUserInfoDto(){
+        UserInfoDto userInfoDto = new UserInfoDto();
+        return UserInfoDto.builder().
+                user(this).
+                build();
+    }
 
     @Builder
     public User(String userName, String phone, String pwd, String email){
