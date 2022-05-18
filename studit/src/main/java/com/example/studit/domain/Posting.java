@@ -24,6 +24,8 @@ public class Posting {
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    private String title;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -37,8 +39,9 @@ public class Posting {
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public Posting(Category category, User user, LocalDateTime localDateTime, String content){
+    public Posting(Category category, String title, User user, LocalDateTime localDateTime, String content){
         this.category = category;
+        this.title = title;
         this.user = user;
         this.localDateTime = localDateTime;
         this.content = content;
