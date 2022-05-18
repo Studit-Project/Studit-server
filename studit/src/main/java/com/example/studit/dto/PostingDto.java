@@ -22,12 +22,24 @@ public class PostingDto {
 
     private Category category;
 
+    private String title;
+
     private UserInfoDto userInfoDto;
 
     private LocalDateTime localDateTime = LocalDateTime.now();
 
     private String content;
 
-    private List<Comment> commentList = new ArrayList<>();
+    private List<CommentResponseDto> commentList = new ArrayList<>();
 
+    @Builder
+    public PostingDto(Long id, Category category, String title, UserInfoDto userInfoDto, LocalDateTime localDateTime, String content, List<CommentResponseDto> commentList){
+        this.id = id;
+        this.category = category;
+        this.title = title;
+        this.userInfoDto = userInfoDto;
+        this.localDateTime = localDateTime;
+        this.content = content;
+        this.commentList = commentList;
+    }
 }
