@@ -31,6 +31,8 @@ dependencies {
 
 	//lombok
 	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 
 	//test
 	testImplementation 'org.springframework.security:spring-security-test'
@@ -40,6 +42,16 @@ dependencies {
 
 	//coolsms for for number authentication
 	implementation group: 'net.nurigo', name: 'javaSDK', version: '2.2'
+
+	//mapstruct
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+	//guava to change from list to set
+	implementation 'com.google.guava:guava:28.2-jre'
+
+//	implementation 'net.minidev:json-smart:2.4.8'
 }
 
 tasks.named('test') {
