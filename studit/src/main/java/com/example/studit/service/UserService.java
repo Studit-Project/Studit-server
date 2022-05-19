@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,5 +65,13 @@ public class UserService {
         UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
         String token = jwtTokenProvider.generateToken(principal);
         return new JwtResponseDto(token);
+    }
+
+    public User getUserFromAuth(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByUserName(authentication.getName());
+//        User user = userRepository.findByEmail(authentication.getName());
+        return user;
+
     }
 }

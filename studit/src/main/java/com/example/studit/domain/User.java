@@ -5,6 +5,7 @@ import com.example.studit.domain.enumType.Gender;
 import com.example.studit.domain.enumType.Role;
 import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
+import com.example.studit.dto.UserInfoDto;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -46,6 +47,13 @@ public class User{
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    //목표
+    private String goal;
+
+    //수집한 뱃지
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<MyBadge> badges = new ArrayList<>();
+
     //내가 스터디 방장
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyStudy> myStudies = new ArrayList<>();
@@ -58,6 +66,20 @@ public class User{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyChallenge> myChallenges = new ArrayList<>();
 
+    //내가 쓴 글
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Posting> postings = new ArrayList<>();
+
+    //내가 단 댓글
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
+
+    public UserInfoDto toUserInfoDto(){
+        UserInfoDto userInfoDto = new UserInfoDto();
+        return UserInfoDto.builder().
+                user(this).
+                build();
+    }
 
     @Builder
     public User(String userName, String phone, String pwd, String email){
