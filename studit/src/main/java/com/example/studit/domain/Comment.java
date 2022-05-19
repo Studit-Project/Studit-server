@@ -1,5 +1,6 @@
 package com.example.studit.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,16 @@ public class Comment {
     private Posting posting;
 
     private String content;
+
+    @Builder
+    public Comment(User user, LocalDateTime localDateTime, Posting posting, String content){
+        this.user = user;
+        this.localDateTime = localDateTime;
+        this.posting = posting;
+        this.content = content;
+    }
+
+    public void addComment(){
+        posting.getComments().add(this);
+    }
 }

@@ -5,6 +5,7 @@ import com.example.studit.domain.enumType.Gender;
 import com.example.studit.domain.enumType.Role;
 import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
+import com.example.studit.dto.UserInfoDto;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -72,6 +73,13 @@ public class User{
     //내가 단 댓글
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
+
+    public UserInfoDto toUserInfoDto(){
+        UserInfoDto userInfoDto = new UserInfoDto();
+        return UserInfoDto.builder().
+                user(this).
+                build();
+    }
 
     @Builder
     public User(String userName, String phone, String pwd, String email){
