@@ -52,6 +52,10 @@ dependencies {
 	implementation 'com.google.guava:guava:28.2-jre'
 
 //	implementation 'net.minidev:json-smart:2.4.8'
+
+	//swagger
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 }
 
 tasks.named('test') {
