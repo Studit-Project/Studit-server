@@ -24,15 +24,13 @@ public class CommentService {
     @Autowired
     private final UserService userService;
 
-    public long save(CommentRequestDto commentRequestDto){
+    public long save(Long postingId, CommentRequestDto commentRequestDto){
+        //현재 유저 정보
         User user = userService.getUserFromAuth();
-        UserInfoDto userInfoDto =  UserInfoDto.builder().user(user).build();
-        commentRequestDto.setUserInfoDto(userInfoDto);
 
         Comment comment = Comment.builder()
                 .user(user)
-                .localDateTime(commentRequestDto.getLocalDateTime())
-                .posting(postingRepository.findById(commentRequestDto.getPostingId()).orElseThrow())
+                .posting(postingRepository.findById(postingId).orElseThrow())
                 .content(commentRequestDto.getContent())
                 .build();
 
