@@ -3,6 +3,7 @@ package com.example.studit.domain;
 import com.example.studit.domain.challenge.MyChallenge;
 import com.example.studit.domain.enumType.Gender;
 import com.example.studit.domain.enumType.Role;
+import com.example.studit.domain.posting.Posting;
 import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
 import com.example.studit.dto.UserInfoDto;
@@ -18,7 +19,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Table(name = "user")
-public class User{
+public class User extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")

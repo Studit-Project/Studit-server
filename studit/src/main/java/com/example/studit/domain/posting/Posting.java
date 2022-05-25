@@ -1,6 +1,9 @@
-package com.example.studit.domain;
+package com.example.studit.domain.posting;
 
-import com.example.studit.dto.PostingDto;
+import com.example.studit.domain.BaseEntity;
+import com.example.studit.domain.Comment;
+import com.example.studit.domain.User;
+import com.example.studit.domain.enumType.Category;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,14 +11,13 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Posting {
+public class Posting extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "posting_id")
@@ -39,11 +41,10 @@ public class Posting {
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public Posting(Category category, String title, User user, LocalDateTime localDateTime, String content){
+    public Posting(Category category, String title, User user, String content){
         this.category = category;
         this.title = title;
         this.user = user;
-        this.localDateTime = localDateTime;
         this.content = content;
     }
 }

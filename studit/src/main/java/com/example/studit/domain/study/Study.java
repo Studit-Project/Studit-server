@@ -1,6 +1,6 @@
 package com.example.studit.domain.study;
 
-import com.example.studit.domain.enumType.Status;
+import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.enumType.Target;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,7 +27,7 @@ public class Study {
 
     //모집 상태
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private StudyStatus status;
 
     //지역
     @Embedded
@@ -65,8 +65,14 @@ public class Study {
 
     //연관관계 메서드
     //리더 지정
-    public void setUser(MyStudy leader){
+    public void addLeader(MyStudy leader){
         this.leader = leader;
-        leader.setStudy(this);
+        leader.addStudy(this);
+    }
+
+    //스터디원 추가
+    public void addOne(ParticipatedStudy participatedStudy){
+        participatedMembers.add(participatedStudy);
+        participatedStudy.addStudy(this);
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class MyBadge {
+public class MyBadge extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "my_badge_id")
