@@ -1,10 +1,12 @@
 package com.example.studit.controller;
 
+import com.example.studit.config.swagger.BaseResponse;
 import com.example.studit.dto.JwtRequestDto;
 import com.example.studit.dto.JwtResponseDto;
 import com.example.studit.dto.UserJoinDto;
 import com.example.studit.service.NumberAuthenticationService;
 import com.example.studit.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,14 +26,16 @@ public class UserController {
     private final NumberAuthenticationService numberAuthenticationService;
 
     //회원가입
+    @ApiOperation("회원가입")
     @PostMapping("/user/join")
-    public Long join(@RequestBody @Validated UserJoinDto userJoinDto) {
-        return userService.join(userJoinDto);
+    public BaseResponse<Long> join(@RequestBody @Validated UserJoinDto userJoinDto) {
+        return new BaseResponse<Long>(userService.join(userJoinDto));
     }
 
     //번호 인증 문자 전송
+    @ApiOperation("번호 인증 문자 전송")
     @GetMapping("/user/check")
-    public @ResponseBody String sendSMS(String phone){
+    protected @ResponseBody String sendSMS(String phone){
         Random random = new Random();
         String numStr = "";
 
@@ -48,8 +52,9 @@ public class UserController {
     }
 
     //로그인
+    @ApiOperation("로그인")
     @PostMapping("/user/login")
-    public JwtResponseDto login(@RequestBody JwtRequestDto request) throws Exception {
-        return userService.login(request);
+    public BaseResponse<JwtResponseDto> login(@RequestBody JwtRequestDto request) throws Exception {
+        return new BaseResponse<JwtResponseDto>(userService.login(request));
     }
 }
