@@ -1,24 +1,21 @@
 package com.example.studit.service;
 
-import com.example.studit.domain.Category;
-import com.example.studit.domain.Posting;
+import com.example.studit.domain.enumType.Category;
+import com.example.studit.domain.posting.Posting;
 import com.example.studit.domain.User;
-import com.example.studit.dto.CommentResponseDto;
+import com.example.studit.domain.posting.dto.PostCreateReq;
 import com.example.studit.dto.PostingDto;
 import com.example.studit.dto.PostingListDto;
 import com.example.studit.dto.UserInfoDto;
-import com.example.studit.mapper.CommentMapper;
-import com.example.studit.mapper.PostingListMapper;
-import com.example.studit.mapper.PostingMapper;
 import com.example.studit.repository.PostingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -28,42 +25,30 @@ public class PostingService {
     private final PostingRepository postingRepository;
     @Autowired
     private final UserService userService;
-    @Autowired
-    private final PostingMapper postingMapper;
-    @Autowired
-    private final CommentMapper commentMapper;
-    @Autowired
-    private final PostingListMapper postingListMapper;
 
-    public Long save(PostingDto postingDto){
+    /**스터디 모집 글 작성**/
+    public Long save(PostCreateReq postCreateReq){
 
         User user = userService.getUserFromAuth();
-        UserInfoDto userInfoDto = UserInfoDto.builder().user(user).build();
 
-        postingDto.setUserInfoDto(userInfoDto);
-
-        Posting posting = new Posting(postingDto.getCategory(), postingDto.getTitle(), user, postingDto.getLocalDateTime(), postingDto.getContent());
+        Posting posting = new Posting(postCreateReq.getCategory(), postCreateReq.getTitle(), user, postCreateReq.getContent());
         return postingRepository.save(posting).getId();
     }
 
+    /**스터디 모집 글 불러오기**/
     public List<PostingListDto> findAllStudyPosting(String category) {
         Category categoryEnum = Category.valueOf(category);
 
         List<Posting> postingList = postingRepository.findAllByCategory(categoryEnum);
 
-        List<PostingListDto> list = new ArrayList<>();
-        for ( Posting posting : postingList ) {
-            list.add( PostingListDto.builder()
-                    .id(posting.getId())
-                    .title(posting.getTitle())
-                            .userId(posting.getUser().getId())
-                            .localDateTime(posting.getLocalDateTime()).build()
-                    );
-        }
+        List<PostingListDto> postingListDto = postingList.stream()
+                .map(PostingListDto::new)
+                .collect(Collectors.toList());
 
-        return list;
+        return postingListDto;
     }
 
+    /**스터디 모집 글 상세 보기**/
     public PostingDto readOne(Long postingId) {
         Optional<Posting> posting = postingRepository.findById(postingId);
 
@@ -71,22 +56,10 @@ public class PostingService {
                                 .user(posting.get().getUser())
                                 .build();
 
-        List<CommentResponseDto> commentResponseDtoList = commentMapper.toDtoList(posting.get().getComments());
-
-
-
         PostingDto postingDto = PostingDto.builder()
-                .id(posting.get().getId())
-                .userInfoDto(userInfoDto)
-                .category(posting.get().getCategory())
-                .commentList(commentResponseDtoList)
-                .localDateTime(posting.get().getLocalDateTime())
-                .content(posting.get().getContent())
+                .posting(posting.get())
                 .build();
 
         return postingDto;
-
-
-//        return postingMapper.toDto(posting.orElseThrow());
     }
 }
