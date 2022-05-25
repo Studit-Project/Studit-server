@@ -1,13 +1,16 @@
 package com.example.studit.dto;
 
+import com.example.studit.domain.Comment;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class CommentResponseDto {
     private Long id;
     private Long userId;
@@ -15,7 +18,7 @@ public class CommentResponseDto {
     private LocalDateTime localDateTime;
 
     @Builder
-    public CommentResponseDto(Long id, Long userId, String content, LocalDateTime localDateTime){
+    public CommentResponseDto(Comment comment){
         this.id = id;
         this.userId = userId;
         this.content = content;

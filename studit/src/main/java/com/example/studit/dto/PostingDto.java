@@ -1,9 +1,7 @@
 package com.example.studit.dto;
 
-import com.example.studit.domain.Category;
-import com.example.studit.domain.Comment;
-import com.example.studit.domain.Posting;
-import com.example.studit.domain.User;
+import com.example.studit.domain.posting.Posting;
+import com.example.studit.domain.enumType.Category;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +10,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -33,13 +32,15 @@ public class PostingDto {
     private List<CommentResponseDto> commentList = new ArrayList<>();
 
     @Builder
-    public PostingDto(Long id, Category category, String title, UserInfoDto userInfoDto, LocalDateTime localDateTime, String content, List<CommentResponseDto> commentList){
-        this.id = id;
-        this.category = category;
-        this.title = title;
-        this.userInfoDto = userInfoDto;
-        this.localDateTime = localDateTime;
-        this.content = content;
-        this.commentList = commentList;
+    public PostingDto(Posting posting){
+        this.id = posting.getId();
+        this.category = posting.getCategory();
+        this.title = posting.getTitle();
+        this.userInfoDto = posting.getUser().toUserInfoDto();
+        this.localDateTime = posting.getLocalDateTime();
+        this.content = posting.getContent();
+        this.commentList =  posting.getComments().stream()
+                .map(CommentResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
