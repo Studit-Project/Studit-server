@@ -1,4 +1,4 @@
-package com.example.studit.dto;
+package com.example.studit.domain.study.dto;
 
 import com.example.studit.domain.study.Activity;
 import com.example.studit.domain.study.Region;
@@ -9,10 +9,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class StudyCreateDto {
+public class PostCreateReq {
 
     //스터디명
     private String name;
+
+    //스터디 설명
+    private String introduction;
 
     //지역
     private String province;
