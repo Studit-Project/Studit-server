@@ -2,7 +2,7 @@ package com.example.studit.service;
 
 import com.example.studit.domain.enumType.Category;
 import com.example.studit.domain.posting.Posting;
-import com.example.studit.domain.User;
+import com.example.studit.domain.User.User;
 import com.example.studit.domain.posting.dto.PostCreateReq;
 import com.example.studit.dto.PostingDto;
 import com.example.studit.dto.PostingListDto;

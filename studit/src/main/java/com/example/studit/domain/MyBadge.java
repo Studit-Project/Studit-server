@@ -1,13 +1,10 @@
 package com.example.studit.domain;
 
-import com.example.studit.domain.Badge;
-import com.example.studit.domain.User;
+import com.example.studit.domain.User.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
