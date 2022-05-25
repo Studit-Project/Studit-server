@@ -1,12 +1,13 @@
 package com.example.studit.domain.study;
 
+import com.example.studit.domain.BaseEntity;
 import lombok.Getter;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
 @Getter
-public class Region {
+public class Region extends BaseEntity {
     //도 -> 특별시, 광역시 포함
     private String province;
 
