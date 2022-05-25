@@ -1,6 +1,7 @@
 package com.example.studit.service;
 
-import com.example.studit.domain.User;
+import com.example.studit.domain.User.User;
+import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.dto.JwtRequestDto;
 import com.example.studit.dto.JwtResponseDto;
 import com.example.studit.dto.UserJoinDto;
@@ -29,9 +30,7 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
-    /*
-    회원가입
-     */
+    /**회원가입**/
     public Long join(UserJoinDto userJoinDto){
         userJoinDto.setPassword(passwordEncoder.encode(userJoinDto.getPassword()));
         validateDuplicateMember(userJoinDto);
@@ -50,10 +49,7 @@ public class UserService {
             throw new IllegalStateException("이미 등록된 이메일입니다.");
     }
 
-    /*
-   로그인
-    */
-
+    /**로그인**/
     public JwtResponseDto login(JwtRequestDto request) throws Exception{
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getPhone(), request.getPassword())
@@ -67,11 +63,18 @@ public class UserService {
         return new JwtResponseDto(token);
     }
 
+    /**현재 로그인한 유저 정보 반환**/
     public User getUserFromAuth(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUserName(authentication.getName());
 //        User user = userRepository.findByEmail(authentication.getName());
         return user;
 
+    }
+
+    /**유저 세부 정보 추가**/
+    public void addDetailInfo(PatchDetailReq patchDetailReq) {
+        User user = getUserFromAuth();
+        user.addDetailInfo(patchDetailReq);
     }
 }
