@@ -27,7 +27,7 @@ public class Study {
 
     //모집 상태
     @Enumerated(EnumType.STRING)
-    private StudyStatus status;
+    private StudyStatus status = StudyStatus.RECRUITING;
 
     //지역
     @Embedded
@@ -39,9 +39,6 @@ public class Study {
 
     //모집 인원
     private int number;
-
-    //현재 인원
-    private int currentNum;
 
     //활동
     @Enumerated(EnumType.STRING)
