@@ -1,9 +1,11 @@
 package com.example.studit.domain;
 
+import com.example.studit.domain.User.User;
 import com.example.studit.domain.posting.Posting;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,6 +23,7 @@ public class Comment extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
+    @CreatedDate
     private LocalDateTime localDateTime = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
