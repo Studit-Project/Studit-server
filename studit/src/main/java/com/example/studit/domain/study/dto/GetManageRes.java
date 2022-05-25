@@ -1,9 +1,8 @@
-package com.example.studit.dto;
+package com.example.studit.domain.study.dto;
 
-import com.example.studit.domain.User;
 import com.example.studit.domain.study.Activity;
-import com.example.studit.domain.study.ParticipatedStudy;
 import com.example.studit.domain.study.Study;
+import com.example.studit.dto.UserInfoDto;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
-public class StudyManageDto {
+public class GetManageRes {
 
     private Long id;
 
@@ -32,12 +31,12 @@ public class StudyManageDto {
 
     private List<UserInfoDto> participatedMembers = new ArrayList<>();
 
-    public StudyManageDto(Study study){
+    public GetManageRes(Study study){
         this.id = study.getId();
         this.name = study.getName();
         this.introduction = study.getIntroduction();
         this.number = study.getNumber();
-        this.currentNum = study.getCurrentNum();
+        this.currentNum = study.getParticipatedMembers().size() + 1;
         this.activity = study.getActivity();
         this.participatedMembers = study.getParticipatedMembers()
                 .stream().map(UserInfoDto::new)
