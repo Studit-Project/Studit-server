@@ -1,5 +1,9 @@
-package com.example.studit.domain;
+package com.example.studit.domain.User;
 
+import com.example.studit.domain.BaseEntity;
+import com.example.studit.domain.Comment;
+import com.example.studit.domain.MyBadge;
+import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.domain.challenge.MyChallenge;
 import com.example.studit.domain.enumType.Gender;
 import com.example.studit.domain.enumType.Role;
@@ -11,6 +15,7 @@ import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +24,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Table(name = "user")
-public class User extends BaseEntity{
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -43,7 +48,7 @@ public class User extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private String birth;
+    private LocalDate birth;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -93,5 +98,11 @@ public class User extends BaseEntity{
 
     public void encryptPassword(PasswordEncoder passwordEncoder) {
         pwd = passwordEncoder.encode(pwd);
+    }
+
+    public void addDetailInfo(PatchDetailReq patchDetailReq) {
+        this.nickname = patchDetailReq.getNickname();
+        this.gender = patchDetailReq.getGender();
+        this.birth = patchDetailReq.getBirth();
     }
 }
