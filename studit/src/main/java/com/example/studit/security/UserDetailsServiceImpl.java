@@ -1,6 +1,6 @@
 package com.example.studit.security;
 
-import com.example.studit.domain.User;
+import com.example.studit.domain.User.User;
 import com.example.studit.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;

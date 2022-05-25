@@ -1,12 +1,11 @@
 package com.example.studit.dto;
 
-import com.example.studit.domain.User;
+import com.example.studit.domain.User.User;
 import com.example.studit.domain.study.ParticipatedStudy;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.parameters.P;
 
 @Getter
 @Setter

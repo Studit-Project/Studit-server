@@ -1,7 +1,7 @@
 package com.example.studit.security;
 
 import com.example.studit.domain.enumType.Role;
-import com.example.studit.domain.User;
+import com.example.studit.domain.User.User;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
