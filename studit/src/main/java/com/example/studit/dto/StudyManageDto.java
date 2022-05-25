@@ -8,13 +8,14 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class StudyManageDto {
 
-//    private Long id;
+    private Long id;
 
     //스터디명
     private String name;
@@ -31,16 +32,28 @@ public class StudyManageDto {
 
     private List<UserInfoDto> participatedMembers = new ArrayList<>();
 
-    @Builder
-    public StudyManageDto( String name, String introduction, int number, int currentNum, UserInfoDto leader, Activity activity, List<UserInfoDto> participatedMembers){
-//        this.id = id;
-        this.name = name;
-        this.introduction = introduction;
-        this.number = number;
-        this.currentNum = currentNum;
-        this.leader = leader;
-        this.participatedMembers = participatedMembers;
+    public StudyManageDto(Study study){
+        this.id = study.getId();
+        this.name = study.getName();
+        this.introduction = study.getIntroduction();
+        this.number = study.getNumber();
+        this.currentNum = study.getCurrentNum();
+        this.activity = study.getActivity();
+        this.participatedMembers = study.getParticipatedMembers()
+                .stream().map(UserInfoDto::new)
+                .collect(Collectors.toList());
     }
+
+//    @Builder
+//    public StudyManageDto( String name, String introduction, int number, int currentNum, UserInfoDto leader, Activity activity, List<UserInfoDto> participatedMembers){
+////        this.id = id;
+//        this.name = name;
+//        this.introduction = introduction;
+//        this.number = number;
+//        this.currentNum = currentNum;
+//        this.leader = leader;
+//        this.participatedMembers = participatedMembers;
+//    }
 
 
 }
