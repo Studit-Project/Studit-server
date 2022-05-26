@@ -4,6 +4,7 @@ import com.example.studit.domain.User.User;
 import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
 import com.example.studit.domain.study.Study;
+import com.example.studit.domain.study.dto.PatchAddReq;
 import com.example.studit.domain.study.dto.PostCreateReq;
 import com.example.studit.domain.study.dto.GetManageRes;
 import com.example.studit.repository.MyStudyRepository;
@@ -81,15 +82,17 @@ public class StudyService {
     }
 
     /*스터디원 추가*/
-    public Long addStudyOne(Long studyId, String nickname) {
+    public Long addStudyOne(Long studyId, PatchAddReq patchAddReq) {
         User user = userService.getUserFromAuth();
         Optional<Study> study = studyRepository.findById(studyId);
 
         ParticipatedStudy participatedStudy = new ParticipatedStudy();
 
+        Optional<User> follower = userRepository.findByNickname(patchAddReq.getNickname());
+
         //참여한 스터디 추가
-        participatedStudy.addUser(userRepository.findByNickname(nickname).get());
-        System.out.println(userRepository.findByNickname(nickname) + "!!!!!!!!!!!!!!!!!!!!!!!");
+        participatedStudy.addUser(follower.get());
+        System.out.println(follower + "!!!!!!!!!!!!!!!!!!!!!!!");
         participatedStudyRepository.save(participatedStudy);
 
             //스터디에 추가
