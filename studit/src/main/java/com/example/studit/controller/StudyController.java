@@ -1,6 +1,7 @@
 package com.example.studit.controller;
 
 import com.example.studit.config.swagger.BaseResponse;
+import com.example.studit.domain.study.dto.PatchAddReq;
 import com.example.studit.domain.study.dto.PostCreateReq;
 import com.example.studit.domain.study.dto.GetManageRes;
 import com.example.studit.service.StudyService;
@@ -35,7 +36,7 @@ public class StudyController {
     //스터디원 추가
     @ApiOperation("스터디원 추가")
     @PatchMapping("/study/{studyId}")
-    public BaseResponse<Long> AddStudyOne(@PathVariable("studyId") Long studyId, @RequestBody String nickname){
-        return new BaseResponse<Long>(studyService.addStudyOne(studyId, nickname));
+    public BaseResponse<Long> AddStudyOne(@PathVariable("studyId") Long studyId, @RequestBody PatchAddReq patchAddReq){
+        return new BaseResponse<Long>(studyService.addStudyOne(studyId, patchAddReq));
     }
 }
