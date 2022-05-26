@@ -1,9 +1,8 @@
 package com.example.studit.service;
 
 import com.example.studit.domain.Comment;
-import com.example.studit.domain.User;
+import com.example.studit.domain.User.User;
 import com.example.studit.dto.CommentRequestDto;
-import com.example.studit.dto.UserInfoDto;
 import com.example.studit.repository.CommentRepository;
 import com.example.studit.repository.PostingRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,15 +23,13 @@ public class CommentService {
     @Autowired
     private final UserService userService;
 
-    public long save(CommentRequestDto commentRequestDto){
+    public long save(Long postingId, CommentRequestDto commentRequestDto){
+        //현재 유저 정보
         User user = userService.getUserFromAuth();
-        UserInfoDto userInfoDto =  UserInfoDto.builder().user(user).build();
-        commentRequestDto.setUserInfoDto(userInfoDto);
 
         Comment comment = Comment.builder()
                 .user(user)
-                .localDateTime(commentRequestDto.getLocalDateTime())
-                .posting(postingRepository.findById(commentRequestDto.getPostingId()).orElseThrow())
+                .posting(postingRepository.findById(postingId).orElseThrow())
                 .content(commentRequestDto.getContent())
                 .build();
 

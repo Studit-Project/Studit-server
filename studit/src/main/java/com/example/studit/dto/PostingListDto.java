@@ -1,6 +1,6 @@
 package com.example.studit.dto;
 
-import com.example.studit.domain.Posting;
+import com.example.studit.domain.posting.Posting;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,10 +18,10 @@ public class PostingListDto {
     private LocalDateTime localDateTime;
 
     @Builder
-    public PostingListDto(Long id, String title, Long userId, LocalDateTime localDateTime){
-        this.id = id;
-        this.title = title;
-        this.userId = userId;
-        this.localDateTime = localDateTime;
+    public PostingListDto(Posting posting){
+        this.id = posting.getId();
+        this.title = posting.getTitle();
+        this.userId = posting.getUser().getId();
+        this.localDateTime = posting.getLocalDateTime();
     }
 }

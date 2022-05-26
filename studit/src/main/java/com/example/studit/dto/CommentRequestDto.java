@@ -8,9 +8,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class CommentRequestDto {
-    private Long id;
-    private Long postingId;
     private String content;
-    private UserInfoDto userInfoDto;
-    private LocalDateTime localDateTime = LocalDateTime.now();
+//    private LocalDateTime localDateTime = LocalDateTime.now();
 }

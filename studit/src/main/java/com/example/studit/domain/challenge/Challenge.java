@@ -1,6 +1,7 @@
 package com.example.studit.domain.challenge;
 
-import com.example.studit.domain.enumType.Status;
+import com.example.studit.domain.BaseEntity;
+import com.example.studit.domain.enumType.StudyStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Challenge {
+public class Challenge extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +30,7 @@ public class Challenge {
 
     //모집 상태
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private StudyStatus studyStatus;
 
     @OneToOne(mappedBy = "challenge",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private MyChallenge myChallenge;

@@ -1,7 +1,9 @@
 package com.example.studit.repository;
 
-import com.example.studit.domain.User;
+import com.example.studit.domain.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +20,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findUsersByEmail(String email);
 
     User findByUserName(String name);
+
+    Optional<User> findByNickname(String nickname);
 }
