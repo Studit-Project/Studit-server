@@ -1,6 +1,6 @@
 package com.example.studit.dto;
 
-import com.example.studit.domain.User;
+import com.example.studit.domain.User.User;
 import lombok.*;
 
 @Getter @Setter

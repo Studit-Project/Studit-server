@@ -1,6 +1,7 @@
 package com.example.studit.domain.study;
 
-import com.example.studit.domain.User;
+import com.example.studit.domain.BaseEntity;
+import com.example.studit.domain.User.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-public class ParticipatedStudy {
+public class ParticipatedStudy extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +25,11 @@ public class ParticipatedStudy {
     @JoinColumn(name = "study_id")
     private Study study;
 
-    public void setUser(User user){
+    public void addUser(User user){
         this.user = user;
     }
 
-    public void setStudy(Study study){
+    public void addStudy(Study study){
         this.study = study;
     }
 }

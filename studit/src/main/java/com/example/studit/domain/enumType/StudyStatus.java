@@ -1,5 +1,5 @@
 package com.example.studit.domain.enumType;
 
-public enum Status {
+public enum StudyStatus {
     RECRUITING, END
 }
