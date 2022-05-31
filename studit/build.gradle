@@ -56,6 +56,15 @@ dependencies {
 	//swagger
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+
+	//websocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+	//jackson
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.3'
+
+	//stomp-websocket DI
+	implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3-1'
 }
 
 tasks.named('test') {
