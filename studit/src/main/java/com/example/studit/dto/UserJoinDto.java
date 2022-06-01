@@ -2,6 +2,7 @@ package com.example.studit.dto;
 
 import com.example.studit.domain.User.User;
 import lombok.*;
+import org.apache.commons.lang.RandomStringUtils;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -17,6 +18,8 @@ public class UserJoinDto {
                 .phone(phone)
                 .pwd(password)
                 .email(email)
+                //닉네임 초기값 랜덤 부여
+                .nickname(RandomStringUtils.randomAlphanumeric(15).toUpperCase())
                 .build();
     }
     @Builder
