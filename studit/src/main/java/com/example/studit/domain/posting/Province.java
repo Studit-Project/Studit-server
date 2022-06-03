@@ -1,0 +1,5 @@
+package com.example.studit.domain.posting;
+
+public enum Province {
+    SEOUL, GANGWON, GYEONGBUK, DAEGU, GYENGGI, BUSAN, JEONNAM, JEONBUK, GWANGJU, JEJU, CHUNGNAM, DAEJEON, GYENGNAM, CHUNGBUK, INCHEON
+}

@@ -1,5 +1,6 @@
 package com.example.studit.domain.study.dto;
 
+import com.example.studit.domain.posting.Province;
 import com.example.studit.domain.study.Activity;
 import com.example.studit.domain.study.Region;
 import com.example.studit.domain.study.Study;
@@ -18,7 +19,7 @@ public class PostCreateReq {
     private String introduction;
 
     //지역
-    private String province;
+    private Province province;
     private String city;
     private String district;
 
