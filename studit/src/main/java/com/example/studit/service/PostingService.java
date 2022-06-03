@@ -1,11 +1,15 @@
 package com.example.studit.service;
 
 import com.example.studit.domain.enumType.Category;
+import com.example.studit.domain.enumType.Gender;
+import com.example.studit.domain.enumType.Target;
 import com.example.studit.domain.posting.Posting;
 import com.example.studit.domain.User.User;
+import com.example.studit.domain.posting.Province;
 import com.example.studit.domain.posting.dto.PostCreateReq;
+import com.example.studit.domain.study.Activity;
 import com.example.studit.dto.PostingDto;
-import com.example.studit.dto.PostingListDto;
+import com.example.studit.domain.posting.dto.PostingListDto;
 import com.example.studit.dto.UserInfoDto;
 import com.example.studit.repository.PostingRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +35,8 @@ public class PostingService {
 
         User user = userService.getUserFromAuth();
 
-        Posting posting = new Posting(postCreateReq.getCategory(), postCreateReq.getTitle(), user, postCreateReq.getContent());
+//        Posting posting = new Posting(postCreateReq.getCategory(), postCreateReq.getProvince(), postCreateReq.getTitle(), user, postCreateReq.getContent());
+        Posting posting = new Posting(postCreateReq, user);
         return postingRepository.save(posting).getId();
     }
 
@@ -61,5 +66,26 @@ public class PostingService {
                 .build();
 
         return postingDto;
+    }
+
+    /**키워드 검색**/
+    public List<PostingListDto> findPostingsByKeyword(String keyword) {
+        List<Posting> postings = postingRepository.findByTitleContaining(keyword);
+        List<PostingListDto> postingListDto = postings.stream()
+                .map(PostingListDto::new)
+                .collect(Collectors.toList());
+        return postingListDto;
+    }
+
+    /**필터 검색**/
+    public List<PostingListDto> findByFilter(List<Target> targets, List<Gender> genders, List<Province> provinces, List<Activity> activities) {
+
+        List<Posting> postings = postingRepository.findByFilter(targets, genders, provinces, activities);
+
+        List<PostingListDto> postingListDtos = postings.stream()
+                .map(PostingListDto::new)
+                .collect(Collectors.toList());
+
+        return postingListDtos;
     }
 }

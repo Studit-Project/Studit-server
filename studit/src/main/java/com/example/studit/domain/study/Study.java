@@ -2,6 +2,7 @@ package com.example.studit.domain.study;
 
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.enumType.Target;
+import com.example.studit.domain.posting.Province;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -53,7 +54,7 @@ public class Study {
     private List<ParticipatedStudy> participatedMembers = new ArrayList<>();
 
     @Builder
-    public Study(String province, String city, String district, Target target, int number, Activity activity){
+    public Study(Province province, String city, String district, Target target, int number, Activity activity){
         this.region = new Region(province, city, district);
         this.target = target;
         this.number = number;
