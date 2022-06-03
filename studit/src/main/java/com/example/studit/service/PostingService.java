@@ -1,11 +1,15 @@
 package com.example.studit.service;
 
 import com.example.studit.domain.enumType.Category;
+import com.example.studit.domain.enumType.Gender;
+import com.example.studit.domain.enumType.Target;
 import com.example.studit.domain.posting.Posting;
 import com.example.studit.domain.User.User;
+import com.example.studit.domain.posting.Province;
 import com.example.studit.domain.posting.dto.PostCreateReq;
+import com.example.studit.domain.study.Activity;
 import com.example.studit.dto.PostingDto;
-import com.example.studit.dto.PostingListDto;
+import com.example.studit.domain.posting.dto.PostingListDto;
 import com.example.studit.dto.UserInfoDto;
 import com.example.studit.repository.PostingRepository;
 import lombok.RequiredArgsConstructor;
@@ -71,5 +75,17 @@ public class PostingService {
                 .map(PostingListDto::new)
                 .collect(Collectors.toList());
         return postingListDto;
+    }
+
+    /**필터 검색**/
+    public List<PostingListDto> findByFilter(List<Target> targets, List<Gender> genders, List<Province> provinces, List<Activity> activities) {
+
+        List<Posting> postings = postingRepository.findByFilter(targets, genders, provinces, activities);
+
+        List<PostingListDto> postingListDtos = postings.stream()
+                .map(PostingListDto::new)
+                .collect(Collectors.toList());
+
+        return postingListDtos;
     }
 }
