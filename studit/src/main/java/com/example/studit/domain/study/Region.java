@@ -1,6 +1,7 @@
 package com.example.studit.domain.study;
 
 import com.example.studit.domain.BaseEntity;
+import com.example.studit.domain.posting.Province;
 import lombok.Getter;
 
 import javax.persistence.Embeddable;
@@ -9,7 +10,7 @@ import javax.persistence.Embeddable;
 @Getter
 public class Region extends BaseEntity {
     //도 -> 특별시, 광역시 포함
-    private String province;
+    private Province province;
 
     //시 -> 특별시, 광역시 미포함
     private String city;
@@ -20,16 +21,16 @@ public class Region extends BaseEntity {
     protected Region(){
     }
 
-    public Region(String province){
+    public Region(Province province){
         this.province = province;
     }
 
-    public Region(String province, String city){
+    public Region(Province province, String city){
         this.province = province;
         this.city = city;
     }
 
-    public Region(String province, String city, String district){
+    public Region(Province province, String city, String district){
         this.province = province;
         this.city = city;
         this.district = district;
