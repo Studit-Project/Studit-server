@@ -1,5 +1,6 @@
-package com.example.studit.dto;
+package com.example.studit.domain.posting.dto;
 
+import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.posting.Posting;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +17,7 @@ public class PostingListDto {
     private String title;
     private Long userId;
     private LocalDateTime localDateTime;
+    private StudyStatus studyStatus;
 
     @Builder
     public PostingListDto(Posting posting){
@@ -23,5 +25,6 @@ public class PostingListDto {
         this.title = posting.getTitle();
         this.userId = posting.getUser().getId();
         this.localDateTime = posting.getLocalDateTime();
+        this.studyStatus = posting.getStudyStatus();
     }
 }
