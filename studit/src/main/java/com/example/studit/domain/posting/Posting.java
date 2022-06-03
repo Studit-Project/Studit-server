@@ -4,7 +4,11 @@ import com.example.studit.domain.BaseEntity;
 import com.example.studit.domain.Comment;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.enumType.Category;
+import com.example.studit.domain.enumType.Gender;
+import com.example.studit.domain.enumType.StudyStatus;
+import com.example.studit.domain.enumType.Target;
 import com.example.studit.domain.posting.dto.PostCreateReq;
+import com.example.studit.domain.study.Activity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +30,18 @@ public class Posting extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Category category;
+
+    @Enumerated(EnumType.STRING)
+    private Activity activity;
+
+    @Enumerated(EnumType.STRING)
+    private Target target;
+
+    @Enumerated(EnumType.STRING)
+    private StudyStatus studyStatus = StudyStatus.RECRUITING;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     private String title;
 
@@ -55,9 +71,12 @@ public class Posting extends BaseEntity {
 
     public Posting(PostCreateReq postCreateReq, User user){
         this.category = postCreateReq.getCategory();
+        this.activity = postCreateReq.getActivity();
         this.province = postCreateReq.getProvince();
         this.title = postCreateReq.getTitle();
         this.user = user;
         this.content = postCreateReq.getContent();
+        this.target = postCreateReq.getTarget();
+        this.gender = postCreateReq.getGender();
     }
 }
