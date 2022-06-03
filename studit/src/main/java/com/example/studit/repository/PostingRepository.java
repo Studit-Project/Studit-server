@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface PostingRepository extends JpaRepository <Posting, Long> {
     List<Posting> findAllByCategory(Category category);
+
+    List<Posting> findByTitleContaining(String keyword);
 }
