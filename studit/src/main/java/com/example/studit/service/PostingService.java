@@ -31,7 +31,8 @@ public class PostingService {
 
         User user = userService.getUserFromAuth();
 
-        Posting posting = new Posting(postCreateReq.getCategory(), postCreateReq.getTitle(), user, postCreateReq.getContent());
+//        Posting posting = new Posting(postCreateReq.getCategory(), postCreateReq.getProvince(), postCreateReq.getTitle(), user, postCreateReq.getContent());
+        Posting posting = new Posting(postCreateReq, user);
         return postingRepository.save(posting).getId();
     }
 
@@ -61,5 +62,14 @@ public class PostingService {
                 .build();
 
         return postingDto;
+    }
+
+    /**키워드 검색**/
+    public List<PostingListDto> findPostingsByKeyword(String keyword) {
+        List<Posting> postings = postingRepository.findByTitleContaining(keyword);
+        List<PostingListDto> postingListDto = postings.stream()
+                .map(PostingListDto::new)
+                .collect(Collectors.toList());
+        return postingListDto;
     }
 }
