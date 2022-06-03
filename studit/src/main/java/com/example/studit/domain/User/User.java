@@ -88,12 +88,13 @@ public class User extends BaseEntity {
     }
 
     @Builder
-    public User(String userName, String phone, String pwd, String email){
+    public User(String userName, String phone, String pwd, String email, String nickname){
         this.userName = userName;
         this.phone = phone;
         this.pwd = pwd;
         this.email = email;
         this.role = Role.USER;
+        this.nickname = nickname;
     }
 
     public void encryptPassword(PasswordEncoder passwordEncoder) {
