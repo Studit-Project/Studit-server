@@ -1,6 +1,5 @@
 package com.example.studit.dto;
 
-import com.example.studit.domain.User;
 import com.example.studit.domain.study.Activity;
 import com.example.studit.domain.study.ParticipatedStudy;
 import com.example.studit.domain.study.Study;
