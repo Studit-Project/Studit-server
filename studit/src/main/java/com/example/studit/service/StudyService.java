@@ -42,19 +42,19 @@ public class StudyService {
     private final UserService userService;
 
     /*스터디룸 개설*/
-    public Long save(PostCreateReq studyCreateDto){
+    public Long save(PostCreateReq studyCreateReq){
 
         //현재 로그인한 유저 정보
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        User user = (User) authentication.getPrincipal();
-        User user = userRepository.findByUserName(authentication.getName());
+        User user = userService.getUserFromAuth();
 
         MyStudy myStudy = new MyStudy();
         myStudy.addUser(user);
 
-        Study study = studyRepository.save(studyCreateDto.toEntity());
+        Study study = new Study(studyCreateReq);
 
+        studyRepository.save(study);
         myStudyRepository.save(myStudy);
+
         study.addLeader(myStudy);
 
         return study.getId();
