@@ -1,6 +1,6 @@
-package com.example.studit.dto;
+package com.example.studit.domain.comment.dto;
 
-import com.example.studit.domain.Comment;
+import com.example.studit.domain.comment.Comment;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

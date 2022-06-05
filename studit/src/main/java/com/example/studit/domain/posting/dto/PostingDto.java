@@ -1,7 +1,9 @@
-package com.example.studit.dto;
+package com.example.studit.domain.posting.dto;
 
+import com.example.studit.domain.comment.dto.CommentResponseDto;
 import com.example.studit.domain.posting.Posting;
 import com.example.studit.domain.enumType.Category;
+import com.example.studit.domain.User.dto.UserInfoDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

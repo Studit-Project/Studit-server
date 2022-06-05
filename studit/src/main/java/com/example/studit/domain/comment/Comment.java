@@ -1,5 +1,6 @@
-package com.example.studit.domain;
+package com.example.studit.domain.comment;
 
+import com.example.studit.domain.BaseEntity;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.posting.Posting;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Comment extends BaseEntity{
+public class Comment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")

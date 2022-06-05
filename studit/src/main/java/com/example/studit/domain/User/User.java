@@ -1,8 +1,8 @@
 package com.example.studit.domain.User;
 
 import com.example.studit.domain.BaseEntity;
-import com.example.studit.domain.Comment;
-import com.example.studit.domain.MyBadge;
+import com.example.studit.domain.comment.Comment;
+import com.example.studit.domain.badge.MyBadge;
 import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.domain.challenge.MyChallenge;
 import com.example.studit.domain.enumType.Gender;
@@ -10,7 +10,7 @@ import com.example.studit.domain.enumType.Role;
 import com.example.studit.domain.posting.Posting;
 import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
-import com.example.studit.dto.UserInfoDto;
+import com.example.studit.domain.User.dto.UserInfoDto;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

@@ -1,7 +1,7 @@
 package com.example.studit.domain.posting;
 
 import com.example.studit.domain.BaseEntity;
-import com.example.studit.domain.Comment;
+import com.example.studit.domain.comment.Comment;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.enumType.Category;
 import com.example.studit.domain.enumType.Gender;

@@ -1,6 +1,8 @@
-package com.example.studit.domain;
+package com.example.studit.domain.badge;
 
+import com.example.studit.domain.BaseEntity;
 import com.example.studit.domain.User.User;
+import com.example.studit.domain.badge.Badge;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-public class MyBadge extends BaseEntity{
+public class MyBadge extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "my_badge_id")
