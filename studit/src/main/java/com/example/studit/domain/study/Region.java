@@ -5,11 +5,14 @@ import com.example.studit.domain.posting.Province;
 import lombok.Getter;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Embeddable
 @Getter
 public class Region extends BaseEntity {
     //도 -> 특별시, 광역시 포함
+    @Enumerated(EnumType.STRING)
     private Province province;
 
     //시 -> 특별시, 광역시 미포함
