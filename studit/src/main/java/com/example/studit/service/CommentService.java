@@ -1,8 +1,8 @@
 package com.example.studit.service;
 
-import com.example.studit.domain.Comment;
+import com.example.studit.domain.comment.Comment;
 import com.example.studit.domain.User.User;
-import com.example.studit.dto.CommentRequestDto;
+import com.example.studit.domain.comment.dto.CommentRequestDto;
 import com.example.studit.repository.CommentRepository;
 import com.example.studit.repository.PostingRepository;
 import lombok.RequiredArgsConstructor;

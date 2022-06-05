@@ -4,10 +4,9 @@ import com.example.studit.domain.study.Activity;
 import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
 import com.example.studit.domain.study.Study;
-import com.example.studit.dto.UserInfoDto;
+import com.example.studit.domain.User.dto.UserInfoDto;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

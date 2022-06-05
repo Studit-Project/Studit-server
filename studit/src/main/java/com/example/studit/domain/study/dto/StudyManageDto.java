@@ -1,8 +1,7 @@
-package com.example.studit.dto;
+package com.example.studit.domain.study.dto;
 
 import com.example.studit.domain.study.Activity;
-import com.example.studit.domain.study.ParticipatedStudy;
-import com.example.studit.domain.study.Study;
+import com.example.studit.domain.User.dto.UserInfoDto;
 import lombok.*;
 
 import java.util.ArrayList;

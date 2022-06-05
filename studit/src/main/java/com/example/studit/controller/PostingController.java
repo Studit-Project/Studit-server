@@ -6,7 +6,7 @@ import com.example.studit.domain.enumType.Target;
 import com.example.studit.domain.posting.Province;
 import com.example.studit.domain.posting.dto.PostCreateReq;
 import com.example.studit.domain.study.Activity;
-import com.example.studit.dto.PostingDto;
+import com.example.studit.domain.posting.dto.PostingDto;
 import com.example.studit.domain.posting.dto.PostingListDto;
 import com.example.studit.service.PostingService;
 import com.example.studit.service.UserService;
