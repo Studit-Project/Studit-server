@@ -4,7 +4,7 @@ import com.example.studit.domain.User.User;
 import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.dto.JwtRequestDto;
 import com.example.studit.dto.JwtResponseDto;
-import com.example.studit.dto.UserJoinDto;
+import com.example.studit.domain.User.dto.UserJoinDto;
 import com.example.studit.repository.UserRepository;
 import com.example.studit.security.JwtTokenProvider;
 import com.example.studit.security.UserDetailsImpl;

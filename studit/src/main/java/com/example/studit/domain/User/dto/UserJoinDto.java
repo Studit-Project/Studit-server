@@ -1,4 +1,4 @@
-package com.example.studit.dto;
+package com.example.studit.domain.User.dto;
 
 import com.example.studit.domain.User.User;
 import lombok.*;

@@ -4,7 +4,7 @@ import com.example.studit.config.swagger.BaseResponse;
 import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.dto.JwtRequestDto;
 import com.example.studit.dto.JwtResponseDto;
-import com.example.studit.dto.UserJoinDto;
+import com.example.studit.domain.User.dto.UserJoinDto;
 import com.example.studit.service.NumberAuthenticationService;
 import com.example.studit.service.UserService;
 import io.swagger.annotations.ApiOperation;
