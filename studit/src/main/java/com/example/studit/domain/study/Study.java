@@ -1,8 +1,10 @@
 package com.example.studit.domain.study;
 
+import com.example.studit.domain.BaseEntity;
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.enumType.Target;
 import com.example.studit.domain.posting.Province;
+import com.example.studit.domain.study.dto.PostCreateReq;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +16,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Study {
+public class Study extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "study_id")
@@ -28,7 +30,7 @@ public class Study {
 
     //모집 상태
     @Enumerated(EnumType.STRING)
-    private StudyStatus status = StudyStatus.RECRUITING;
+    private StudyStatus studyStatus = StudyStatus.RECRUITING;
 
     //지역
     @Embedded
@@ -59,6 +61,15 @@ public class Study {
         this.target = target;
         this.number = number;
         this.activity = activity;
+    }
+
+    public Study(PostCreateReq postCreateReq){
+        this.name = postCreateReq.getName();
+        this.introduction = postCreateReq.getIntroduction();
+        this.region = new Region(postCreateReq.getProvince(), postCreateReq.getCity(), postCreateReq.getDistrict());
+        this.target = postCreateReq.getTarget();
+        this.number = postCreateReq.getNumber();
+        this.activity = postCreateReq.getActivity();
     }
 
     //연관관계 메서드

@@ -22,8 +22,8 @@ public class StudyController {
     //스터디룸 개설
     @ApiOperation("스터디 방 개설")
     @PostMapping("/study/management/new")
-    public BaseResponse<Long> createStudy(@RequestBody PostCreateReq studyCreateDto){
-        return new BaseResponse<>(studyService.save(studyCreateDto));
+    public BaseResponse<Long> createStudy(@RequestBody PostCreateReq studyCreateReq){
+        return new BaseResponse<>(studyService.save(studyCreateReq));
     }
 
     //스터디 관리
