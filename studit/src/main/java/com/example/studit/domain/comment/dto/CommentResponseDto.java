@@ -19,9 +19,9 @@ public class CommentResponseDto {
 
     @Builder
     public CommentResponseDto(Comment comment){
-        this.id = id;
-        this.userId = userId;
-        this.content = content;
-        this.localDateTime = localDateTime;
+        this.id = comment.getId();
+        this.userId = comment.getUser().getId();
+        this.content = comment.getContent();
+        this.localDateTime = comment.getLocalDateTime();
     }
 }
