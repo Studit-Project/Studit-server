@@ -35,7 +35,7 @@ public class PostingController {
     }
 
     @ApiOperation("스터디 전체 글 보기")
-    @GetMapping("/")
+    @GetMapping("")
     public BaseResponse<List<PostingListDto>> studyPostings(){
         return new BaseResponse<List<PostingListDto>>(postingService.findAllStudyPosting("STUDY"));
     }
@@ -44,6 +44,13 @@ public class PostingController {
     @GetMapping("/{postingId}")
     public BaseResponse<PostingDto> read(@PathVariable(name = "postingId") Long postingId){
         return new BaseResponse<PostingDto>(postingService.readOne(postingId));
+    }
+
+    @ApiOperation("좋아요 누르기")
+    @PostMapping("/{postingId}")
+    public BaseResponse<String> likesPosting(@PathVariable(name = "postingId") Long postingId){
+        postingService.likePosting(postingId);
+        return new BaseResponse<String>("");
     }
 
     /**검색
