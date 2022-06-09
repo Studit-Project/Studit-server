@@ -18,6 +18,7 @@ public class GetProfileDto {
         this.id = posting.getId();
         this.category = posting.getCategory();
         this.content = posting.getContent();
+        this.likes = posting.getLikes().size();
         this.comments = posting.getComments().size();
     }
 }
