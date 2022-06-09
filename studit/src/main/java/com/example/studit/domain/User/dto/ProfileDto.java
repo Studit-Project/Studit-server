@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class ProfileDto {
     private Long id;
     private String nickname;
+    private String statusMessage;
     //뱃지 리스트
     private List<GetProfileRes> badges;
     //글 리스트
@@ -21,6 +22,7 @@ public class ProfileDto {
 
     public ProfileDto(User user){
         this.id = user.getId();
+        this.statusMessage = user.getStatusMessage();
         this.nickname = user.getNickname();
         this.badges = user.getBadges().stream()
                 .map(GetProfileRes::new)
