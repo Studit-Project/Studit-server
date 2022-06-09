@@ -7,12 +7,14 @@ import com.example.studit.domain.enumType.Category;
 import com.example.studit.domain.enumType.Gender;
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.enumType.Target;
+import com.example.studit.domain.likes.Likes;
 import com.example.studit.domain.posting.dto.PostCreateReq;
 import com.example.studit.domain.study.Activity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -59,6 +61,14 @@ public class Posting extends BaseEntity {
 
     @OneToMany(mappedBy = "posting", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
+
+    //좋아요 한 유저
+    @OneToMany(mappedBy = "posting", cascade = CascadeType.ALL)
+    private List<Likes> likes = new ArrayList<>();
+
+    public void addLiked(Likes like){
+        likes.add(like);
+    }
 
     @Builder
     public Posting(Category category, Province province, String title, User user, String content){
