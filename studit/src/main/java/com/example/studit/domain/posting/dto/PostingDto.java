@@ -31,7 +31,7 @@ public class PostingDto {
 
     private String content;
 
-    private List<CommentResponseDto> commentList = new ArrayList<>();
+    private List<CommentResponseDto> commentList;
 
     @Builder
     public PostingDto(Posting posting){
@@ -41,7 +41,7 @@ public class PostingDto {
         this.userInfoDto = posting.getUser().toUserInfoDto();
         this.localDateTime = posting.getLocalDateTime();
         this.content = posting.getContent();
-        this.commentList =  posting.getComments().stream()
+        this.commentList = posting.getComments().stream()
                 .map(CommentResponseDto::new)
                 .collect(Collectors.toList());
     }
