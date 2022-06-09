@@ -53,6 +53,9 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    //상태 메세지
+    private String statusMessage;
+
     //목표
     private String goal;
 
