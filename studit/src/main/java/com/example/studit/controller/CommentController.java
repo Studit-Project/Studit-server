@@ -19,7 +19,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @ApiOperation("댓글 달기")
-    @PostMapping("/posting/{postingId}")
+    @PostMapping("/posting/{postingId}/new-comment")
     public BaseResponse<Long> createComment(@PathVariable("postingId") Long postingId, @RequestBody CommentRequestDto commentRequestDto){
         return new BaseResponse<Long>(commentService.save(postingId, commentRequestDto));
     }
