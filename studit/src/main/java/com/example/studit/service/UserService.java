@@ -2,6 +2,7 @@ package com.example.studit.service;
 
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.User.dto.PatchDetailReq;
+import com.example.studit.domain.User.dto.ProfileDto;
 import com.example.studit.dto.JwtRequestDto;
 import com.example.studit.dto.JwtResponseDto;
 import com.example.studit.domain.User.dto.UserJoinDto;
@@ -76,5 +77,11 @@ public class UserService {
     public void addDetailInfo(PatchDetailReq patchDetailReq) {
         User user = getUserFromAuth();
         user.addDetailInfo(patchDetailReq);
+    }
+
+    public ProfileDto getProfile() {
+        User user = getUserFromAuth();
+        ProfileDto profileDto = new ProfileDto(user);
+        return profileDto;
     }
 }
