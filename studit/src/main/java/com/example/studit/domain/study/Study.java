@@ -3,6 +3,7 @@ package com.example.studit.domain.study;
 import com.example.studit.domain.BaseEntity;
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.enumType.Target;
+import com.example.studit.domain.invitation.Invitation;
 import com.example.studit.domain.posting.Province;
 import com.example.studit.domain.study.dto.PostCreateReq;
 import lombok.Builder;
@@ -55,6 +56,10 @@ public class Study extends BaseEntity {
     @OneToMany(mappedBy = "study", cascade = CascadeType.ALL)
     private List<ParticipatedStudy> participatedMembers = new ArrayList<>();
 
+    //초대한 유저들
+    @OneToMany(mappedBy = "study", cascade = CascadeType.ALL)
+    private List<Invitation> invitations = new ArrayList<>();
+
     @Builder
     public Study(Province province, String city, String district, Target target, int number, Activity activity){
         this.region = new Region(province, city, district);
@@ -83,5 +88,10 @@ public class Study extends BaseEntity {
     public void addOne(ParticipatedStudy participatedStudy){
         participatedMembers.add(participatedStudy);
         participatedStudy.addStudy(this);
+    }
+
+    //초대
+    public void addInvitation(Invitation invitation){
+        invitations.add(invitation);
     }
 }
