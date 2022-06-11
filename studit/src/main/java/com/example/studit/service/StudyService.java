@@ -120,12 +120,12 @@ public class StudyService {
     }
 
     /*스터디원 강퇴*/
-    public void expelFollower(Long studyId, String nickname) {
+    public void expelFollower(Long studyId, Long followerId) {
         Optional<Study> study = studyRepository.findById(studyId);
-        Optional<User> user = userRepository.findByNickname(nickname);
+        Optional<User> user = userRepository.findById(followerId);
 
-//        study.get().getParticipatedMembers().
-//                removeIf(p -> (p.getUser().getNickname()) == nickname);
+        study.get().getParticipatedMembers().removeIf(p -> p.getUser().getId() == followerId);
+
         ParticipatedStudy participatedStudy = participatedStudyRepository.findByUserAndStudy(user.get(), study.get());
         participatedStudyRepository.delete(participatedStudy);
     }
