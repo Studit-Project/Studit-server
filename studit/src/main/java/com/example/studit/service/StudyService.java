@@ -129,4 +129,10 @@ public class StudyService {
         ParticipatedStudy participatedStudy = participatedStudyRepository.findByUserAndStudy(user.get(), study.get());
         participatedStudyRepository.delete(participatedStudy);
     }
+
+    /*스터디 삭제*/
+    public void delete(Long studyId) {
+        Optional<Study> study = studyRepository.findById(studyId);
+        studyRepository.delete(study.get());
+    }
 }
