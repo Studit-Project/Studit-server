@@ -59,9 +59,16 @@ public class StudyController {
 
     //스터디원 강퇴
     @ApiOperation("강퇴")
-    @PatchMapping("/{studyId}/expulsion/{followerId}")
+    @DeleteMapping("/{studyId}/expulsion/{followerId}")
     public BaseResponse<String> expel(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "followerId") Long followerId){
         studyService.expelFollower(studyId, followerId);
+        return new BaseResponse<String>("");
+    }
+
+    @ApiOperation("스터디 삭제")
+    @DeleteMapping("/{studyId}")
+    public BaseResponse<String> deleteStudy(@PathVariable(name = "studyId") Long studyId){
+        studyService.delete(studyId);
         return new BaseResponse<String>("");
     }
 }
