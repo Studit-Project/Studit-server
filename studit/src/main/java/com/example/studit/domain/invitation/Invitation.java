@@ -27,6 +27,8 @@ public class Invitation extends BaseEntity {
     @JoinColumn(name = "study_id")
     private Study study;
 
+    private boolean acceptance;
+
     public Invitation(User user, Study study){
         this.user = user;
         this.study = study;
