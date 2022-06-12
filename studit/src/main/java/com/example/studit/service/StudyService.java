@@ -1,9 +1,11 @@
 package com.example.studit.service;
 
 import com.example.studit.domain.User.User;
+import com.example.studit.domain.invitation.Invitation;
 import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
 import com.example.studit.domain.study.Study;
+import com.example.studit.domain.study.dto.GetInteriorRes;
 import com.example.studit.domain.study.dto.PatchAddReq;
 import com.example.studit.domain.study.dto.PostCreateReq;
 import com.example.studit.domain.study.dto.GetManageRes;
@@ -13,8 +15,6 @@ import com.example.studit.repository.StudyRepository;
 import com.example.studit.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,6 +81,16 @@ public class StudyService {
         return getManageRes;
     }
 
+    /*스터디원 초대*/
+    public void inviteFollower(Long studyId, PatchAddReq nickname) {
+        Optional<User> user = userRepository.findByNickname(nickname.getNickname());
+        Optional<Study> study = studyRepository.findById(studyId);
+
+        Invitation invitation = new Invitation(user.get(), study.get());
+        user.get().addInvitation(invitation);
+        study.get().addInvitation(invitation);
+    }
+
     /*스터디원 추가*/
     public Long addStudyOne(Long studyId, PatchAddReq patchAddReq) {
         User user = userService.getUserFromAuth();
@@ -95,10 +105,34 @@ public class StudyService {
         System.out.println(follower + "!!!!!!!!!!!!!!!!!!!!!!!");
         participatedStudyRepository.save(participatedStudy);
 
-            //스터디에 추가
+        //스터디에 추가
         study.get().addOne(participatedStudy);
 
         return participatedStudy.getId();
     }
 
+    /*스터디룸 내부**/
+    public GetInteriorRes getOne(Long studyId) {
+        Optional<Study> study = studyRepository.findById(studyId);
+
+        GetInteriorRes studyRoom = new GetInteriorRes(study.get());
+        return studyRoom;
+    }
+
+    /*스터디원 강퇴*/
+    public void expelFollower(Long studyId, Long followerId) {
+        Optional<Study> study = studyRepository.findById(studyId);
+        Optional<User> user = userRepository.findById(followerId);
+
+        study.get().getParticipatedMembers().removeIf(p -> p.getUser().getId() == followerId);
+
+        ParticipatedStudy participatedStudy = participatedStudyRepository.findByUserAndStudy(user.get(), study.get());
+        participatedStudyRepository.delete(participatedStudy);
+    }
+
+    /*스터디 삭제*/
+    public void delete(Long studyId) {
+        Optional<Study> study = studyRepository.findById(studyId);
+        studyRepository.delete(study.get());
+    }
 }
