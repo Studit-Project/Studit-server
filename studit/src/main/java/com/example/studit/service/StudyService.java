@@ -9,10 +9,7 @@ import com.example.studit.domain.study.dto.GetInteriorRes;
 import com.example.studit.domain.study.dto.PatchAddReq;
 import com.example.studit.domain.study.dto.PostCreateReq;
 import com.example.studit.domain.study.dto.GetManageRes;
-import com.example.studit.repository.MyStudyRepository;
-import com.example.studit.repository.ParticipatedStudyRepository;
-import com.example.studit.repository.StudyRepository;
-import com.example.studit.repository.UserRepository;
+import com.example.studit.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +37,9 @@ public class StudyService {
 
     @Autowired
     private final UserService userService;
+
+    @Autowired
+    private final InvitationRepository invitationRepository;
 
     /*스터디룸 개설*/
     public Long save(PostCreateReq studyCreateReq){
@@ -87,6 +87,8 @@ public class StudyService {
         Optional<Study> study = studyRepository.findById(studyId);
 
         Invitation invitation = new Invitation(user.get(), study.get());
+        invitationRepository.save(invitation);
+
         user.get().addInvitation(invitation);
         study.get().addInvitation(invitation);
     }
