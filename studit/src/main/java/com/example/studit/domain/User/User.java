@@ -7,6 +7,7 @@ import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.domain.challenge.MyChallenge;
 import com.example.studit.domain.enumType.Gender;
 import com.example.studit.domain.enumType.Role;
+import com.example.studit.domain.invitation.Invitation;
 import com.example.studit.domain.likes.Likes;
 import com.example.studit.domain.posting.Posting;
 import com.example.studit.domain.study.MyStudy;
@@ -88,8 +89,16 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Likes> likes = new ArrayList<>();
 
+    //초대된 스터디
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Invitation> invitations = new ArrayList<>();
+
     public void addLikes(Likes like){
         likes.add(like);
+    }
+
+    public void addInvitation(Invitation invitation){
+        invitations.add(invitation);
     }
 
     public UserInfoDto toUserInfoDto(){
