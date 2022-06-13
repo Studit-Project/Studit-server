@@ -3,9 +3,12 @@ package com.example.studit.service;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.domain.User.dto.ProfileDto;
+import com.example.studit.domain.invitation.Invitation;
+import com.example.studit.domain.invitation.dto.GetAllRes;
 import com.example.studit.dto.JwtRequestDto;
 import com.example.studit.dto.JwtResponseDto;
 import com.example.studit.domain.User.dto.UserJoinDto;
+import com.example.studit.repository.InvitationRepository;
 import com.example.studit.repository.UserRepository;
 import com.example.studit.security.JwtTokenProvider;
 import com.example.studit.security.UserDetailsImpl;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -30,6 +34,8 @@ public class UserService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+
+    private final InvitationRepository invitationRepository;
 
     /**회원가입**/
     public Long join(UserJoinDto userJoinDto){
@@ -79,9 +85,21 @@ public class UserService {
         user.addDetailInfo(patchDetailReq);
     }
 
+    /**프로필**/
     public ProfileDto getProfile() {
         User user = getUserFromAuth();
         ProfileDto profileDto = new ProfileDto(user);
         return profileDto;
+    }
+
+    /**스터디 초대 목록**/
+    public List<GetAllRes> getInvitations() {
+        User user = getUserFromAuth();
+        List<Invitation> invitations = invitationRepository.findByUser(user);
+        List<GetAllRes> getAllRes = invitations.stream()
+                .map(GetAllRes::new)
+                .collect(Collectors.toList());
+
+        return getAllRes;
     }
 }
