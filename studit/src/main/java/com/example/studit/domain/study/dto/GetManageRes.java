@@ -58,7 +58,9 @@ public class GetManageRes {
         this.id = participatedStudy.getStudy().getId();
         this.name = participatedStudy.getStudy().getName();
         this.number = participatedStudy.getStudy().getParticipatedMembers().size() + 1;
+        this.currentNum = participatedStudy.getStudy().getParticipatedMembers().size() + 1;
         this.activity = participatedStudy.getStudy().getActivity();
+        this.leader = participatedStudy.getStudy().getLeader().getUser().toUserInfoDto();
         this.participatedMembers = participatedStudy.getStudy().getParticipatedMembers()
                 .stream().map(UserInfoDto::new)
                 .collect(Collectors.toList());
