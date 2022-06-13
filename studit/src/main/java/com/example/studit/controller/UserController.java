@@ -71,4 +71,12 @@ public class UserController {
     public BaseResponse<List<GetAllRes>> manageInvitation(){
         return new BaseResponse<>(userService.getInvitations());
     }
+
+    @ApiOperation("초대 승낙 여부")
+    @PatchMapping("/invitation/{invitationId}")
+    public BaseResponse<String> accept(@PathVariable(name = "invitationId") Long invitationId, @RequestParam boolean acceptance){
+        userService.accept(invitationId, acceptance);
+        return new BaseResponse<String>("");
+    }
+
 }
