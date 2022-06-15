@@ -82,15 +82,24 @@ public class StudyService {
     }
 
     /*스터디원 초대*/
-    public void inviteFollower(Long studyId, PatchAddReq nickname) {
+    public Long inviteFollower(Long studyId, PatchAddReq nickname) {
         Optional<User> user = userRepository.findByNickname(nickname.getNickname());
         Optional<Study> study = studyRepository.findById(studyId);
 
-        Invitation invitation = new Invitation(user.get(), study.get());
-        invitationRepository.save(invitation);
+        //중복 처리
+        Optional<Invitation> entity = invitationRepository.findByStudyAndUser(study.get(), user.get());
 
-        user.get().addInvitation(invitation);
-        study.get().addInvitation(invitation);
+        if(entity.isEmpty()){
+            Invitation invitation = new Invitation(user.get(), study.get());
+            invitationRepository.save(invitation);
+
+            user.get().addInvitation(invitation);
+            study.get().addInvitation(invitation);
+            return invitation.getId();
+        } else{
+            System.out.println("이미 초대함");
+            return entity.get().getId();
+        }
     }
 
     /*스터디원 추가*/
