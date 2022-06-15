@@ -2,6 +2,7 @@ package com.example.studit.controller;
 
 import com.example.studit.config.swagger.BaseResponse;
 import com.example.studit.domain.User.dto.PatchDetailReq;
+import com.example.studit.domain.invitation.dto.GetAllRes;
 import com.example.studit.dto.JwtRequestDto;
 import com.example.studit.dto.JwtResponseDto;
 import com.example.studit.domain.User.dto.UserJoinDto;
@@ -14,10 +15,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Random;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     private final UserService userService;
@@ -27,20 +30,20 @@ public class UserController {
     private final NumberAuthenticationService numberAuthenticationService;
 
     @ApiOperation("회원가입")
-    @PostMapping("/user/join")
+    @PostMapping("/join")
     public BaseResponse<Long> join(@RequestBody @Validated UserJoinDto userJoinDto) {
         return new BaseResponse<Long>(userService.join(userJoinDto));
     }
 
     @ApiOperation("회원 세부 정보 설정")
-    @PatchMapping("user/join/detail")
+    @PatchMapping("join/detail")
     public BaseResponse<String> configDetail(@RequestBody PatchDetailReq patchDetailReq){
         userService.addDetailInfo(patchDetailReq);
         return new BaseResponse<String>("");
     }
 
     @ApiOperation("번호 인증 문자 전송")
-    @GetMapping("/user/check")
+    @GetMapping("/check")
     protected @ResponseBody String sendSMS(String phone){
         Random random = new Random();
         String numStr = "";
@@ -58,8 +61,22 @@ public class UserController {
     }
 
     @ApiOperation("로그인")
-    @PostMapping("/user/login")
+    @PostMapping("/login")
     public BaseResponse<JwtResponseDto> login(@RequestBody JwtRequestDto request) throws Exception {
         return new BaseResponse<JwtResponseDto>(userService.login(request));
     }
+
+    @ApiOperation("스터디 초대란")
+    @GetMapping("/invitation")
+    public BaseResponse<List<GetAllRes>> manageInvitation(){
+        return new BaseResponse<>(userService.getInvitations());
+    }
+
+    @ApiOperation("초대 승낙 여부")
+    @PatchMapping("/invitation/{invitationId}")
+    public BaseResponse<String> accept(@PathVariable(name = "invitationId") Long invitationId, @RequestParam boolean acceptance){
+        userService.accept(invitationId, acceptance);
+        return new BaseResponse<String>("");
+    }
+
 }

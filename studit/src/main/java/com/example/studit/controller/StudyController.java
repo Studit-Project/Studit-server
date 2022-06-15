@@ -45,9 +45,8 @@ public class StudyController {
     //스터디원 초대
     @ApiOperation("스터디원 초대")
     @PostMapping("/{studyId}/recruitment")
-    public BaseResponse<String> inviteFollower(@PathVariable(name = "studyId") Long studyId, @RequestBody PatchAddReq nickname){
-        studyService.inviteFollower(studyId, nickname);
-        return new BaseResponse<String>("");
+    public BaseResponse<Long> inviteFollower(@PathVariable(name = "studyId") Long studyId, @RequestBody PatchAddReq nickname){
+        return new BaseResponse<Long>(studyService.inviteFollower(studyId, nickname));
     }
 
     //스터디원 추가
