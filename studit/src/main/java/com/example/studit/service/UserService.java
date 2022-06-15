@@ -3,9 +3,15 @@ package com.example.studit.service;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.domain.User.dto.ProfileDto;
+import com.example.studit.domain.invitation.Invitation;
+import com.example.studit.domain.invitation.dto.GetAllRes;
+import com.example.studit.domain.study.ParticipatedStudy;
+import com.example.studit.domain.study.Study;
 import com.example.studit.dto.JwtRequestDto;
 import com.example.studit.dto.JwtResponseDto;
 import com.example.studit.domain.User.dto.UserJoinDto;
+import com.example.studit.repository.InvitationRepository;
+import com.example.studit.repository.StudyRepository;
 import com.example.studit.repository.UserRepository;
 import com.example.studit.security.JwtTokenProvider;
 import com.example.studit.security.UserDetailsImpl;
@@ -19,6 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -30,6 +38,9 @@ public class UserService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+
+    private final InvitationRepository invitationRepository;
+    private final StudyRepository studyRepository;
 
     /**회원가입**/
     public Long join(UserJoinDto userJoinDto){
@@ -79,9 +90,36 @@ public class UserService {
         user.addDetailInfo(patchDetailReq);
     }
 
+    /**프로필**/
     public ProfileDto getProfile() {
         User user = getUserFromAuth();
         ProfileDto profileDto = new ProfileDto(user);
         return profileDto;
+    }
+
+    /**스터디 초대 목록**/
+    public List<GetAllRes> getInvitations() {
+        User user = getUserFromAuth();
+        List<Invitation> invitations = invitationRepository.findByUser(user);
+        List<GetAllRes> getAllRes = invitations.stream()
+                .map(GetAllRes::new)
+                .collect(Collectors.toList());
+
+        return getAllRes;
+    }
+
+    /**초대 승낙 여부**/
+    public void accept(Long invitationId, boolean acceptance) {
+        User user = getUserFromAuth();
+        Optional<Invitation> invitation = invitationRepository.findById(invitationId);
+        Optional<Study> study = studyRepository.findById(invitation.get().getStudy().getId());
+
+        if(acceptance == true){
+            ParticipatedStudy participatedStudy = new ParticipatedStudy();
+            participatedStudy.addUser(user);
+            study.get().addOne(participatedStudy);
+        }
+            invitationRepository.delete(invitation.get());
+
     }
 }
