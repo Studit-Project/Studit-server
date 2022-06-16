@@ -9,5 +9,4 @@ import java.time.LocalDateTime;
 @Setter
 public class CommentRequestDto {
     private String content;
-//    private LocalDateTime localDateTime = LocalDateTime.now();
 }

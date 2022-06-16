@@ -34,9 +34,7 @@ public class PostingService {
     @Autowired
     private final LikesRepository likesRepository;
 
-    /**
-     * 스터디 모집 글 작성
-     **/
+    /**스터디 모집 글 작성**/
     public Long save(PostCreateReq postCreateReq) {
 
         User user = userService.getUserFromAuth();
@@ -46,9 +44,7 @@ public class PostingService {
         return postingRepository.save(posting).getId();
     }
 
-    /**
-     * 스터디 모집 글 불러오기
-     **/
+    /**스터디 모집 글 불러오기**/
     public List<PostingListDto> findAllStudyPosting(String category) {
         Category categoryEnum = Category.valueOf(category);
 
@@ -61,9 +57,7 @@ public class PostingService {
         return postingListDto;
     }
 
-    /**
-     * 스터디 모집 글 상세 보기
-     **/
+    /** 스터디 모집 글 상세 보기**/
     public PostingDto readOne(Long postingId) {
         Optional<Posting> posting = postingRepository.findById(postingId);
 
@@ -78,9 +72,7 @@ public class PostingService {
         return postingDto;
     }
 
-    /**
-     * 키워드 검색
-     **/
+    /**키워드 검색**/
     public List<PostingListDto> findPostingsByKeyword(String keyword) {
         List<Posting> postings = postingRepository.findByTitleContaining(keyword);
         List<PostingListDto> postingListDto = postings.stream()
@@ -89,9 +81,7 @@ public class PostingService {
         return postingListDto;
     }
 
-    /**
-     * 필터 검색
-     **/
+    /**필터 검색**/
     public List<PostingListDto> findByFilter(List<Target> targets, List<Gender> genders, List<Province> provinces, List<Activity> activities) {
 
         List<Posting> postings = postingRepository.findByFilter(targets, genders, provinces, activities);

@@ -1,6 +1,8 @@
 package com.example.studit.domain.study;
 
 import com.example.studit.domain.BaseEntity;
+import com.example.studit.domain.Status;
+import com.example.studit.domain.bulletin.BulletinBoard;
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.enumType.Target;
 import com.example.studit.domain.invitation.Invitation;
@@ -9,15 +11,18 @@ import com.example.studit.domain.study.dto.PostCreateReq;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Study extends BaseEntity {
+public class Study {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "study_id")
@@ -60,6 +65,28 @@ public class Study extends BaseEntity {
     @OneToMany(mappedBy = "study", cascade = CascadeType.ALL)
     private List<Invitation> invitations = new ArrayList<>();
 
+    //내부 게시판
+    @OneToMany(mappedBy = "study", cascade = CascadeType.ALL)
+    private List<BulletinBoard> bulletinBoards = new ArrayList<>();
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    private LocalDateTime updatedDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10, columnDefinition = "varchar(10) default 'ACTIVE'")
+    private Status entityStatus = Status.ACTIVE;
+
+    //공지사항
+    private String announcement;
+
+    public void changeStatus(Status status) {
+        this.entityStatus = status;
+    }
+
     @Builder
     public Study(Province province, String city, String district, Target target, int number, Activity activity){
         this.region = new Region(province, city, district);
@@ -93,5 +120,13 @@ public class Study extends BaseEntity {
     //초대
     public void addInvitation(Invitation invitation){
         invitations.add(invitation);
+    }
+    public void post(BulletinBoard bulletinBoard){
+        bulletinBoards.add(bulletinBoard);
+    }
+
+    //공지사항
+    public void updateAnnouncement(String announcement){
+        this.announcement = announcement;
     }
 }

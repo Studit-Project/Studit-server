@@ -2,6 +2,7 @@ package com.example.studit.domain.comment;
 
 import com.example.studit.domain.BaseEntity;
 import com.example.studit.domain.User.User;
+import com.example.studit.domain.bulletin.BulletinBoard;
 import com.example.studit.domain.posting.Posting;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,6 +31,10 @@ public class Comment extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "posting_id")
     private Posting posting;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bulletin_id")
+    private BulletinBoard bulletinBoard;
 
     private String content;
 
