@@ -63,4 +63,11 @@ public class BulletinBoardService {
 
         bulletinBoard.get().updateOne(postReq);
     }
+
+    /**글 삭제**/
+    @Transactional
+    public void delete(Long bulletinId) {
+        Optional<BulletinBoard> bulletinBoard = bulletinBoardRepository.findById(bulletinId);
+        bulletinBoardRepository.delete(bulletinBoard.get());
+    }
 }
