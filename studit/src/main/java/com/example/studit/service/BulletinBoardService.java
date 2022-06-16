@@ -36,7 +36,11 @@ public class BulletinBoardService {
         return getAllRes;
     }
 
-
-
+    /**글 상세 보기**/
+    public GetDetailRes getOne(Long bulletinId) {
+        Optional<BulletinBoard> bulletinBoard = bulletinBoardRepository.findById(bulletinId);
+        GetDetailRes getDetailRes = new GetDetailRes(bulletinBoard.get());
+        return getDetailRes;
+    }
 
 }

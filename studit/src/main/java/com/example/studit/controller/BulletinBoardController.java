@@ -24,5 +24,9 @@ public class BulletinBoardController {
         return new BaseResponse<List<GetAllRes>>(bulletinBoardService.getAll(studyId));
     }
 
-
+    @ApiOperation("게시물 상세 보기")
+    @GetMapping("/{bulletin_id}")
+    public BaseResponse<GetDetailRes> getOne(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "bulletin_id") Long bulletinId){
+        return new BaseResponse<GetDetailRes>(bulletinBoardService.getOne(bulletinId));
+    }
 }
