@@ -33,7 +33,7 @@ public class BulletinBoard extends BaseEntity {
 
     private String content;
 
-    @OneToMany(mappedBy = "bulletin_board", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bulletinBoard", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     public BulletinBoard(Study study, User user, PostReq postReq){
