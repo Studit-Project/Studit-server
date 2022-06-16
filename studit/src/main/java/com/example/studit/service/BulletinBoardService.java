@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BulletinBoardService {
     private final BulletinBoardRepository bulletinBoardRepository;
@@ -44,6 +44,7 @@ public class BulletinBoardService {
     }
 
     /**글 작성**/
+    @Transactional
     public Long save(Long studyId, PostReq postReq) {
         Optional<Study> study = studyRepository.findById(studyId);
         User user = userService.getUserFromAuth();
