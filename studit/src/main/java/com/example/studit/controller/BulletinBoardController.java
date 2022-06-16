@@ -50,4 +50,11 @@ public class BulletinBoardController {
         return new BaseResponse<String>("");
     }
 
+    @ApiOperation("공지사항 설정")
+    @PatchMapping("/{bulletinId}/announcement")
+    public BaseResponse<String> updateAnnouncement(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "bulletinId") Long bulletinId){
+
+        return new BaseResponse<String>(bulletinBoardService.updateAnnouncement(studyId, bulletinId));
+    }
+
 }
