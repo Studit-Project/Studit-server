@@ -43,4 +43,11 @@ public class BulletinBoardController {
         return new BaseResponse<>("");
     }
 
+    @ApiOperation("게시물 지우기")
+    @DeleteMapping("/{bulletinId}")
+    public BaseResponse<String> deleteBoard(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "bulletinId") Long bulletinId){
+        bulletinBoardService.delete(bulletinId);
+        return new BaseResponse<String>("");
+    }
+
 }
