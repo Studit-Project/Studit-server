@@ -19,6 +19,6 @@ public class GetAllRes {
         this.id = bulletinBoard.getId();
         this.title = bulletinBoard.getTitle();
         this.userInfoDto = bulletinBoard.getUser().toUserInfoDto();
-        this.createAt = bulletinBoard.getCreateAt();
+        this.createAt = bulletinBoard.getCreatedAt();
     }
 }

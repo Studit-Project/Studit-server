@@ -25,13 +25,13 @@ public class GetHomeStudiesRes {
         this.id = myStudy.getStudy().getId();
         this.name = myStudy.getStudy().getName();
         this.introduction = myStudy.getStudy().getIntroduction();
-        this.createdAt = myStudy.getCreateAt();
+        this.createdAt = myStudy.getCreatedAt();
     }
 
     public GetHomeStudiesRes(ParticipatedStudy participatedStudy){
         this.id = participatedStudy.getStudy().getId();
         this.name = participatedStudy.getStudy().getName();
         this.introduction = participatedStudy.getStudy().getIntroduction();
-        this.createdAt = participatedStudy.getCreateAt();
+        this.createdAt = participatedStudy.getCreatedAt();
     }
 }

@@ -25,7 +25,7 @@ public class GetDetailRes {
         this.id = bulletinBoard.getId();
         this.userInfoDto = bulletinBoard.getUser().toUserInfoDto();
         this.title = bulletinBoard.getTitle();
-        this.createAt = bulletinBoard.getCreateAt();
+        this.createAt = bulletinBoard.getCreatedAt();
         this.content = bulletinBoard.getContent();
         this.comments = bulletinBoard.getComments().stream()
                 .map(CommentResponseDto::new)
