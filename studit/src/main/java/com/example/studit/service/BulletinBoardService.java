@@ -43,4 +43,15 @@ public class BulletinBoardService {
         return getDetailRes;
     }
 
+    /**글 작성**/
+    public Long save(Long studyId, PostReq postReq) {
+        Optional<Study> study = studyRepository.findById(studyId);
+        User user = userService.getUserFromAuth();
+        BulletinBoard bulletinBoard = new BulletinBoard(study.get(), user, postReq);
+        bulletinBoardRepository.save(bulletinBoard);
+
+        study.get().post(bulletinBoard);
+
+        return bulletinBoard.getId();
+    }
 }

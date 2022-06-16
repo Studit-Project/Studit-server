@@ -29,4 +29,11 @@ public class BulletinBoardController {
     public BaseResponse<GetDetailRes> getOne(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "bulletin_id") Long bulletinId){
         return new BaseResponse<GetDetailRes>(bulletinBoardService.getOne(bulletinId));
     }
+
+    @ApiOperation("게시물 작성")
+    @PostMapping("/new")
+    public BaseResponse<Long> createPost(@PathVariable(name = "studyId") Long studyId, @RequestBody PostReq postReq){
+        return new BaseResponse<Long>(bulletinBoardService.save(studyId, postReq));
+    }
+
 }
