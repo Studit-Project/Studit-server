@@ -55,4 +55,12 @@ public class BulletinBoardService {
 
         return bulletinBoard.getId();
     }
+
+    /**글 수정**/
+    @Transactional
+    public void updateBoard(Long bulletinId, PostReq postReq) {
+        Optional<BulletinBoard> bulletinBoard = bulletinBoardRepository.findById(bulletinId);
+
+        bulletinBoard.get().updateOne(postReq);
+    }
 }
