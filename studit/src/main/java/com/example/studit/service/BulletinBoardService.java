@@ -70,4 +70,14 @@ public class BulletinBoardService {
         Optional<BulletinBoard> bulletinBoard = bulletinBoardRepository.findById(bulletinId);
         bulletinBoardRepository.delete(bulletinBoard.get());
     }
+
+    /**공지사항 설정**/
+    @Transactional
+    public String updateAnnouncement(Long studyId, Long bulletinId) {
+        Optional<Study> study = studyRepository.findById(studyId);
+        Optional<BulletinBoard> bulletinBoard = bulletinBoardRepository.findById(bulletinId);
+
+        study.get().updateAnnouncement(bulletinBoard.get().getTitle());
+        return bulletinBoard.get().getTitle();
+    }
 }

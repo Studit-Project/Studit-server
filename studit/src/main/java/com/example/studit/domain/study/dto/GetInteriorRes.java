@@ -16,6 +16,8 @@ public class GetInteriorRes {
     private String introduction;
     private UserInfoDto leader;
     private List<UserInfoDto> followers;
+    //공지사항
+    private String announcement;
 
     public GetInteriorRes(Study study){
         this.id = study.getId();
@@ -25,5 +27,6 @@ public class GetInteriorRes {
         this.followers = study.getParticipatedMembers().stream()
                 .map(UserInfoDto::new)
                 .collect(Collectors.toList());
+        this.announcement = study.getAnnouncement();
     }
 }

@@ -80,6 +80,9 @@ public class Study {
     @Column(length = 10, columnDefinition = "varchar(10) default 'ACTIVE'")
     private Status entityStatus = Status.ACTIVE;
 
+    //공지사항
+    private String announcement;
+
     public void changeStatus(Status status) {
         this.entityStatus = status;
     }
@@ -120,5 +123,10 @@ public class Study {
     }
     public void post(BulletinBoard bulletinBoard){
         bulletinBoards.add(bulletinBoard);
+    }
+
+    //공지사항
+    public void updateAnnouncement(String announcement){
+        this.announcement = announcement;
     }
 }
