@@ -1,6 +1,7 @@
 package com.example.studit.domain.study;
 
 import com.example.studit.domain.BaseEntity;
+import com.example.studit.domain.bulletin.BulletinBoard;
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.enumType.Target;
 import com.example.studit.domain.invitation.Invitation;
@@ -60,6 +61,10 @@ public class Study extends BaseEntity {
     @OneToMany(mappedBy = "study", cascade = CascadeType.ALL)
     private List<Invitation> invitations = new ArrayList<>();
 
+    //내부 게시판
+    @OneToMany(mappedBy = "study", cascade = CascadeType.ALL)
+    private List<BulletinBoard> bulletinBoards = new ArrayList<>();
+
     @Builder
     public Study(Province province, String city, String district, Target target, int number, Activity activity){
         this.region = new Region(province, city, district);
@@ -93,5 +98,8 @@ public class Study extends BaseEntity {
     //초대
     public void addInvitation(Invitation invitation){
         invitations.add(invitation);
+    }
+    public void post(BulletinBoard bulletinBoard){
+        bulletinBoards.add(bulletinBoard);
     }
 }
