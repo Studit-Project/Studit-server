@@ -68,7 +68,7 @@ public class PostingController {
 
     @ApiOperation("필터 검색")
     @GetMapping("/search/filter")
-    public BaseResponse<List<PostingListDto>> searchByFilter(@RequestParam(required = false, defaultValue = "HIGH_SCHOOL, UNIVERSITY, JOB_SEEKER, OFFICE_WORKER") List<Target> targets, @RequestParam(required = false, defaultValue = "FEMALE, MALE, MIX") List<Gender> genders, @RequestParam(required = false) List<Province> provinces, @RequestParam(required = false, defaultValue = "ONLINE, OFFLINE, INTEGRATION") List<Activity> activities){
+    public BaseResponse<List<PostingListDto>> searchByFilter(@RequestParam(required = false, defaultValue = "HIGH_SCHOOL, UNIVERSITY, JOB_SEEKER, OFFICE_WORKER") List<Target> targets, @RequestParam(required = false, defaultValue = "FEMALE, MALE, MIX") List<Gender> genders, @RequestParam(required = false, defaultValue = "SEOUL, BUSAN, DAEGU, INCHEON, GWANGJU, DAEJEON, ULSAN, SEJONG, GYENGGI, GANGWON, CHUNGBUK, CHUNGNAM, JEONBUK, JEONNAM, GYEONGBUK, GYENGNAM, JEJU") List<Province> provinces, @RequestParam(required = false, defaultValue = "ONLINE, OFFLINE, INTEGRATION") List<Activity> activities){
         return new BaseResponse<List<PostingListDto>>(postingService.findByFilter(targets, genders, provinces, activities));
     }
 }
