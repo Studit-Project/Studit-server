@@ -36,6 +36,11 @@ public class BulletinBoard extends BaseEntity {
     @OneToMany(mappedBy = "bulletinBoard", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
+    public void updateOne(PostReq postReq){
+        this.title = postReq.getTitle();
+        this.content = postReq.getContent();
+    }
+
     public BulletinBoard(Study study, User user, PostReq postReq){
         this.study = study;
         this.user = user;

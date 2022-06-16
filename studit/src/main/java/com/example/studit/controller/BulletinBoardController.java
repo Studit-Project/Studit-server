@@ -25,15 +25,22 @@ public class BulletinBoardController {
     }
 
     @ApiOperation("게시물 상세 보기")
-    @GetMapping("/{bulletin_id}")
+    @GetMapping("/{bulletinId}")
     public BaseResponse<GetDetailRes> getOne(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "bulletin_id") Long bulletinId){
         return new BaseResponse<GetDetailRes>(bulletinBoardService.getOne(bulletinId));
     }
 
     @ApiOperation("게시물 작성")
     @PostMapping("/new")
-    public BaseResponse<Long> createPost(@PathVariable(name = "studyId") Long studyId, @RequestBody PostReq postReq){
+    public BaseResponse<Long> createBoard(@PathVariable(name = "studyId") Long studyId, @RequestBody PostReq postReq){
         return new BaseResponse<Long>(bulletinBoardService.save(studyId, postReq));
+    }
+
+    @ApiOperation("게시물 수정")
+    @PatchMapping("/{bulletinId}")
+    public BaseResponse<String> updateBoard(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "bulletinId") Long bulletinId, @RequestBody PostReq postReq){
+        bulletinBoardService.updateBoard(bulletinId, postReq);
+        return new BaseResponse<>("");
     }
 
 }
