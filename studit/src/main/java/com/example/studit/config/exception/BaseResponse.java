@@ -1,4 +1,4 @@
-package com.example.studit.config.swagger;
+package com.example.studit.config.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,7 +9,7 @@ import lombok.Getter;
 
 import java.util.LinkedList;
 
-import static com.example.studit.config.swagger.BaseResponseStatus.SUCCESS;
+import static com.example.studit.config.exception.BaseResponseStatus.SUCCESS;
 
 @Getter
 @AllArgsConstructor
