@@ -129,4 +129,9 @@ public class Study {
     public void updateAnnouncement(String announcement){
         this.announcement = announcement;
     }
+
+    //모집 상태 변경
+    public void updateStudyStatus(StudyStatus studyStatus) {
+        this.studyStatus = studyStatus;
+    }
 }
