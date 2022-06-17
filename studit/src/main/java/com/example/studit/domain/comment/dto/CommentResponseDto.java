@@ -22,6 +22,6 @@ public class CommentResponseDto {
         this.id = comment.getId();
         this.userId = comment.getUser().getId();
         this.content = comment.getContent();
-        this.localDateTime = comment.getLocalDateTime();
+        this.localDateTime = comment.getUpdatedAt();
     }
 }
