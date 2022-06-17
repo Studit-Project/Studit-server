@@ -24,7 +24,7 @@ public class PostingListDto {
         this.id = posting.getId();
         this.title = posting.getTitle();
         this.userId = posting.getUser().getId();
-        this.localDateTime = posting.getLocalDateTime();
+        this.localDateTime = posting.getUpdatedAt();
         this.studyStatus = posting.getStudyStatus();
     }
 }
