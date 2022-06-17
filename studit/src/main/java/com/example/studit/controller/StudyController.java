@@ -1,6 +1,7 @@
 package com.example.studit.controller;
 
 import com.example.studit.config.swagger.BaseResponse;
+import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.study.dto.GetInteriorRes;
 import com.example.studit.domain.study.dto.PatchAddReq;
 import com.example.studit.domain.study.dto.PostCreateReq;
@@ -66,8 +67,15 @@ public class StudyController {
 
     @ApiOperation("스터디 삭제")
     @DeleteMapping("/{studyId}")
-    public BaseResponse<String> deleteStudy(@PathVariable(name = "studyId") Long studyId){
+    public BaseResponse<String> deleteStudy(@PathVariable(name = "studyId") Long studyId) {
         studyService.delete(studyId);
+        return new BaseResponse<String>("");
+    }
+
+    @ApiOperation("스터디 모집 상태 변경")
+    @PatchMapping("/{studyId}/status")
+    public BaseResponse<String> updateStatus(@PathVariable(name = "studyId") Long studyId, @RequestParam StudyStatus studyStatus) {
+        studyService.updateStatus(studyId, studyStatus);
         return new BaseResponse<String>("");
     }
 }

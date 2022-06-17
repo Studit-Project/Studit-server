@@ -1,6 +1,7 @@
 package com.example.studit.service;
 
 import com.example.studit.domain.User.User;
+import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.invitation.Invitation;
 import com.example.studit.domain.notification.NotificationType;
 import com.example.studit.domain.study.MyStudy;
@@ -177,5 +178,11 @@ public class StudyService {
 
         invitationRepository.delete(invitation.get());
 
+    }
+
+    /** 스터디 상태 업데이트 **/
+    public void updateStatus(Long studyId, StudyStatus studyStatus) {
+        Optional<Study> study = studyRepository.findById(studyId);
+        study.get().updateStudyStatus(studyStatus);
     }
 }
