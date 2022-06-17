@@ -1,14 +1,18 @@
 package com.example.studit.service;
 
+import com.example.studit.domain.bulletin.BulletinBoard;
 import com.example.studit.domain.comment.Comment;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.comment.dto.CommentRequestDto;
+import com.example.studit.repository.BulletinBoardRepository;
 import com.example.studit.repository.CommentRepository;
 import com.example.studit.repository.PostingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -23,6 +27,8 @@ public class CommentService {
     @Autowired
     private final UserService userService;
 
+    private final BulletinBoardRepository bulletinBoardRepository;
+
     public long save(Long postingId, CommentRequestDto commentRequestDto){
         //현재 유저 정보
         User user = userService.getUserFromAuth();
@@ -34,6 +40,17 @@ public class CommentService {
                 .build();
 
         comment.addComment();
+
+        return commentRepository.save(comment).getId();
+    }
+
+    public Long saveBulletinComment(Long bulletinId, CommentRequestDto content) {
+        User user = userService.getUserFromAuth();
+        Optional<BulletinBoard> bulletinBoard = bulletinBoardRepository.findById(bulletinId);
+
+        Comment comment = new Comment(user, bulletinBoard.get(), content.getContent());
+
+        comment.addToBulletinBoard();
 
         return commentRepository.save(comment).getId();
     }

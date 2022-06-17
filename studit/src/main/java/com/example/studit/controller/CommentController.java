@@ -18,9 +18,15 @@ public class CommentController {
     @Autowired
     private final CommentService commentService;
 
-    @ApiOperation("댓글 달기")
+    @ApiOperation("포스팅 댓글 달기")
     @PostMapping("/posting/{postingId}/new-comment")
     public BaseResponse<Long> createComment(@PathVariable("postingId") Long postingId, @RequestBody CommentRequestDto commentRequestDto){
         return new BaseResponse<Long>(commentService.save(postingId, commentRequestDto));
+    }
+
+    @ApiOperation("내부 게시판 댓글 달기")
+    @PostMapping("/study/{studyId}/bulletin/{bulletinId}")
+    public BaseResponse<Long> createBulletinComment(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "bulletinId") Long bulletinId, @RequestBody CommentRequestDto content){
+        return new BaseResponse<Long>(commentService.saveBulletinComment(bulletinId, content));
     }
 }
