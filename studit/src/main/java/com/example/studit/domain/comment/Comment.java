@@ -46,7 +46,17 @@ public class Comment extends BaseEntity {
         this.content = content;
     }
 
+    public Comment(User user, BulletinBoard bulletinBoard, String content){
+        this.user = user;
+        this.bulletinBoard = bulletinBoard;
+        this.content = content;
+    }
+
     public void addComment(){
         posting.getComments().add(this);
+    }
+
+    public void addToBulletinBoard(){
+        bulletinBoard.getComments().add(this);
     }
 }
