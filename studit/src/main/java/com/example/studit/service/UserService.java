@@ -5,6 +5,7 @@ import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.domain.User.dto.ProfileDto;
 import com.example.studit.domain.invitation.Invitation;
 import com.example.studit.domain.invitation.dto.GetAllRes;
+import com.example.studit.domain.notification.NotificationType;
 import com.example.studit.domain.study.ParticipatedStudy;
 import com.example.studit.domain.study.Study;
 import com.example.studit.dto.JwtRequestDto;
@@ -108,18 +109,4 @@ public class UserService {
         return getAllRes;
     }
 
-    /**초대 승낙 여부**/
-    public void accept(Long invitationId, boolean acceptance) {
-        User user = getUserFromAuth();
-        Optional<Invitation> invitation = invitationRepository.findById(invitationId);
-        Optional<Study> study = studyRepository.findById(invitation.get().getStudy().getId());
-
-        if(acceptance == true){
-            ParticipatedStudy participatedStudy = new ParticipatedStudy();
-            participatedStudy.addUser(user);
-            study.get().addOne(participatedStudy);
-        }
-            invitationRepository.delete(invitation.get());
-
-    }
 }

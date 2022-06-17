@@ -2,6 +2,7 @@ package com.example.studit.service;
 
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.invitation.Invitation;
+import com.example.studit.domain.notification.NotificationType;
 import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
 import com.example.studit.domain.study.Study;
@@ -41,7 +42,9 @@ public class StudyService {
     @Autowired
     private final InvitationRepository invitationRepository;
 
-    /*스터디룸 개설*/
+    private final NotificationService notificationService;
+
+    /**스터디룸 개설**/
     public Long save(PostCreateReq studyCreateReq){
 
         //현재 로그인한 유저 정보
@@ -60,7 +63,7 @@ public class StudyService {
         return study.getId();
     }
 
-    /*개인이 참여한 스터디 목록*/
+    /**개인이 참여한 스터디 목록**/
     public List<GetManageRes> findIndividualStudies() {
         User user = userService.getUserFromAuth();
 
@@ -81,7 +84,7 @@ public class StudyService {
         return getManageRes;
     }
 
-    /*스터디원 초대*/
+    /**스터디원 초대**/
     public Long inviteFollower(Long studyId, PatchAddReq nickname) {
         Optional<User> user = userRepository.findByNickname(nickname.getNickname());
         Optional<Study> study = studyRepository.findById(studyId);
@@ -95,6 +98,9 @@ public class StudyService {
 
             user.get().addInvitation(invitation);
             study.get().addInvitation(invitation);
+
+            notificationService.send(user.get(), NotificationType.INVITE, "새로운 초대 요청이 도착했습니다.", "");
+
             return invitation.getId();
         } else{
             System.out.println("이미 초대함");
@@ -102,7 +108,9 @@ public class StudyService {
         }
     }
 
-    /*스터디원 추가*/
+
+
+    /**스터디원 추가**/
     public Long addStudyOne(Long studyId, PatchAddReq patchAddReq) {
         User user = userService.getUserFromAuth();
         Optional<Study> study = studyRepository.findById(studyId);
@@ -122,7 +130,7 @@ public class StudyService {
         return participatedStudy.getId();
     }
 
-    /*스터디룸 내부**/
+    /**스터디룸 내부**/
     public GetInteriorRes getOne(Long studyId) {
         Optional<Study> study = studyRepository.findById(studyId);
 
@@ -130,7 +138,7 @@ public class StudyService {
         return studyRoom;
     }
 
-    /*스터디원 강퇴*/
+    /**스터디원 강퇴**/
     public void expelFollower(Long studyId, Long followerId) {
         Optional<Study> study = studyRepository.findById(studyId);
         Optional<User> user = userRepository.findById(followerId);
@@ -139,11 +147,35 @@ public class StudyService {
 
         ParticipatedStudy participatedStudy = participatedStudyRepository.findByUserAndStudy(user.get(), study.get());
         participatedStudyRepository.delete(participatedStudy);
+
+        notificationService.send(user.get(), NotificationType.EXPEL, studyId + "에서 강퇴당하셨습니다.", "");
+
     }
 
-    /*스터디 삭제*/
+    /**스터디 삭제**/
     public void delete(Long studyId) {
         Optional<Study> study = studyRepository.findById(studyId);
         studyRepository.delete(study.get());
+    }
+
+    /**초대 승낙 여부**/
+    public void accept(Long invitationId, boolean acceptance) {
+        User user = userService.getUserFromAuth();
+        Optional<Invitation> invitation = invitationRepository.findById(invitationId);
+        Optional<Study> study = studyRepository.findById(invitation.get().getStudy().getId());
+
+        if(acceptance == true){
+            ParticipatedStudy participatedStudy = new ParticipatedStudy();
+            participatedStudy.addUser(user);
+            study.get().addOne(participatedStudy);
+
+            notificationService.send(study.get().getLeader().getUser(), NotificationType.ACCEPT, user.getNickname() + "님이 초대를 수락하셨습니다.", "");
+
+        } else {
+            notificationService.send(study.get().getLeader().getUser(), NotificationType.REFUSE, user.getNickname() + "님이 초대를 거절하셨습니다.", "");
+        }
+
+        invitationRepository.delete(invitation.get());
+
     }
 }
