@@ -1,6 +1,7 @@
 package com.example.studit.controller;
 
-import com.example.studit.config.swagger.BaseResponse;
+import com.example.studit.config.exception.BaseException;
+import com.example.studit.config.exception.BaseResponse;
 import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.domain.invitation.dto.GetAllRes;
 import com.example.studit.dto.JwtRequestDto;
@@ -13,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,13 +35,13 @@ public class UserController {
 
     @ApiOperation("회원가입")
     @PostMapping("/join")
-    public BaseResponse<Long> join(@RequestBody @Validated UserJoinDto userJoinDto) {
+    public BaseResponse<Long> join(@RequestBody @Validated UserJoinDto userJoinDto) throws BaseException {
         return new BaseResponse<Long>(userService.join(userJoinDto));
     }
 
     @ApiOperation("회원 세부 정보 설정")
     @PatchMapping("join/detail")
-    public BaseResponse<String> configDetail(@RequestBody PatchDetailReq patchDetailReq){
+    public BaseResponse<String> configDetail(@RequestBody @Validated PatchDetailReq patchDetailReq) throws BaseException {
         userService.addDetailInfo(patchDetailReq);
         return new BaseResponse<String>("");
     }
@@ -74,7 +76,7 @@ public class UserController {
         return new BaseResponse<>(userService.getInvitations());
     }
 
-    @ApiOperation("초대 승낙 여부")
+    @ApiOperation("초대 수락 여부")
     @PatchMapping("/invitation/{invitationId}")
     public BaseResponse<String> accept(@PathVariable(name = "invitationId") Long invitationId, @RequestParam boolean acceptance){
         studyService.accept(invitationId, acceptance);
