@@ -1,6 +1,6 @@
 package com.example.studit.controller;
 
-import com.example.studit.config.swagger.BaseResponse;
+import com.example.studit.config.exception.BaseResponse;
 import com.example.studit.domain.comment.dto.CommentRequestDto;
 import com.example.studit.domain.comment.dto.PatchCommentReq;
 import com.example.studit.service.CommentService;

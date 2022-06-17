@@ -1,6 +1,6 @@
 package com.example.studit.controller;
 
-import com.example.studit.config.swagger.BaseResponse;
+import com.example.studit.config.exception.BaseResponse;
 import com.example.studit.domain.bulletin.dto.GetAllRes;
 import com.example.studit.domain.bulletin.dto.GetDetailRes;
 import com.example.studit.domain.bulletin.dto.PostReq;

@@ -1,6 +1,6 @@
 package com.example.studit.controller;
 
-import com.example.studit.config.swagger.BaseResponse;
+import com.example.studit.config.exception.BaseResponse;
 import com.example.studit.service.NotificationService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
