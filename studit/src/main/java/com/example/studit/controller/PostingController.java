@@ -79,4 +79,11 @@ public class PostingController {
         postingService.update(postingId, patchPostingReq);
         return new BaseResponse<String>("");
     }
+
+    @ApiOperation("포스팅 삭제")
+    @DeleteMapping("/{postingId}")
+    public BaseResponse<String> delete(@PathVariable(name = "postingId") Long postingId) {
+        postingService.delete(postingId);
+        return new BaseResponse<String>("");
+    }
 }
