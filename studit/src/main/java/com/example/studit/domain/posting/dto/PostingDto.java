@@ -27,7 +27,7 @@ public class PostingDto {
 
     private UserInfoDto userInfoDto;
 
-    private LocalDateTime localDateTime = LocalDateTime.now();
+    private LocalDateTime localDateTime;
 
     private String content;
 
@@ -39,7 +39,7 @@ public class PostingDto {
         this.category = posting.getCategory();
         this.title = posting.getTitle();
         this.userInfoDto = posting.getUser().toUserInfoDto();
-        this.localDateTime = posting.getLocalDateTime();
+        this.localDateTime = posting.getUpdatedAt();
         this.content = posting.getContent();
         this.commentList = posting.getComments().stream()
                 .map(CommentResponseDto::new)
