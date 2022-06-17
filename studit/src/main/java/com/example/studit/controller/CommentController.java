@@ -2,14 +2,12 @@ package com.example.studit.controller;
 
 import com.example.studit.config.swagger.BaseResponse;
 import com.example.studit.domain.comment.dto.CommentRequestDto;
+import com.example.studit.domain.comment.dto.PatchCommentReq;
 import com.example.studit.service.CommentService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,5 +26,11 @@ public class CommentController {
     @PostMapping("/study/{studyId}/bulletin/{bulletinId}")
     public BaseResponse<Long> createBulletinComment(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "bulletinId") Long bulletinId, @RequestBody CommentRequestDto content){
         return new BaseResponse<Long>(commentService.saveBulletinComment(bulletinId, content));
+    }
+
+    @ApiOperation("포스팅 댓글 수정")
+    @PatchMapping("/posting/{postingId}/comment/{commentId}")
+    public BaseResponse<Long> updatePostingComment(@PathVariable(name = "postingId") Long postingId, @PathVariable(name = "commentId") Long commentId, @RequestBody PatchCommentReq patchCommentReq) {
+        return new BaseResponse<Long>(commentService.updateComment(commentId, patchCommentReq));
     }
 }

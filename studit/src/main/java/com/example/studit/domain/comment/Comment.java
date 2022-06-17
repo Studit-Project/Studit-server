@@ -59,4 +59,8 @@ public class Comment extends BaseEntity {
     public void addToBulletinBoard(){
         bulletinBoard.getComments().add(this);
     }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
 }
