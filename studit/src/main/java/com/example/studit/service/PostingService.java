@@ -3,23 +3,19 @@ package com.example.studit.service;
 import com.example.studit.domain.enumType.Category;
 import com.example.studit.domain.enumType.Gender;
 import com.example.studit.domain.enumType.Target;
-import com.example.studit.domain.invitation.Invitation;
 import com.example.studit.domain.likes.Likes;
 import com.example.studit.domain.notification.NotificationType;
 import com.example.studit.domain.posting.Posting;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.posting.Province;
+import com.example.studit.domain.posting.dto.PatchPostingReq;
 import com.example.studit.domain.posting.dto.PostCreateReq;
 import com.example.studit.domain.study.Activity;
 import com.example.studit.domain.posting.dto.PostingDto;
 import com.example.studit.domain.posting.dto.PostingListDto;
 import com.example.studit.domain.User.dto.UserInfoDto;
-import com.example.studit.domain.study.ParticipatedStudy;
-import com.example.studit.domain.study.Study;
-import com.example.studit.repository.InvitationRepository;
 import com.example.studit.repository.LikesRepository;
 import com.example.studit.repository.PostingRepository;
-import com.example.studit.repository.StudyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +38,7 @@ public class PostingService {
 
     private final NotificationService notificationService;
 
-    /**스터디 모집 글 작성**/
+    /** 스터디 모집 글 작성 **/
     public Long save(PostCreateReq postCreateReq) {
 
         User user = userService.getUserFromAuth();
@@ -52,7 +48,7 @@ public class PostingService {
         return postingRepository.save(posting).getId();
     }
 
-    /**스터디 모집 글 불러오기**/
+    /** 스터디 모집 글 불러오기 **/
     public List<PostingListDto> findAllStudyPosting(String category) {
         Category categoryEnum = Category.valueOf(category);
 
@@ -80,7 +76,7 @@ public class PostingService {
         return postingDto;
     }
 
-    /**키워드 검색**/
+    /** 키워드 검색 **/
     public List<PostingListDto> findPostingsByKeyword(String keyword) {
         List<Posting> postings = postingRepository.findByTitleContaining(keyword);
         List<PostingListDto> postingListDto = postings.stream()
@@ -89,7 +85,7 @@ public class PostingService {
         return postingListDto;
     }
 
-    /**필터 검색**/
+    /** 필터 검색 **/
     public List<PostingListDto> findByFilter(List<Target> targets, List<Gender> genders, List<Province> provinces, List<Activity> activities) {
 
         List<Posting> postings = postingRepository.findByFilter(targets, genders, provinces, activities);
@@ -101,7 +97,7 @@ public class PostingService {
         return postingListDtos;
     }
 
-    /**좋아요 누르기**/
+    /** 좋아요 누르기 **/
     public void likePosting(Long postingId) {
         User user = userService.getUserFromAuth();
         Optional<Posting> posting = postingRepository.findById(postingId);
@@ -113,5 +109,11 @@ public class PostingService {
         posting.get().addLiked(likes);
 
         notificationService.send(posting.get().getUser(), NotificationType.LIKES, user.getNickname() + "님이 좋아요를 누르셨습니다.", "");
+    }
+
+    /** 글 수정 **/
+    public void update(Long postingId, PatchPostingReq patchPostingReq) {
+        Optional<Posting> posting = postingRepository.findById(postingId);
+        posting.get().updatePosting(patchPostingReq);
     }
 }
