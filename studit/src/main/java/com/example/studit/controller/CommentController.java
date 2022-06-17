@@ -39,4 +39,19 @@ public class CommentController {
     public BaseResponse<Long> updateBulletinComment(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "bulletinId") Long bulletinId, @PathVariable(name = "commentId") Long commentId, @RequestBody PatchCommentReq patchCommentReq) {
         return new BaseResponse<Long>(commentService.updateComment(commentId, patchCommentReq));
     }
+
+    @ApiOperation("포스팅 댓글 삭제")
+    @DeleteMapping("/posting/{postingId}/comment/{commentId}")
+    public BaseResponse<String> deletePostingComment(@PathVariable(name = "postingId") Long postingId, @PathVariable(name = "commentId") Long commentId){
+        commentService.delete(commentId);
+        return new BaseResponse<String>("");
+    }
+
+    @ApiOperation("스터디 내부 게시판 댓글 삭제")
+    @DeleteMapping("/study/{studyId}/bulletin/{bulletinId}/comment/{commentId}")
+    public BaseResponse<String> deleteBulletinComment(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "bulletinId") Long bulletinId, @PathVariable(name = "commentId") Long commentId) {
+        commentService.delete(commentId);
+        return new BaseResponse<>("");
+    }
+
 }

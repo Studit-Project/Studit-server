@@ -74,4 +74,10 @@ public class CommentService {
         comment.get().updateContent(patchCommentReq.getContent());
         return comment.get().getId();
     }
+
+    /** 댓글 삭제 **/
+    public void delete(Long commentId) {
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        commentRepository.delete(comment.get());
+    }
 }
