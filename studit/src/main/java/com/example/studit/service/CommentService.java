@@ -4,6 +4,8 @@ import com.example.studit.domain.bulletin.BulletinBoard;
 import com.example.studit.domain.comment.Comment;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.comment.dto.CommentRequestDto;
+import com.example.studit.domain.notification.NotificationType;
+import com.example.studit.domain.posting.Posting;
 import com.example.studit.repository.BulletinBoardRepository;
 import com.example.studit.repository.CommentRepository;
 import com.example.studit.repository.PostingRepository;
@@ -29,17 +31,23 @@ public class CommentService {
 
     private final BulletinBoardRepository bulletinBoardRepository;
 
+    private final NotificationService notificationService;
+
     public long save(Long postingId, CommentRequestDto commentRequestDto){
         //현재 유저 정보
         User user = userService.getUserFromAuth();
 
+        Optional<Posting> posting = postingRepository.findById(postingId);
+
         Comment comment = Comment.builder()
                 .user(user)
-                .posting(postingRepository.findById(postingId).orElseThrow())
+                .posting(posting.get())
                 .content(commentRequestDto.getContent())
                 .build();
 
         comment.addComment();
+
+        notificationService.send(posting.get().getUser(), NotificationType.COMMENT, postingId + "에 새로운 댓글이 달렸습니다.", "");
 
         return commentRepository.save(comment).getId();
     }
@@ -51,6 +59,8 @@ public class CommentService {
         Comment comment = new Comment(user, bulletinBoard.get(), content.getContent());
 
         comment.addToBulletinBoard();
+
+        notificationService.send(bulletinBoard.get().getUser(), NotificationType.COMMENT, bulletinId + "에 새로운 댓글이 달렸습니다.", "");
 
         return commentRepository.save(comment).getId();
     }

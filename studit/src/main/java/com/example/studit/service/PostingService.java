@@ -3,7 +3,9 @@ package com.example.studit.service;
 import com.example.studit.domain.enumType.Category;
 import com.example.studit.domain.enumType.Gender;
 import com.example.studit.domain.enumType.Target;
+import com.example.studit.domain.invitation.Invitation;
 import com.example.studit.domain.likes.Likes;
+import com.example.studit.domain.notification.NotificationType;
 import com.example.studit.domain.posting.Posting;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.posting.Province;
@@ -12,8 +14,12 @@ import com.example.studit.domain.study.Activity;
 import com.example.studit.domain.posting.dto.PostingDto;
 import com.example.studit.domain.posting.dto.PostingListDto;
 import com.example.studit.domain.User.dto.UserInfoDto;
+import com.example.studit.domain.study.ParticipatedStudy;
+import com.example.studit.domain.study.Study;
+import com.example.studit.repository.InvitationRepository;
 import com.example.studit.repository.LikesRepository;
 import com.example.studit.repository.PostingRepository;
+import com.example.studit.repository.StudyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +39,8 @@ public class PostingService {
     private final UserService userService;
     @Autowired
     private final LikesRepository likesRepository;
+
+    private final NotificationService notificationService;
 
     /**스터디 모집 글 작성**/
     public Long save(PostCreateReq postCreateReq) {
@@ -103,5 +111,7 @@ public class PostingService {
 
         user.addLikes(likes);
         posting.get().addLiked(likes);
+
+        notificationService.send(posting.get().getUser(), NotificationType.LIKES, user.getNickname() + "님이 좋아요를 누르셨습니다.", "");
     }
 }
