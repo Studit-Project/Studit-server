@@ -1,6 +1,6 @@
 package com.example.studit.controller;
 
-import com.example.studit.config.swagger.BaseResponse;
+import com.example.studit.config.exception.BaseResponse;
 import com.example.studit.domain.enumType.Gender;
 import com.example.studit.domain.enumType.Target;
 import com.example.studit.domain.posting.Province;
