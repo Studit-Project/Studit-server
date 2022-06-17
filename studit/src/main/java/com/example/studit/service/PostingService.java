@@ -116,4 +116,10 @@ public class PostingService {
         Optional<Posting> posting = postingRepository.findById(postingId);
         posting.get().updatePosting(patchPostingReq);
     }
+
+    /** 글 삭제 **/
+    public void delete(Long postingId) {
+        Optional<Posting> posting = postingRepository.findById(postingId);
+        postingRepository.delete(posting.get());
+    }
 }
