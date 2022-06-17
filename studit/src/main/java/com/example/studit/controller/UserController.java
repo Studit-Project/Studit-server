@@ -7,6 +7,7 @@ import com.example.studit.dto.JwtRequestDto;
 import com.example.studit.dto.JwtResponseDto;
 import com.example.studit.domain.User.dto.UserJoinDto;
 import com.example.studit.service.NumberAuthenticationService;
+import com.example.studit.service.StudyService;
 import com.example.studit.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private final NumberAuthenticationService numberAuthenticationService;
+    private final StudyService studyService;
 
     @ApiOperation("회원가입")
     @PostMapping("/join")
@@ -75,7 +77,7 @@ public class UserController {
     @ApiOperation("초대 승낙 여부")
     @PatchMapping("/invitation/{invitationId}")
     public BaseResponse<String> accept(@PathVariable(name = "invitationId") Long invitationId, @RequestParam boolean acceptance){
-        userService.accept(invitationId, acceptance);
+        studyService.accept(invitationId, acceptance);
         return new BaseResponse<String>("");
     }
 
