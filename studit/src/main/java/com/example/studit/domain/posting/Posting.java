@@ -8,6 +8,7 @@ import com.example.studit.domain.enumType.Gender;
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.enumType.Target;
 import com.example.studit.domain.likes.Likes;
+import com.example.studit.domain.posting.dto.PatchPostingReq;
 import com.example.studit.domain.posting.dto.PostCreateReq;
 import com.example.studit.domain.study.Activity;
 import lombok.Builder;
@@ -88,5 +89,16 @@ public class Posting extends BaseEntity {
         this.content = postCreateReq.getContent();
         this.target = postCreateReq.getTarget();
         this.gender = postCreateReq.getGender();
+    }
+
+    public void updatePosting(PatchPostingReq patchPostingReq) {
+        this.category = patchPostingReq.getCategory();
+        this.activity = patchPostingReq.getActivity();
+        this.target = patchPostingReq.getTarget();
+        this.gender = patchPostingReq.getGender();
+        this.studyStatus = patchPostingReq.getStudyStatus();
+        this.province = patchPostingReq.getProvince();
+        this.title = patchPostingReq.getTitle();
+        this.content = patchPostingReq.getContent();
     }
 }
