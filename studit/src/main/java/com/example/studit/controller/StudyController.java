@@ -1,11 +1,13 @@
 package com.example.studit.controller;
 
 import com.example.studit.config.exception.BaseResponse;
+import com.example.studit.domain.bulletin.dto.GetDetailRes;
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.study.dto.GetInteriorRes;
 import com.example.studit.domain.study.dto.PatchAddReq;
 import com.example.studit.domain.study.dto.PostCreateReq;
 import com.example.studit.domain.study.dto.GetManageRes;
+import com.example.studit.service.BulletinBoardService;
 import com.example.studit.service.StudyService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class StudyController {
 
     @Autowired
     private final StudyService studyService;
+    private final BulletinBoardService bulletinBoardService;
 
     //스터디룸 개설
     @ApiOperation("스터디 방 개설")
@@ -77,5 +80,11 @@ public class StudyController {
     public BaseResponse<String> updateStatus(@PathVariable(name = "studyId") Long studyId, @RequestParam StudyStatus studyStatus) {
         studyService.updateStatus(studyId, studyStatus);
         return new BaseResponse<String>("");
+    }
+
+    @ApiOperation("상위 공지사항 클릭")
+    @GetMapping("{studyId}/{bulletinId}")
+    public BaseResponse<GetDetailRes> getAnnouncement(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "bulletinId") Long bulletinId) {
+        return new BaseResponse<GetDetailRes>(bulletinBoardService.getOne(bulletinId));
     }
 }
