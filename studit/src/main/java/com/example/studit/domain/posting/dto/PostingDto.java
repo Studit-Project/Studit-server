@@ -4,6 +4,7 @@ import com.example.studit.domain.comment.dto.CommentResponseDto;
 import com.example.studit.domain.posting.Posting;
 import com.example.studit.domain.enumType.Category;
 import com.example.studit.domain.User.dto.UserInfoDto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +27,7 @@ public class PostingDto {
     private String title;
 
     private UserInfoDto userInfoDto;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime localDateTime;
 
     private String content;
