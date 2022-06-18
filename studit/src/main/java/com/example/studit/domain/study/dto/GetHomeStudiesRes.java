@@ -2,6 +2,7 @@ package com.example.studit.domain.study.dto;
 
 import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class GetHomeStudiesRes {
     //스터디 설명
     private String introduction;
     //스터디 시작일
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
 
     public GetHomeStudiesRes(MyStudy myStudy){

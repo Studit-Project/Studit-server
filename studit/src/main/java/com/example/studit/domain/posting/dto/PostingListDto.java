@@ -2,6 +2,7 @@ package com.example.studit.domain.posting.dto;
 
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.posting.Posting;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class PostingListDto {
     private Long id;
     private String title;
     private Long userId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime localDateTime;
     private StudyStatus studyStatus;
 
