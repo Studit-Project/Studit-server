@@ -1,9 +1,10 @@
 package com.example.studit.controller;
 
-import com.example.studit.config.swagger.BaseResponse;
+import com.example.studit.config.exception.BaseResponse;
 import com.example.studit.domain.enumType.Gender;
 import com.example.studit.domain.enumType.Target;
 import com.example.studit.domain.posting.Province;
+import com.example.studit.domain.posting.dto.PatchPostingReq;
 import com.example.studit.domain.posting.dto.PostCreateReq;
 import com.example.studit.domain.study.Activity;
 import com.example.studit.domain.posting.dto.PostingDto;
@@ -70,5 +71,19 @@ public class PostingController {
     @GetMapping("/search/filter")
     public BaseResponse<List<PostingListDto>> searchByFilter(@RequestParam(required = false, defaultValue = "HIGH_SCHOOL, UNIVERSITY, JOB_SEEKER, OFFICE_WORKER") List<Target> targets, @RequestParam(required = false, defaultValue = "FEMALE, MALE, MIX") List<Gender> genders, @RequestParam(required = false, defaultValue = "SEOUL, BUSAN, DAEGU, INCHEON, GWANGJU, DAEJEON, ULSAN, SEJONG, GYENGGI, GANGWON, CHUNGBUK, CHUNGNAM, JEONBUK, JEONNAM, GYEONGBUK, GYENGNAM, JEJU") List<Province> provinces, @RequestParam(required = false, defaultValue = "ONLINE, OFFLINE, INTEGRATION") List<Activity> activities){
         return new BaseResponse<List<PostingListDto>>(postingService.findByFilter(targets, genders, provinces, activities));
+    }
+
+    @ApiOperation("포스팅 수정")
+    @PatchMapping("/{postingId}")
+    public BaseResponse<String> updatePosting(@PathVariable(name = "postingId") Long postingId, @RequestBody PatchPostingReq patchPostingReq) {
+        postingService.update(postingId, patchPostingReq);
+        return new BaseResponse<String>("");
+    }
+
+    @ApiOperation("포스팅 삭제")
+    @DeleteMapping("/{postingId}")
+    public BaseResponse<String> delete(@PathVariable(name = "postingId") Long postingId) {
+        postingService.delete(postingId);
+        return new BaseResponse<String>("");
     }
 }

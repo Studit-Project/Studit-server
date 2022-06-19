@@ -3,6 +3,7 @@ package com.example.studit.service;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.notification.Notification;
 import com.example.studit.domain.notification.NotificationType;
+import com.example.studit.domain.notification.dto.GetNotificationsRes;
 import com.example.studit.domain.notification.dto.NotificationResponseDto;
 import com.example.studit.repository.EmitterRepository;
 import com.example.studit.repository.NotificationRepository;
@@ -12,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -88,5 +91,17 @@ public class NotificationService {
                 .url(url)
                 .isRead(false)
                 .build();
+    }
+
+    public List<GetNotificationsRes> getAll() {
+        User user = userService.getUserFromAuth();
+
+        List<Notification> notifications =  notificationRepository.findByReceiver(user);
+
+        List<GetNotificationsRes> notificationsRes = notifications.stream()
+                .map(GetNotificationsRes::new)
+                .collect(Collectors.toList());
+
+        return notificationsRes;
     }
 }

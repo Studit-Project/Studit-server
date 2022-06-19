@@ -1,13 +1,12 @@
 package com.example.studit.service;
 
+import com.example.studit.config.exception.BaseException;
+import com.example.studit.config.exception.BaseResponseStatus;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.domain.User.dto.ProfileDto;
 import com.example.studit.domain.invitation.Invitation;
 import com.example.studit.domain.invitation.dto.GetAllRes;
-import com.example.studit.domain.notification.NotificationType;
-import com.example.studit.domain.study.ParticipatedStudy;
-import com.example.studit.domain.study.Study;
 import com.example.studit.dto.JwtRequestDto;
 import com.example.studit.dto.JwtResponseDto;
 import com.example.studit.domain.User.dto.UserJoinDto;
@@ -44,7 +43,7 @@ public class UserService {
     private final StudyRepository studyRepository;
 
     /**회원가입**/
-    public Long join(UserJoinDto userJoinDto){
+    public Long join(UserJoinDto userJoinDto) throws BaseException {
         userJoinDto.setPassword(passwordEncoder.encode(userJoinDto.getPassword()));
         validateDuplicateMember(userJoinDto);
 
@@ -52,18 +51,20 @@ public class UserService {
         return user.getId();
     }
 
-    private void validateDuplicateMember(UserJoinDto userJoinDto) {
+    private void validateDuplicateMember(UserJoinDto userJoinDto) throws BaseException {
         List<User> findUsers = userRepository.findUsersByPhone(userJoinDto.getPhone());
         List<User> findEmails = userRepository.findUsersByEmail(userJoinDto.getEmail());
-        if(!findUsers.isEmpty())
-            throw new IllegalStateException("이미 등록된 번호입니다.");
+        if(!findUsers.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.DOUBLE_CHECK_ID);
+        }
 
-        if(!findEmails.isEmpty())
-            throw new IllegalStateException("이미 등록된 이메일입니다.");
+        if(!findEmails.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.INVALID_EMAIL);
+        }
     }
 
     /**로그인**/
-    public JwtResponseDto login(JwtRequestDto request) throws Exception{
+    public JwtResponseDto login(JwtRequestDto request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getPhone(), request.getPassword())
         );
@@ -86,8 +87,15 @@ public class UserService {
     }
 
     /**유저 세부 정보 추가**/
-    public void addDetailInfo(PatchDetailReq patchDetailReq) {
+    public void addDetailInfo(PatchDetailReq patchDetailReq) throws BaseException {
         User user = getUserFromAuth();
+
+        Optional<User> isPresent = userRepository.findByNickname(patchDetailReq.getNickname());
+
+        if(!isPresent.isEmpty()){
+            throw new BaseException(BaseResponseStatus.INVALID_NICKNAME);
+        }
+
         user.addDetailInfo(patchDetailReq);
     }
 
