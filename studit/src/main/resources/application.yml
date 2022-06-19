@@ -35,8 +35,3 @@ coolsms:
   api-key: NCS2JE5WTMCHGRX5
   api-secret: VGET6RLPEAR4L2PE9BEXUIFI2UBK4Y1C
   from-number: 010-5503-8244
-
-coolsms:
-  api-key: NCS2JE5WTMCHGRX5
-  api-secret: VGET6RLPEAR4L2PE9BEXUIFI2UBK4Y1C
-  from-number: 010-5503-8244
