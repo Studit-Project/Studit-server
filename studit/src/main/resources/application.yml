@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   datasource:
-    url: jdbc:mysql://erudite-store-353711:asia-northeast3:studit:3306/studit?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://34.64.229.43:3306/studit?serverTimezone=Asia/Seoul
     username: root
     password: minamina
     driver-class-name: com.mysql.cj.jdbc.Driver
