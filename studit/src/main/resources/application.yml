@@ -1,11 +1,9 @@
 server:
-  port: 8081
+  port: 8080
 spring:
   datasource:
-#    url: jdbc:mysql://localhost:3306/studit?serverTimezone=Asia/Seoul
-    url: jdbc:mysql://studit.cp0whbx3cm7f.ap-northeast-2.rds.amazonaws.com:3306/studit?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://erudite-store-353711:asia-northeast3:studit:3306/studit?serverTimezone=Asia/Seoul
     username: root
-#    password: 8244
     password: minamina
     driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:
