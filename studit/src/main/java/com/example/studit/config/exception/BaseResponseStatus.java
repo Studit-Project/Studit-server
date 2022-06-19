@@ -1,4 +1,4 @@
-package com.example.studit.config.swagger;
+package com.example.studit.config.exception;
 
 import lombok.Getter;
 
@@ -26,6 +26,8 @@ public enum BaseResponseStatus {
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
     DOUBLE_CHECK_ID(false, 2011, "유저 아이디가 이미 존재합니다."),
     CHECK_QUIT_USER(false, 2022, "이미 탈퇴한 유저입니다."),
+    INVALID_EMAIL(false, 2012, "이미 존재하는 이메일입니다."),
+    INVALID_NICKNAME(false, 2013, "이미 존재하는 닉네임입니다."),
 
     // [POST] /users
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),

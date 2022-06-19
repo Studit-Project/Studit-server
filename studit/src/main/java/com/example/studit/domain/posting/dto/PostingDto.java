@@ -4,6 +4,7 @@ import com.example.studit.domain.comment.dto.CommentResponseDto;
 import com.example.studit.domain.posting.Posting;
 import com.example.studit.domain.enumType.Category;
 import com.example.studit.domain.User.dto.UserInfoDto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +27,8 @@ public class PostingDto {
     private String title;
 
     private UserInfoDto userInfoDto;
-
-    private LocalDateTime localDateTime = LocalDateTime.now();
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    private LocalDateTime localDateTime;
 
     private String content;
 
@@ -39,7 +40,7 @@ public class PostingDto {
         this.category = posting.getCategory();
         this.title = posting.getTitle();
         this.userInfoDto = posting.getUser().toUserInfoDto();
-        this.localDateTime = posting.getLocalDateTime();
+        this.localDateTime = posting.getUpdatedAt();
         this.content = posting.getContent();
         this.commentList = posting.getComments().stream()
                 .map(CommentResponseDto::new)

@@ -1,6 +1,6 @@
 package com.example.studit.controller;
 
-import com.example.studit.config.swagger.BaseResponse;
+import com.example.studit.config.exception.BaseResponse;
 import com.example.studit.domain.User.dto.ProfileDto;
 import com.example.studit.dto.GetHomeRes;
 import com.example.studit.service.HomeService;

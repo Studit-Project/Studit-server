@@ -4,6 +4,7 @@ import com.example.studit.domain.bulletin.BulletinBoard;
 import com.example.studit.domain.comment.Comment;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.comment.dto.CommentRequestDto;
+import com.example.studit.domain.comment.dto.PatchCommentReq;
 import com.example.studit.domain.notification.NotificationType;
 import com.example.studit.domain.posting.Posting;
 import com.example.studit.repository.BulletinBoardRepository;
@@ -33,6 +34,7 @@ public class CommentService {
 
     private final NotificationService notificationService;
 
+    /** 게시물 댓글 달기 **/
     public long save(Long postingId, CommentRequestDto commentRequestDto){
         //현재 유저 정보
         User user = userService.getUserFromAuth();
@@ -52,6 +54,7 @@ public class CommentService {
         return commentRepository.save(comment).getId();
     }
 
+    /** 스터디 내부 게시판 댓글 달기 **/
     public Long saveBulletinComment(Long bulletinId, CommentRequestDto content) {
         User user = userService.getUserFromAuth();
         Optional<BulletinBoard> bulletinBoard = bulletinBoardRepository.findById(bulletinId);
@@ -63,5 +66,18 @@ public class CommentService {
         notificationService.send(bulletinBoard.get().getUser(), NotificationType.COMMENT, bulletinId + "에 새로운 댓글이 달렸습니다.", "");
 
         return commentRepository.save(comment).getId();
+    }
+
+    /** 댓글 수정 **/
+    public Long updateComment(Long commentId, PatchCommentReq patchCommentReq) {
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        comment.get().updateContent(patchCommentReq.getContent());
+        return comment.get().getId();
+    }
+
+    /** 댓글 삭제 **/
+    public void delete(Long commentId) {
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        commentRepository.delete(comment.get());
     }
 }
