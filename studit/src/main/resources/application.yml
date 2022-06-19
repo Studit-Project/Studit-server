@@ -32,4 +32,9 @@ logging.level:
 jwt:
   secret: YOUR_SECRET_KEY
   access-expired: 1800 #30(분) - 단위 (초)
+ 
+coolsms:
+  api-key: NCS2JE5WTMCHGRX5
+  api-secret: VGET6RLPEAR4L2PE9BEXUIFI2UBK4Y1C
+  from-number: 010-5503-8244
 
