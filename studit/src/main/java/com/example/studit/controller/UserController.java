@@ -4,6 +4,7 @@ import com.example.studit.config.exception.BaseException;
 import com.example.studit.config.exception.BaseResponse;
 import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.domain.invitation.dto.GetAllRes;
+import com.example.studit.dto.AuthenticationRes;
 import com.example.studit.dto.JwtRequestDto;
 import com.example.studit.dto.JwtResponseDto;
 import com.example.studit.domain.User.dto.UserJoinDto;
@@ -48,7 +49,7 @@ public class UserController {
 
     @ApiOperation("번호 인증 문자 전송")
     @GetMapping("/check")
-    protected @ResponseBody String sendSMS(String phone){
+    protected @ResponseBody BaseResponse<AuthenticationRes> sendSMS(String phone){
         Random random = new Random();
         String numStr = "";
 
@@ -59,9 +60,11 @@ public class UserController {
 
         System.out.println("수신자 번호: " + phone);
         System.out.println("인증번호: " + numStr);
-        numberAuthenticationService.sendMessage(phone, numStr);
+//        numberAuthenticationService.sendMessage(phone, numStr);
 
-        return numStr;
+        AuthenticationRes authenticationRes = new AuthenticationRes(numStr);
+
+        return new BaseResponse<AuthenticationRes>(authenticationRes);
     }
 
     @ApiOperation("로그인")
