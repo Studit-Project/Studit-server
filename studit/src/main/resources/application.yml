@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 spring:
   datasource:
     url: jdbc:mysql://34.64.229.43:3306/studit?serverTimezone=Asia/Seoul
@@ -36,3 +36,7 @@ coolsms:
   api-secret: VGET6RLPEAR4L2PE9BEXUIFI2UBK4Y1C
   from-number: 010-5503-8244
 
+coolsms:
+  api-key: NCS2JE5WTMCHGRX5
+  api-secret: VGET6RLPEAR4L2PE9BEXUIFI2UBK4Y1C
+  from-number: 010-5503-8244

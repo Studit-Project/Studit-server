@@ -87,4 +87,10 @@ public class StudyController {
     public BaseResponse<GetDetailRes> getAnnouncement(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "bulletinId") Long bulletinId) {
         return new BaseResponse<GetDetailRes>(bulletinBoardService.getOne(bulletinId));
     }
+
+    @ApiOperation("스터디 나가기")
+    @PatchMapping("/{studyId}/exit")
+    public BaseResponse<String> leaveStudy(@PathVariable(name = "studyId") Long studyId){
+        return new BaseResponse<String>(studyService.leaveStudy(studyId));
+    }
 }
