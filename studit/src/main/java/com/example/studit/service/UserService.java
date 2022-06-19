@@ -88,15 +88,15 @@ public class UserService {
 
     /**유저 세부 정보 추가**/
     public void addDetailInfo(PatchDetailReq patchDetailReq) throws BaseException {
-        User user = getUserFromAuth();
-
+//        User user = getUserFromAuth();
+        Optional<User> user = userRepository.findByPhone(patchDetailReq.getNumber());
         Optional<User> isPresent = userRepository.findByNickname(patchDetailReq.getNickname());
 
         if(!isPresent.isEmpty()){
             throw new BaseException(BaseResponseStatus.INVALID_NICKNAME);
         }
 
-        user.addDetailInfo(patchDetailReq);
+        user.get().addDetailInfo(patchDetailReq);
     }
 
     /**프로필**/
