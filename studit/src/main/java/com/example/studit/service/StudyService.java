@@ -185,4 +185,14 @@ public class StudyService {
         Optional<Study> study = studyRepository.findById(studyId);
         study.get().updateStudyStatus(studyStatus);
     }
+
+    /** 스터디 나가기 **/
+    public String leaveStudy(Long studyId) {
+        User user = userService.getUserFromAuth();
+        Optional<Study> study = studyRepository.findById(studyId);
+
+        ParticipatedStudy participatedStudy = participatedStudyRepository.findByUserAndStudy(user, study.get());
+        participatedStudyRepository.delete(participatedStudy);
+        return "스터디에서 나가기 성공";
+    }
 }
