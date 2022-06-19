@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(callSuper = false, of = "id")
 public class Notification extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
