@@ -7,6 +7,8 @@ import org.apache.commons.lang.RandomStringUtils;
 @Getter @Setter
 @NoArgsConstructor
 public class UserJoinDto {
+
+    private String identity;
     private String userName;
     private String phone;
     private String password;
@@ -14,6 +16,7 @@ public class UserJoinDto {
 
     public User toEntity(){
         return User.builder()
+                .identity(identity)
                 .userName(userName)
                 .phone(phone)
                 .pwd(password)
