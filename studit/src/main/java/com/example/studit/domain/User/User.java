@@ -32,6 +32,10 @@ public class User extends BaseEntity {
     @Column(name = "user_id")
     private Long id;
 
+    //id
+    @Column(nullable = false, unique = true)
+    private String identity;
+
     @Column(nullable = false)
     private String userName;
 
@@ -109,7 +113,8 @@ public class User extends BaseEntity {
     }
 
     @Builder
-    public User(String userName, String phone, String pwd, String email, String nickname){
+    public User(String identity, String userName, String phone, String pwd, String email, String nickname){
+        this.identity = identity;
         this.userName = userName;
         this.phone = phone;
         this.pwd = pwd;

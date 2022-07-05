@@ -6,6 +6,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class JwtRequestDto {
-    private String phone;
+    private String identity;
     private String password;
 }
