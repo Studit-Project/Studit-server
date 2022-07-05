@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 //import com.google.common.net.HttpHeaders;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.MediaType;
+//import okhttp3.MediaType;
 //import okhttp3.OkHttpClient;
 //import okhttp3.Request;
 //import okhttp3.RequestBody;
