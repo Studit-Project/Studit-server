@@ -52,8 +52,14 @@ public class UserService {
     }
 
     private void validateDuplicateMember(UserJoinDto userJoinDto) throws BaseException {
+        List<User> findById = userRepository.findByIdentity(userJoinDto.getIdentity());
         List<User> findUsers = userRepository.findUsersByPhone(userJoinDto.getPhone());
         List<User> findEmails = userRepository.findUsersByEmail(userJoinDto.getEmail());
+
+        if(!findById.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.DOUBLE_CHECK_ID);
+        }
+
         if(!findUsers.isEmpty()) {
             throw new BaseException(BaseResponseStatus.DOUBLE_CHECK_ID);
         }
@@ -66,7 +72,7 @@ public class UserService {
     /**로그인**/
     public JwtResponseDto login(JwtRequestDto request) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getPhone(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(request.getIdentity(), request.getPassword())
         );
         return createJwtToken(authentication);
     }
@@ -80,8 +86,9 @@ public class UserService {
     /**현재 로그인한 유저 정보 반환**/
     public User getUserFromAuth(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByUserName(authentication.getName());
+//        User user = userRepository.findByUserName(authentication.getName());
 //        User user = userRepository.findByEmail(authentication.getName());
+        User user = (User) authentication.getPrincipal();
         return user;
 
     }

@@ -49,7 +49,7 @@ public class UserController {
 
     @ApiOperation("번호 인증 문자 전송")
     @GetMapping("/check")
-    protected @ResponseBody BaseResponse<AuthenticationRes> sendSMS(String phone){
+    protected @ResponseBody BaseResponse<String> sendSMS(@RequestBody String phone){
         Random random = new Random();
         String numStr = "";
 
@@ -64,7 +64,7 @@ public class UserController {
 
         AuthenticationRes authenticationRes = new AuthenticationRes(numStr);
 
-        return new BaseResponse<AuthenticationRes>(authenticationRes);
+        return new BaseResponse<>(numStr);
     }
 
     @ApiOperation("로그인")

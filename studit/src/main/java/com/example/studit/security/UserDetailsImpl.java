@@ -36,7 +36,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getPhone();
+        return user.getIdentity();
     }
 
     //계정이 만료되지 않았는지 리턴(true: 만료 안 됨)
