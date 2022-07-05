@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @ApiOperation("번호 인증 문자 전송")
-    @GetMapping("/check")
+    @PostMapping("/check")
     protected @ResponseBody BaseResponse<String> sendSMS(@RequestBody String phone){
         Random random = new Random();
         String numStr = "";
