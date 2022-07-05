@@ -52,8 +52,14 @@ public class UserService {
     }
 
     private void validateDuplicateMember(UserJoinDto userJoinDto) throws BaseException {
+        List<User> findById = userRepository.findByIdentity(userJoinDto.getIdentity());
         List<User> findUsers = userRepository.findUsersByPhone(userJoinDto.getPhone());
         List<User> findEmails = userRepository.findUsersByEmail(userJoinDto.getEmail());
+
+        if(!findById.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.DOUBLE_CHECK_ID);
+        }
+
         if(!findUsers.isEmpty()) {
             throw new BaseException(BaseResponseStatus.DOUBLE_CHECK_ID);
         }
