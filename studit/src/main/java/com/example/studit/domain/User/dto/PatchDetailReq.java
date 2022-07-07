@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class PatchDetailReq {
-    private String number;
     private String nickname;
     private Gender gender;
     private LocalDate birth;

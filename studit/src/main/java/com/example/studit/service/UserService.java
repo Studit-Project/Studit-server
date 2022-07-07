@@ -94,9 +94,9 @@ public class UserService {
     }
 
     /**유저 세부 정보 추가**/
-    public void addDetailInfo(PatchDetailReq patchDetailReq) throws BaseException {
+    public void addDetailInfo(Long userId, PatchDetailReq patchDetailReq) throws BaseException {
 //        User user = getUserFromAuth();
-        Optional<User> user = userRepository.findByPhone(patchDetailReq.getNumber());
+        Optional<User> user = userRepository.findById(userId);
         Optional<User> isPresent = userRepository.findByNickname(patchDetailReq.getNickname());
 
         if(!isPresent.isEmpty()){
