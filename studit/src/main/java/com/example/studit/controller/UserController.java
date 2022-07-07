@@ -41,9 +41,9 @@ public class UserController {
     }
 
     @ApiOperation("회원 세부 정보 설정")
-    @PatchMapping("join/detail")
-    public BaseResponse<String> configDetail(@RequestBody @Validated PatchDetailReq patchDetailReq) throws BaseException {
-        userService.addDetailInfo(patchDetailReq);
+    @PatchMapping("join/detail/{userId}")
+    public BaseResponse<String> configDetail(@PathVariable(name = "userId") Long userId, @RequestBody @Validated PatchDetailReq patchDetailReq) throws BaseException {
+        userService.addDetailInfo(userId, patchDetailReq);
         return new BaseResponse<String>("");
     }
 
