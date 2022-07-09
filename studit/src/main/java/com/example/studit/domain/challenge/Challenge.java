@@ -1,12 +1,15 @@
 package com.example.studit.domain.challenge;
 
 import com.example.studit.domain.BaseEntity;
+import com.example.studit.domain.Image.Image;
 import com.example.studit.domain.enumType.StudyStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,23 +21,14 @@ public class Challenge extends BaseEntity {
     @Column(name = "challenge_id")
     private Long id;
 
-    //챌린지 목표
-    @Column(nullable = false)
-    private String goal;
-
-    //시작 날짜
-    private LocalDateTime startDate;
-
-    //끝나는 날짜
-    private LocalDateTime endDate;
-
-    //모집 상태
+    //말머리
     @Enumerated(EnumType.STRING)
-    private StudyStatus studyStatus;
+    private Subject subject;
 
-    @OneToOne(mappedBy = "challenge",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private MyChallenge myChallenge;
+    private String contents;
 
-    //참여 횟수
-    private long numberOfTimes;
+    //이미지 리스트
+    @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL)
+    private List<Image> images = new ArrayList<>();
+
 }
