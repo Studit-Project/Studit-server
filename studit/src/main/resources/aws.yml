@@ -1,0 +1,11 @@
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIA5CYL4MPCTM3LKADE
+      secretKey: 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
+    s3:
+      bucket: studit
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
