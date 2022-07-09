@@ -1,10 +1,10 @@
 package com.example.studit.domain.User;
 
 import com.example.studit.domain.BaseEntity;
+import com.example.studit.domain.challenge.Challenge;
 import com.example.studit.domain.comment.Comment;
 import com.example.studit.domain.badge.MyBadge;
 import com.example.studit.domain.User.dto.PatchDetailReq;
-import com.example.studit.domain.challenge.MyChallenge;
 import com.example.studit.domain.enumType.Gender;
 import com.example.studit.domain.enumType.Role;
 import com.example.studit.domain.invitation.Invitation;
@@ -77,9 +77,9 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //탈퇴하면 스터디, 챌린지에서 나가지도록
     private List<ParticipatedStudy> participatedStudies = new ArrayList<>();
 
-    //내가 만든 챌린지
+    //내가 한 챌린지
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<MyChallenge> myChallenges = new ArrayList<>();
+    private List<Challenge> challenges = new ArrayList<>();
 
     //내가 쓴 글
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
