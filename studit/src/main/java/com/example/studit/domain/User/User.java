@@ -24,7 +24,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @Table(name = "user")
 public class User extends BaseEntity {
@@ -135,5 +134,9 @@ public class User extends BaseEntity {
         this.nickname = patchDetailReq.getNickname();
         this.gender = patchDetailReq.getGender();
         this.birth = patchDetailReq.getBirth();
+    }
+
+    public void addFcmToken(String fcmToken){
+        this.fcmToken = fcmToken;
     }
 }
