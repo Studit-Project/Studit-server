@@ -119,7 +119,7 @@ public class FCMService {
     //db user 테이블에 fcm 토큰 정보 업데이트
     public User addFcmToken(Long userId, String fcmToken) {
         User user = userRepository.findById(userId).orElseThrow(NullPointerException::new);
-        user.setFcmToken(fcmToken);
+        user.addFcmToken(fcmToken);
         userRepository.save(user);
 
         return user;
