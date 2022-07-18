@@ -19,6 +19,8 @@ public class StuditApplication {
 				.run(args);
 
 //		SpringApplication.run(StuditApplication.class, args);
+
+
 	}
 
 }

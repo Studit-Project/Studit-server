@@ -51,6 +51,9 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String nickname;
 
+    @Column(nullable = true, unique = true)
+    private String fcmToken;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
@@ -131,5 +134,9 @@ public class User extends BaseEntity {
         this.nickname = patchDetailReq.getNickname();
         this.gender = patchDetailReq.getGender();
         this.birth = patchDetailReq.getBirth();
+    }
+
+    public void addFcmToken(String fcmToken){
+        this.fcmToken = fcmToken;
     }
 }
