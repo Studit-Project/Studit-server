@@ -26,6 +26,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    generate-ddl: true
 
   thymeleaf:
     enabled: false
@@ -36,8 +37,8 @@ logging.level:
   com.amazonaws.util.EC2MetadataUtils: error
 
 jwt:
-  secret: YOUR_SECRET_KEY
-  access-expired: 1800000000000000000 #30(분) - 단위 (초)
+  secret: studit
+  access-expired: 18000 #30(분) - 단위 (초)
  
 coolsms:
   api-key: NCS2JE5WTMCHGRX5
