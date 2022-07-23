@@ -26,7 +26,8 @@ public class UserJoinDto {
                 .build();
     }
     @Builder
-    public UserJoinDto(String userName, String phone, String password, String email){
+    public UserJoinDto(String identity, String userName, String phone, String password, String email){
+        this.identity = identity;
         this.userName = userName;
         this.phone = phone;
         this.password = password;
