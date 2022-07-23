@@ -69,18 +69,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-//        http.cors().disable()
-//                .cors().disable() //cors 방지
-//                .csrf().disable() //csrf 방지
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .formLogin().disable() //기본 로그인 페이지 없애기
-//                .headers().frameOptions().disable()
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers("/admin/**").hasRole("ADMIN") //ADMIN만 접근 허용
-//                .antMatchers("/auth/**").hasRole("USER") //USER만 접근 허용
-//                .antMatchers("/**").permitAll();
 
         http.cors().disable()
                 .cors().disable()

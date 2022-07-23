@@ -52,15 +52,11 @@ public class UserService {
     }
 
     private void validateDuplicateMember(UserJoinDto userJoinDto) throws BaseException {
-        List<User> findById = userRepository.findByIdentity(userJoinDto.getIdentity());
-        List<User> findUsers = userRepository.findUsersByPhone(userJoinDto.getPhone());
+        Optional<User> findById = userRepository.findByIdentity(userJoinDto.getIdentity());
+
         List<User> findEmails = userRepository.findUsersByEmail(userJoinDto.getEmail());
 
         if(!findById.isEmpty()) {
-            throw new BaseException(BaseResponseStatus.DOUBLE_CHECK_ID);
-        }
-
-        if(!findUsers.isEmpty()) {
             throw new BaseException(BaseResponseStatus.DOUBLE_CHECK_ID);
         }
 
@@ -86,10 +82,9 @@ public class UserService {
     /**현재 로그인한 유저 정보 반환**/
     public User getUserFromAuth(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        User user = userRepository.findByUserName(authentication.getName());
-//        User user = userRepository.findByEmail(authentication.getName());
-        User user = (User) authentication.getPrincipal();
-        return user;
+        String name = authentication.getName();
+        Optional<User> user = userRepository.findByIdentity(name);
+        return user.get();
 
     }
 
