@@ -1,10 +1,11 @@
 package com.example.studit.service;
 
 import com.example.studit.domain.User.User;
+import com.example.studit.domain.challenge.Challenge;
 import com.example.studit.domain.notification.NotificationType;
 import com.example.studit.domain.posting.Posting;
 import com.example.studit.dto.FCMRequestDto;
-import com.example.studit.repository.BulletinBoardRepository;
+import com.example.studit.repository.ChallengeRepository;
 import com.example.studit.repository.PostingRepository;
 import com.example.studit.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -38,32 +39,45 @@ public class FCMService {
     private final ObjectMapper objectMapper; //jackson을 사용해 dto 객체를 String으로 변환
     private final UserRepository userRepository;
     private final PostingRepository postingRepository;
+
+    private final ChallengeRepository challengeRepository;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public void sendMessageTo(Long postingId, NotificationType notificationType) throws IOException {
-        
-        final String API_URL = "https://fcm.googleapis.com/v1/projects/"+ fireBaseId +"/messages:send";
-        //String notifyTitle = "[" + notificationType.toString()  + "]" + title;
+    public void sendMessageTo(Long contentId, NotificationType notificationType) throws IOException {
 
-        Posting posting = postingRepository.findById(postingId)
-                .orElseThrow(NoSuchElementException::new);
+        String info;
+        String contentTitle = null;
+        User user = new User();
 
-        User user = posting.getUser();
+        switch (notificationType){
+            case COMMENT: case LIKES:
+                Posting posting = postingRepository.findById(contentId)
+                        .orElseThrow(NoSuchElementException::new);
+                user = posting.getUser();
+                contentTitle = posting.getTitle();
+                break;
+            case ACCEPT: case REFUSE: case EXPEL: case INVITE:
+                Challenge challenge = challengeRepository.findById(contentId)
+                        .orElseThrow(NoSuchElementException::new);
+                user = challenge.getUser();
+                contentTitle = challenge.getContents().substring(0,15) + "...";
+                break;
+        }
 
-        String title = user.getNickname()+"님, 게시물에 댓글이 달렸어요.";
-        /*String body = posting.getTitle();
-        String targetToken = user.getFcmToken();*/
+        info = user.getNickname() + "님, " + notificationType.getMessage();
 
-        String message = makeMessage(user.getFcmToken(), title, posting.getTitle());
-        logger.error("sendmessageto :"+message);
+        String message = makeMessage(user.getFcmToken(), info, contentTitle);
+        setBuild(message);
+    }
 
+    public void setBuild(String message) throws IOException {
         //okhttp 객체 생성
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message,
                 MediaType.get("application/json; charset=utf-8"));
 
         Request request = new Request.Builder()
-                .url(API_URL)
+                .url("https://fcm.googleapis.com/v1/projects/"+ fireBaseId +"/messages:send")
                 .post(requestBody)
                 .addHeader(HttpHeaders.AUTHORIZATION, "Bearer "+getAccessToken())
                 .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8")
@@ -103,12 +117,9 @@ public class FCMService {
 
         googleCredentials.refreshIfExpired();
 
-        //logger.error("getAccessToken :"+googleCredentials);
-
         /*
         서버 키 확인
         String token = googleCredentials.getAccessToken().getTokenValue();
-        final Logger logger = LoggerFactory.getLogger(getClass());
         logger.error(token);
         return token;*/
 
