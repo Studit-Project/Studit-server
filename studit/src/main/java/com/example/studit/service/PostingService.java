@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,6 +38,9 @@ public class PostingService {
     private final LikesRepository likesRepository;
 
     private final NotificationService notificationService;
+
+    @Autowired
+    private final FCMService fcmService;
 
     /** 스터디 모집 글 작성 **/
     public Long save(PostCreateReq postCreateReq) {
@@ -98,7 +102,7 @@ public class PostingService {
     }
 
     /** 좋아요 누르기 **/
-    public void likePosting(Long postingId) {
+    public void likePosting(Long postingId) throws IOException {
         User user = userService.getUserFromAuth();
         Optional<Posting> posting = postingRepository.findById(postingId);
 
@@ -107,8 +111,10 @@ public class PostingService {
 
         user.addLikes(likes);
         posting.get().addLiked(likes);
+        
+        fcmService.sendMessageTo(postingId, NotificationType.LIKES);
 
-        notificationService.send(posting.get().getUser(), NotificationType.LIKES, user.getNickname() + "님이 좋아요를 누르셨습니다.", "");
+        //notificationService.send(posting.get().getUser(), NotificationType.LIKES, user.getNickname() + "님이 좋아요를 누르셨습니다.", "");
     }
 
     /** 글 수정 **/
