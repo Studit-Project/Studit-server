@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequestMapping("/posting")
@@ -49,7 +50,7 @@ public class PostingController {
 
     @ApiOperation("좋아요 누르기")
     @PostMapping("/{postingId}")
-    public BaseResponse<String> likesPosting(@PathVariable(name = "postingId") Long postingId){
+    public BaseResponse<String> likesPosting(@PathVariable(name = "postingId") Long postingId) throws IOException {
         postingService.likePosting(postingId);
         return new BaseResponse<String>("");
     }
