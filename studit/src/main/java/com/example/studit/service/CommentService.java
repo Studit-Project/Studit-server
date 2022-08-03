@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -34,8 +35,11 @@ public class CommentService {
 
     private final NotificationService notificationService;
 
+    @Autowired
+    private final FCMService fcmService;
+
     /** 게시물 댓글 달기 **/
-    public long save(Long postingId, CommentRequestDto commentRequestDto){
+    public long save(Long postingId, CommentRequestDto commentRequestDto) throws IOException {
         //현재 유저 정보
         User user = userService.getUserFromAuth();
 
@@ -49,13 +53,14 @@ public class CommentService {
 
         comment.addComment();
 
-        notificationService.send(posting.get().getUser(), NotificationType.COMMENT, postingId + "에 새로운 댓글이 달렸습니다.", "");
+        fcmService.sendMessageTo(postingId, NotificationType.COMMENT);
+        //notificationService.send(posting.get().getUser(), NotificationType.COMMENT, postingId + "에 새로운 댓글이 달렸습니다.", "");
 
         return commentRepository.save(comment).getId();
     }
 
     /** 스터디 내부 게시판 댓글 달기 **/
-    public Long saveBulletinComment(Long bulletinId, CommentRequestDto content) {
+    public Long saveBulletinComment(Long bulletinId, CommentRequestDto content) throws IOException {
         User user = userService.getUserFromAuth();
         Optional<BulletinBoard> bulletinBoard = bulletinBoardRepository.findById(bulletinId);
 
@@ -63,7 +68,8 @@ public class CommentService {
 
         comment.addToBulletinBoard();
 
-        notificationService.send(bulletinBoard.get().getUser(), NotificationType.COMMENT, bulletinId + "에 새로운 댓글이 달렸습니다.", "");
+        fcmService.sendMessageTo(bulletinId, NotificationType.COMMENT);
+        //notificationService.send(bulletinBoard.get().getUser(), NotificationType.COMMENT, bulletinId + "에 새로운 댓글이 달렸습니다.", "");
 
         return commentRepository.save(comment).getId();
     }
