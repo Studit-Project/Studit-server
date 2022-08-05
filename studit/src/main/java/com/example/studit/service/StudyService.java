@@ -51,15 +51,20 @@ public class StudyService {
         //현재 로그인한 유저 정보
         User user = userService.getUserFromAuth();
 
-        MyStudy myStudy = new MyStudy();
-        myStudy.addUser(user);
+      //  MyStudy myStudy = new MyStudy();
+       // myStudy.addUser(user);
 
         Study study = new Study(studyCreateReq);
 
         studyRepository.save(study);
-        myStudyRepository.save(myStudy);
+       // myStudyRepository.save(myStudy);
 
-        study.addLeader(myStudy);
+        //study.addLeader(myStudy);
+        study.addLeader(user);
+
+        //유저 레벨업
+        user.levelUp();
+        userRepository.save(user);
 
         return study.getId();
     }
@@ -170,10 +175,10 @@ public class StudyService {
             participatedStudy.addUser(user);
             study.get().addOne(participatedStudy);
 
-            notificationService.send(study.get().getLeader().getUser(), NotificationType.ACCEPT, user.getNickname() + "님이 초대를 수락하셨습니다.", "");
+            notificationService.send(study.get().getLeader(), NotificationType.ACCEPT, user.getNickname() + "님이 초대를 수락하셨습니다.", "");
 
         } else {
-            notificationService.send(study.get().getLeader().getUser(), NotificationType.REFUSE, user.getNickname() + "님이 초대를 거절하셨습니다.", "");
+            notificationService.send(study.get().getLeader(), NotificationType.REFUSE, user.getNickname() + "님이 초대를 거절하셨습니다.", "");
         }
 
         invitationRepository.delete(invitation.get());
