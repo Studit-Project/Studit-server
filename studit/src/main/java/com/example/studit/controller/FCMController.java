@@ -24,9 +24,9 @@ public class FCMController {
     }
 
     @ApiOperation("fcm 토큰 전송")
-    @PatchMapping("/{userId}")
-    public BaseResponse<Long> addFcmToken(@PathVariable(name = "userId") Long userId ,@RequestParam("fcmToken") String fcmToken){
-        User user = fcmService.addFcmToken(userId, fcmToken);
+    @PatchMapping
+    public BaseResponse<Long> addFcmToken(@RequestParam("fcmToken") String fcmToken){
+        User user = fcmService.addFcmToken(fcmToken);
         return new BaseResponse<Long>(user.getId());
     }
 

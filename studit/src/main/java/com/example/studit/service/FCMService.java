@@ -40,6 +40,8 @@ public class FCMService {
     private final UserRepository userRepository;
     private final PostingRepository postingRepository;
 
+    private final UserService userService;
+
     private final ChallengeRepository challengeRepository;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -128,8 +130,8 @@ public class FCMService {
     }
 
     //db user 테이블에 fcm 토큰 정보 업데이트
-    public User addFcmToken(Long userId, String fcmToken) {
-        User user = userRepository.findById(userId).orElseThrow(NullPointerException::new);
+    public User addFcmToken(String fcmToken) {
+        User user = userService.getUserFromAuth();
         user.addFcmToken(fcmToken);
         userRepository.save(user);
 
