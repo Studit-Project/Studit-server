@@ -1,29 +1,24 @@
 package com.example.studit.controller;
 
-import com.example.studit.security.JwtTokenProvider;
-import com.example.studit.service.auth.AuthService;
-import com.example.studit.service.auth.KakaoAuthService;
-import com.example.studit.service.auth.NaverAuthService;
+import com.example.studit.config.auth.dto.OAuthResponse;
+import com.example.studit.config.exception.BaseResponse;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
+@Component
 public class AuthController {
-//    private final KakaoAuthService kakaoAuthService;
-//    private final NaverAuthService naverAuthservice;
-//    private final JwtTokenProvider jwtTokenProvider;
-//    private final AuthService authService;
 
-    /**
-     * KAKAO 소셜 로그인 기능
-     **/
-//    @ApiOperation(value = "카카오 로그인", notes = "카카오 액세스 토큰을 이용해 사용자 정보 받아 저장하고 앱의 토큰 신환")
-//    @PostMapping(value = "/kakao")
-//    public BaseResponse<AuthResponse> kakaoAuthRequest(@RequestBody AuthRequest authRequest) {
-//
-//    }
+    @ApiOperation(value = "로그인 완료후 리다이렉트")
+    @GetMapping("/auth")
+    @ResponseBody
+    public BaseResponse<OAuthResponse> jwtResponse(@RequestParam String jwt, @RequestParam Long id) {
+        System.out.println("jwt: " + jwt + "!!!!!!!!!!!!!!");
+        return new BaseResponse<>(new OAuthResponse(id,jwt));
+    }
 
 }
