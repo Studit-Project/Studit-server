@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 public class CommentController {
@@ -18,13 +20,13 @@ public class CommentController {
 
     @ApiOperation("포스팅 댓글 달기")
     @PostMapping("/posting/{postingId}/new-comment")
-    public BaseResponse<Long> createComment(@PathVariable("postingId") Long postingId, @RequestBody CommentRequestDto commentRequestDto){
+    public BaseResponse<Long> createComment(@PathVariable("postingId") Long postingId, @RequestBody CommentRequestDto commentRequestDto) throws IOException {
         return new BaseResponse<Long>(commentService.save(postingId, commentRequestDto));
     }
 
     @ApiOperation("내부 게시판 댓글 달기")
     @PostMapping("/study/{studyId}/bulletin/{bulletinId}")
-    public BaseResponse<Long> createBulletinComment(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "bulletinId") Long bulletinId, @RequestBody CommentRequestDto content){
+    public BaseResponse<Long> createBulletinComment(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "bulletinId") Long bulletinId, @RequestBody CommentRequestDto content) throws IOException {
         return new BaseResponse<Long>(commentService.saveBulletinComment(bulletinId, content));
     }
 

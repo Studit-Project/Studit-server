@@ -2,6 +2,7 @@ package com.example.studit.domain.study;
 
 import com.example.studit.domain.BaseEntity;
 import com.example.studit.domain.Status;
+import com.example.studit.domain.User.User;
 import com.example.studit.domain.bulletin.BulletinBoard;
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.enumType.Target;
@@ -53,9 +54,13 @@ public class Study {
     @Enumerated(EnumType.STRING)
     private Activity activity;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User leader;
+
     //회장
-    @OneToOne(mappedBy = "study", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private MyStudy leader;
+    /*@OneToOne(mappedBy = "study", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private MyStudy leader;*/
 
     //스터디원
     @OneToMany(mappedBy = "study", cascade = CascadeType.ALL)
@@ -106,9 +111,8 @@ public class Study {
 
     //연관관계 메서드
     //리더 지정
-    public void addLeader(MyStudy leader){
+    public void addLeader(User leader){
         this.leader = leader;
-        leader.addStudy(this);
     }
 
     //스터디원 추가

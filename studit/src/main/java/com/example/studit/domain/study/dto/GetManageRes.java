@@ -36,7 +36,7 @@ public class GetManageRes {
         this.number = study.getNumber();
         this.currentNum = study.getParticipatedMembers().size() + 1;
         this.activity = study.getActivity();
-        this.leader = study.getLeader().getUser().toUserInfoDto();
+        this.leader = study.getLeader().toUserInfoDto();
         this.participatedMembers = study.getParticipatedMembers()
                 .stream().map(UserInfoDto::new)
                 .collect(Collectors.toList());
@@ -60,7 +60,7 @@ public class GetManageRes {
         this.number = participatedStudy.getStudy().getParticipatedMembers().size() + 1;
         this.currentNum = participatedStudy.getStudy().getParticipatedMembers().size() + 1;
         this.activity = participatedStudy.getStudy().getActivity();
-        this.leader = participatedStudy.getStudy().getLeader().getUser().toUserInfoDto();
+        this.leader = participatedStudy.getStudy().getLeader().toUserInfoDto();
         this.participatedMembers = participatedStudy.getStudy().getParticipatedMembers()
                 .stream().map(UserInfoDto::new)
                 .collect(Collectors.toList());
