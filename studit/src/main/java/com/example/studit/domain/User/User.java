@@ -72,6 +72,7 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyBadge> badges = new ArrayList<>();
 
+
     //내가 스터디 방장
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyStudy> myStudies = new ArrayList<>();
@@ -80,9 +81,11 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //탈퇴하면 스터디, 챌린지에서 나가지도록
     private List<ParticipatedStudy> participatedStudies = new ArrayList<>();
 
+
     //내가 한 챌린지
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Challenge> challenges = new ArrayList<>();
+
 
     //내가 쓴 글
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

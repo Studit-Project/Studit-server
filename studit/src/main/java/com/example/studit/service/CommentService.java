@@ -5,6 +5,7 @@ import com.example.studit.domain.comment.Comment;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.comment.dto.CommentRequestDto;
 import com.example.studit.domain.comment.dto.PatchCommentReq;
+import com.example.studit.domain.enumType.Category;
 import com.example.studit.domain.notification.NotificationType;
 import com.example.studit.domain.posting.Posting;
 import com.example.studit.repository.BulletinBoardRepository;
@@ -53,7 +54,7 @@ public class CommentService {
 
         comment.addComment();
 
-        fcmService.sendMessageTo(postingId, NotificationType.COMMENT);
+        fcmService.sendMessageToWriter(postingId, NotificationType.COMMENT, Category.POSTING);
         //notificationService.send(posting.get().getUser(), NotificationType.COMMENT, postingId + "에 새로운 댓글이 달렸습니다.", "");
 
         return commentRepository.save(comment).getId();
@@ -68,7 +69,7 @@ public class CommentService {
 
         comment.addToBulletinBoard();
 
-        fcmService.sendMessageTo(bulletinId, NotificationType.COMMENT);
+        fcmService.sendMessageToWriter(bulletinId, NotificationType.COMMENT, Category.BULLETIN);
         //notificationService.send(bulletinBoard.get().getUser(), NotificationType.COMMENT, bulletinId + "에 새로운 댓글이 달렸습니다.", "");
 
         return commentRepository.save(comment).getId();

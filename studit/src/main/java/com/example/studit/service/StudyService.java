@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,26 +46,29 @@ public class StudyService {
 
     private final NotificationService notificationService;
 
+    private final FCMService fcmService;
+
     /**스터디룸 개설**/
     public Long save(PostCreateReq studyCreateReq){
 
         //현재 로그인한 유저 정보
         User user = userService.getUserFromAuth();
 
-      //  MyStudy myStudy = new MyStudy();
-       // myStudy.addUser(user);
+        MyStudy myStudy = new MyStudy();
+        myStudy.addUser(user);
 
         Study study = new Study(studyCreateReq);
 
         studyRepository.save(study);
-       // myStudyRepository.save(myStudy);
+       myStudyRepository.save(myStudy);
 
         //study.addLeader(myStudy);
         study.addLeader(user);
 
-        //유저 레벨업
-        user.levelUp();
-        userRepository.save(user);
+        //유저 레벨업 체크
+        if(user.levelUp()!=null){
+            userRepository.save(user);
+        }
 
         return study.getId();
     }
@@ -77,7 +81,7 @@ public class StudyService {
         List<MyStudy> myStudies = user.getMyStudies(); //내가 리더인 스터디 리스트
         List<ParticipatedStudy> participatedStudies = user.getParticipatedStudies(); //내가 참여한 스터디 리스트
 
-        List<GetManageRes> getManageRes = myStudies.stream()
+       List<GetManageRes> getManageRes = myStudies.stream()
                 .map(GetManageRes::new)
                 .collect(Collectors.toList());
 
@@ -91,7 +95,7 @@ public class StudyService {
     }
 
     /**스터디원 초대**/
-    public Long inviteFollower(Long studyId, PatchAddReq nickname) {
+    public Long inviteFollower(Long studyId, PatchAddReq nickname) throws IOException {
         Optional<User> user = userRepository.findByNickname(nickname.getNickname());
         Optional<Study> study = studyRepository.findById(studyId);
 
@@ -105,7 +109,9 @@ public class StudyService {
             user.get().addInvitation(invitation);
             study.get().addInvitation(invitation);
 
-            notificationService.send(user.get(), NotificationType.INVITE, "새로운 초대 요청이 도착했습니다.", "");
+            //notificationService.send(user.get(), NotificationType.INVITE, "새로운 초대 요청이 도착했습니다.", "");
+
+            fcmService.sendMessageToUser(studyId, user.get().getId(), NotificationType.INVITE, Category.STUDY);
 
             return invitation.getId();
         } else{
@@ -161,7 +167,8 @@ public class StudyService {
     /**스터디 삭제**/
     public void delete(Long studyId) {
         Optional<Study> study = studyRepository.findById(studyId);
-        studyRepository.delete(study.get());
+        study.get().deleteStudy();
+        studyRepository.save(study.get());
     }
 
     /**초대 승낙 여부**/
@@ -175,10 +182,10 @@ public class StudyService {
             participatedStudy.addUser(user);
             study.get().addOne(participatedStudy);
 
-            notificationService.send(study.get().getLeader(), NotificationType.ACCEPT, user.getNickname() + "님이 초대를 수락하셨습니다.", "");
+            notificationService.send(study.get().getLeader().getUser(), NotificationType.ACCEPT, user.getNickname() + "님이 초대를 수락하셨습니다.", "");
 
         } else {
-            notificationService.send(study.get().getLeader(), NotificationType.REFUSE, user.getNickname() + "님이 초대를 거절하셨습니다.", "");
+            notificationService.send(study.get().getLeader().getUser(), NotificationType.REFUSE, user.getNickname() + "님이 초대를 거절하셨습니다.", "");
         }
 
         invitationRepository.delete(invitation.get());

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -49,7 +50,7 @@ public class StudyController {
     //스터디원 초대
     @ApiOperation("스터디원 초대")
     @PostMapping("/{studyId}/recruitment")
-    public BaseResponse<Long> inviteFollower(@PathVariable(name = "studyId") Long studyId, @RequestBody PatchAddReq nickname){
+    public BaseResponse<Long> inviteFollower(@PathVariable(name = "studyId") Long studyId, @RequestBody PatchAddReq nickname) throws IOException {
         return new BaseResponse<Long>(studyService.inviteFollower(studyId, nickname));
     }
 
