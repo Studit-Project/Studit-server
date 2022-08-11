@@ -23,6 +23,6 @@ public enum Level {
                 return LV1.nextLevel;
             }
 
-            return LV1;
+            return null;
     }
 }
