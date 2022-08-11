@@ -23,7 +23,7 @@ public class GetInteriorRes {
         this.id = study.getId();
         this.name = study.getName();
         this.introduction = study.getIntroduction();
-        this.leader = study.getLeader().toUserInfoDto();
+        this.leader = study.getLeader().getUser().toUserInfoDto();
         this.followers = study.getParticipatedMembers().stream()
                 .map(UserInfoDto::new)
                 .collect(Collectors.toList());
