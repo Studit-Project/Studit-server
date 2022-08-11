@@ -1,13 +1,14 @@
 package com.example.studit.service;
 
 import com.example.studit.domain.User.User;
+import com.example.studit.domain.bulletin.BulletinBoard;
 import com.example.studit.domain.challenge.Challenge;
+import com.example.studit.domain.enumType.Category;
 import com.example.studit.domain.notification.NotificationType;
 import com.example.studit.domain.posting.Posting;
+import com.example.studit.domain.study.Study;
 import com.example.studit.dto.FCMRequestDto;
-import com.example.studit.repository.ChallengeRepository;
-import com.example.studit.repository.PostingRepository;
-import com.example.studit.repository.UserRepository;
+import com.example.studit.repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -17,6 +18,7 @@ import okhttp3.*;
 import org.apache.http.HttpHeaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -37,32 +39,76 @@ public class FCMService {
     String fcmKeyPath;
 
     private final ObjectMapper objectMapper; //jackson을 사용해 dto 객체를 String으로 변환
+
+    @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
     private final PostingRepository postingRepository;
+
+    @Autowired
+    private final BulletinBoardRepository bulletinBoardRepository;
 
     private final UserService userService;
 
+    @Autowired
+    private final StudyRepository studyRepository;
+
+    @Autowired
     private final ChallengeRepository challengeRepository;
+    
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public void sendMessageTo(Long contentId, NotificationType notificationType) throws IOException {
+
+
+    public void sendMessageToWriter(Long contentId, NotificationType notificationType, Category category) throws IOException {
+
 
         String info;
         String contentTitle = null;
         User user = new User();
 
-        switch (notificationType){
-            case COMMENT: case LIKES:
+        switch (category){
+            case POSTING:
                 Posting posting = postingRepository.findById(contentId)
                         .orElseThrow(NoSuchElementException::new);
                 user = posting.getUser();
                 contentTitle = posting.getTitle();
                 break;
-            case ACCEPT: case REFUSE: case EXPEL: case INVITE:
+            case BULLETIN:
+                BulletinBoard bulletinBoard = bulletinBoardRepository.findById(contentId)
+                        .orElseThrow(NoSuchElementException::new);
+                user = bulletinBoard.getUser();
+                contentTitle = bulletinBoard.getTitle();
+
+        }
+
+        info = user.getNickname() + "님, " + notificationType.getMessage();
+
+        String message = makeMessage(user.getFcmToken(), info, contentTitle);
+        setBuild(message);
+    }
+
+
+    public void sendMessageToUser(Long contentId, Long userId,
+                                  NotificationType notificationType, Category category) throws IOException{
+        String info;
+        String contentTitle = null;
+        User user = userRepository.findById(userId)
+                .orElseThrow(NoSuchElementException::new);
+
+        switch (category){
+            case STUDY:
+                Study study = studyRepository.findById(contentId)
+                        .orElseThrow(NoSuchElementException::new);
+                contentTitle = study.getAnnouncement().substring(0,15) + "...";
+                break;
+            case CHALLENGE:
                 Challenge challenge = challengeRepository.findById(contentId)
                         .orElseThrow(NoSuchElementException::new);
-                user = challenge.getUser();
-                contentTitle = challenge.getContents().substring(0,15) + "...";
+                contentTitle = challenge.getContent().substring(0,15) + "...";
+                break;
+            default:
                 break;
         }
 
@@ -70,6 +116,7 @@ public class FCMService {
 
         String message = makeMessage(user.getFcmToken(), info, contentTitle);
         setBuild(message);
+
     }
 
     public void setBuild(String message) throws IOException {

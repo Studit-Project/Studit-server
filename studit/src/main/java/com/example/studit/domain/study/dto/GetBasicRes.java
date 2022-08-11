@@ -33,7 +33,7 @@ public class GetBasicRes {
         this.name = study.getName();
         this.number = study.getNumber();
         this.currentNum = study.getParticipatedMembers().size() + 1;
-        this.leader = study.getLeader().toUserInfoDto();
+        this.leader = study.getLeader().getUser().toUserInfoDto();
         this.activity = study.getActivity();
     }
 }
