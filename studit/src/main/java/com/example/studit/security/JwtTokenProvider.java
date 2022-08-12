@@ -52,7 +52,11 @@ public class JwtTokenProvider {
             claims.put("role", "user");
         }
 
+        /** username == user.getIdentity **/
         val myName = userDetails.getUsername();
+
+        System.out.println("userName from userDetails " + userDetails.getUsername() + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
         claims.put("myName", myName);
 
         return doGenerateToken(claims, userDetails.getUsername());
@@ -93,5 +97,22 @@ public class JwtTokenProvider {
         } catch (Exception e){
             return false;
         }
+    }
+
+    public String createSocialJwt(String username) {
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", "user");
+        val myName = username;
+        claims.put("myName", myName);
+
+        return Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .setClaims(claims)
+                .setSubject(username)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + tokenValidTime * 1000))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
     }
 }
