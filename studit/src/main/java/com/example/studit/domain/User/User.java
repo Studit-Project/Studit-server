@@ -59,6 +59,9 @@ public class User extends BaseEntity {
 
     private LocalDate birth;
 
+    //연령대
+    private String ageRange;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -119,12 +122,13 @@ public class User extends BaseEntity {
     }
 
     @Builder
-    public User(String identity, String userName, String phone, String pwd, String email, String nickname){
+    public User(String identity, String userName, String phone, String pwd, String email, String nickname, String ageRange){
         this.identity = identity;
         this.userName = userName;
         this.phone = phone;
         this.pwd = pwd;
         this.email = email;
+        this.ageRange = ageRange;
         this.role = Role.USER;
         this.nickname = nickname;
     }
@@ -137,6 +141,15 @@ public class User extends BaseEntity {
         this.nickname = patchDetailReq.getNickname();
         this.gender = patchDetailReq.getGender();
         this.birth = patchDetailReq.getBirth();
+    }
+
+
+    public void createSocialId(String id){
+        this.identity = id;
+    }
+
+    public void createSocialPw(String pw) {
+        this.pwd = pw;
     }
 
     public void addFcmToken(String fcmToken){

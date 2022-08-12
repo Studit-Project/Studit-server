@@ -1,8 +1,9 @@
 package com.example.studit.config;
 
+import com.example.studit.config.auth.handler.OAuth2SuccessHandler;
+import com.example.studit.config.auth.service.CustomOAuth2UserService;
 import com.example.studit.security.JwtAuthenticationFilter;
 import com.example.studit.security.JwtTokenProvider;
-import com.example.studit.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2SuccessHandler successHandler;
 
     //비밀번호 암호화를 위한 Bean
     @Bean
@@ -73,18 +76,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().disable()
                 .cors().disable()
                 .csrf().disable().authorizeRequests()
-                //login 없이 접근 허용 하는 url
+                /** login 없이 접근 허용 하는 url **/
+                .antMatchers("/**").permitAll()
                 .antMatchers("/user/**").permitAll()
-                //admin의 경우 ADMIN 권한이 있는 사용자만 접근 가능
+                .antMatchers("/auth/**").permitAll()
+                /** admin의 경우 ADMIN 권한이 있는 사용자만 접근 가능 **/
                 .antMatchers("/admin").hasRole("ADMIN")
-                //그 외 모든 요청은 인증과정 필요
+                /** 그 외 모든 요청은 인증과정 필요 **/
                 .anyRequest().authenticated()
                 .and()
-                //토큰 기반 인증이라 session 사용 x
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                /** 로그인 페이지 생성 **/
+                    .oauth2Login()
+                        .successHandler(successHandler)
+                    /** 네이버 USER INFO의 응답을 처리하기 위한 설정 **/
+                    .userInfoEndpoint()
+                        .userService(customOAuth2UserService)
+                    .and()
                 .and()
-                //JwtAuthenticationFilter는 UsernamePasswordAuthenticationFilter 전에 넣음
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                /** 토큰 기반 인증이라 session 사용 x **/
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                /** JwtAuthenticationFilter는 UsernamePasswordAuthenticationFilter 전에 넣음**/
+                    .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 }
