@@ -57,7 +57,7 @@ public class Challenge extends BaseEntity {
         this.images.add(image);
 
         if(image.getChallenge() != this){
-            image.setChallenge(this);
+            image.saveChallenge(this);
         }
     }
 
