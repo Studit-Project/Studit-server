@@ -37,10 +37,6 @@ public class Challenge extends BaseEntity {
     @Column(nullable = false)
     private String title;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private StudyStatus challengeStatus;
-
     //이미지 리스트
     @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
@@ -50,14 +46,13 @@ public class Challenge extends BaseEntity {
         this.content = content;
         this.title = title;
         this.user = user;
-        this.challengeStatus = StudyStatus.RECRUITING;
     }
 
     public void saveImg(Image image){
         this.images.add(image);
 
         if(image.getChallenge() != this){
-            image.setChallenge(this);
+            image.saveChallenge(this);
         }
     }
 
@@ -71,8 +66,5 @@ public class Challenge extends BaseEntity {
         this.title = title;
     }
 
-    public void changeChallengeStatus(StudyStatus status){
-        this.challengeStatus = status;
-    }
 
 }
