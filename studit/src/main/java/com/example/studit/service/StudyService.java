@@ -1,13 +1,10 @@
 package com.example.studit.service;
 
-import com.example.studit.domain.Status;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.enumType.Category;
-import com.example.studit.domain.enumType.Level;
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.invitation.Invitation;
 import com.example.studit.domain.notification.NotificationType;
-import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
 import com.example.studit.domain.study.Study;
 import com.example.studit.domain.study.dto.GetInteriorRes;
@@ -16,8 +13,6 @@ import com.example.studit.domain.study.dto.PostCreateReq;
 import com.example.studit.domain.study.dto.GetManageRes;
 import com.example.studit.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,9 +33,6 @@ public class StudyService {
     private final StudyRepository studyRepository;
 
     @Autowired
-    private final MyStudyRepository myStudyRepository;
-
-    @Autowired
     private final ParticipatedStudyRepository participatedStudyRepository;
 
     @Autowired
@@ -59,13 +51,13 @@ public class StudyService {
         //현재 로그인한 유저 정보
         User user = userService.getUserFromAuth();
 
-        MyStudy myStudy = new MyStudy();
-        myStudy.addUser(user);
+        //MyStudy myStudy = new MyStudy();
+        //myStudy.addUser(user);
 
         Study study = new Study(studyCreateReq);
 
         studyRepository.save(study);
-       myStudyRepository.save(myStudy);
+       //myStudyRepository.save(myStudy);
 
         //study.addLeader(myStudy);
         study.addLeader(user);
@@ -83,18 +75,14 @@ public class StudyService {
         User user = userService.getUserFromAuth();
 
         List<Study> studies = new ArrayList<>();
-        List<MyStudy> myStudies = user.getMyStudies(); //내가 리더인 스터디 리스트
+
         List<ParticipatedStudy> participatedStudies = user.getParticipatedStudies(); //내가 참여한 스터디 리스트
 
-       List<GetManageRes> getManageRes = myStudies.stream()
-                .map(GetManageRes::new)
-                .collect(Collectors.toList());
 
-        List<GetManageRes> participated = participatedStudies.stream()
+        List<GetManageRes> getManageRes = participatedStudies.stream()
                         .map(GetManageRes::new)
                         .collect(Collectors.toList());
 
-        getManageRes.addAll(participated);
 
         return getManageRes;
     }
@@ -177,7 +165,7 @@ public class StudyService {
     }
 
     /**초대 승낙 여부**/
-    public void accept(Long invitationId, boolean acceptance) {
+    public void accept(Long invitationId, boolean acceptance) throws IOException {
         User user = userService.getUserFromAuth();
         Optional<Invitation> invitation = invitationRepository.findById(invitationId);
         Optional<Study> study = studyRepository.findById(invitation.get().getStudy().getId());
@@ -187,10 +175,13 @@ public class StudyService {
             participatedStudy.addUser(user);
             study.get().addOne(participatedStudy);
 
-            notificationService.send(study.get().getLeader().getUser(), NotificationType.ACCEPT, user.getNickname() + "님이 초대를 수락하셨습니다.", "");
+            fcmService.sendMessageToUser(study.get().getId(), study.get().getLeader().getId(), NotificationType.ACCEPT, Category.STUDY);
+
+            //notificationService.send(study.get().getLeader(), NotificationType.ACCEPT, user.getNickname() + "님이 초대를 수락하셨습니다.", "");
 
         } else {
-            notificationService.send(study.get().getLeader().getUser(), NotificationType.REFUSE, user.getNickname() + "님이 초대를 거절하셨습니다.", "");
+            fcmService.sendMessageToUser(study.get().getId(), study.get().getLeader().getId(), NotificationType.REFUSE, Category.STUDY);
+            //notificationService.send(study.get().getLeader(), NotificationType.REFUSE, user.getNickname() + "님이 초대를 거절하셨습니다.", "");
         }
 
         invitationRepository.delete(invitation.get());
