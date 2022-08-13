@@ -18,6 +18,8 @@ public class ProfileDto {
 
     private String nickname;
     private String statusMessage;
+
+    private String level;
     //뱃지 리스트
     private List<GetProfileRes> badges;
     //글 리스트
@@ -26,6 +28,7 @@ public class ProfileDto {
     public ProfileDto(User user){
         this.id = user.getId();
         this.identity = user.getIdentity();
+        this.level = user.getLevel().toString();
         this.statusMessage = user.getStatusMessage();
         this.nickname = user.getNickname();
         this.badges = user.getBadges().stream()
