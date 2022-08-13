@@ -10,15 +10,13 @@ import com.example.studit.domain.enumType.Category;
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -62,7 +60,7 @@ public class ChallengeService {
             for(MultipartFile img : request.getImage()){
                     String url = fileProcessService.uploadFile(img,Category.CHALLENGE);
                     Image tmp = new Image(url);
-                    tmp.setChallenge(challenge);
+                    tmp.saveChallenge(challenge);
                     list.add(tmp);
             }
         }
@@ -70,10 +68,10 @@ public class ChallengeService {
         imageRepository.saveAll(list);
         list.stream().forEach(image -> {challenge.saveImg(image);});
 
-       ChallengeParticipant participant = new ChallengeParticipant(user, challenge);
+       //ChallengeParticipant participant = new ChallengeParticipant(user, challenge);
 
        Challenge result = challengeRepository.save(challenge);
-       participantRepository.save(participant);
+       //participantRepository.save(participant);
 
        //유저 레벨업 체크
        if(user.levelUp()!=null){
@@ -99,7 +97,7 @@ public class ChallengeService {
                     if(!img.getOriginalFilename().substring(0,7).equals("studit_")){
                         String url = fileProcessService.uploadFile(img,Category.CHALLENGE);
                         Image tmp = new Image(url);
-                        tmp.setChallenge(challenge);
+                        tmp.saveChallenge(challenge);
                         list.add(tmp);
                     }
                 }
@@ -173,17 +171,9 @@ public class ChallengeService {
 
 
     public List<ChallengeDto> getChallenges() {
-        ChallengeDto dto = new ChallengeDto();
         List<Challenge> list = challengeRepository.findAllChallenge();
-        List<ChallengeDto> result = new ArrayList<>();
 
-        for(Challenge c:list){
-            List<String> urls = new ArrayList<>();
-            c.getImages().stream().forEach(image -> {urls.add(image.getUrl());});
-            result.add(dto.makeResponse(c,urls));
-        }
-
-        return result;
+        return getChallengeDtos(list);
     }
 
     public ChallengeDto getChallenge(Long challengeId) {
@@ -193,4 +183,34 @@ public class ChallengeService {
 
         return new ChallengeDto().makeResponse(challenge, urls);
     }
+
+    public List<ChallengeDto> searchChallenges(String keyword) {
+        List<Challenge> list = new ArrayList<>();
+        if(keyword == null) challengeRepository.findAllChallenge();
+        else{list = challengeRepository.searchChallenge(keyword);}
+
+        return getChallengeDtos(list);
+
+    }
+
+    public List<ChallengeDto> searchChallengesBySubject(List<String> subject) {
+        List<Challenge> list = challengeRepository.searchChallengeBySubject(subject);
+
+        return getChallengeDtos(list);
+    }
+
+    @NotNull
+    private List<ChallengeDto> getChallengeDtos(List<Challenge> list) {
+        List<ChallengeDto> result = new ArrayList<>();
+        ChallengeDto dto = new ChallengeDto();
+
+        for(Challenge c: list){
+            List<String> urls = new ArrayList<>();
+            c.getImages().stream().forEach(image -> {urls.add(image.getUrl());});
+            result.add(dto.makeResponse(c,urls));
+        }
+
+        return result;
+    }
+
 }
