@@ -1,7 +1,6 @@
 package com.example.studit.domain.study.dto;
 
 import com.example.studit.domain.study.Activity;
-import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
 import com.example.studit.domain.study.Study;
 import com.example.studit.domain.User.dto.UserInfoDto;
@@ -36,23 +35,12 @@ public class GetManageRes {
         this.number = study.getNumber();
         this.currentNum = study.getParticipatedMembers().size() + 1;
         this.activity = study.getActivity();
-        this.leader = study.getLeader().getUser().toUserInfoDto();
+        this.leader = study.getLeader().toUserInfoDto();
         this.participatedMembers = study.getParticipatedMembers()
                 .stream().map(UserInfoDto::new)
                 .collect(Collectors.toList());
     }
 
-    public GetManageRes(MyStudy myStudy){
-        this.id = myStudy.getStudy().getId();
-        this.name = myStudy.getStudy().getName();
-        this.number = myStudy.getStudy().getNumber();
-        this.currentNum = myStudy.getStudy().getParticipatedMembers().size() + 1;
-        this.activity = myStudy.getStudy().getActivity();
-        this.leader = myStudy.getUser().toUserInfoDto();
-        this.participatedMembers = myStudy.getStudy().getParticipatedMembers()
-                .stream().map(UserInfoDto::new)
-                .collect(Collectors.toList());
-    }
 
     public GetManageRes(ParticipatedStudy participatedStudy){
         this.id = participatedStudy.getStudy().getId();
@@ -60,7 +48,7 @@ public class GetManageRes {
         this.number = participatedStudy.getStudy().getParticipatedMembers().size() + 1;
         this.currentNum = participatedStudy.getStudy().getParticipatedMembers().size() + 1;
         this.activity = participatedStudy.getStudy().getActivity();
-        this.leader = participatedStudy.getStudy().getLeader().getUser().toUserInfoDto();
+        this.leader = participatedStudy.getStudy().getLeader().toUserInfoDto();
         this.participatedMembers = participatedStudy.getStudy().getParticipatedMembers()
                 .stream().map(UserInfoDto::new)
                 .collect(Collectors.toList());
