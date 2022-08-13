@@ -11,7 +11,6 @@ import com.example.studit.domain.enumType.Role;
 import com.example.studit.domain.invitation.Invitation;
 import com.example.studit.domain.likes.Likes;
 import com.example.studit.domain.posting.Posting;
-import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
 import com.example.studit.domain.User.dto.UserInfoDto;
 import lombok.*;
@@ -85,11 +84,6 @@ public class User extends BaseEntity {
     //수집한 뱃지
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyBadge> badges = new ArrayList<>();
-
-
-    //내가 스터디 방장
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<MyStudy> myStudies = new ArrayList<>();
 
     //나는 스터디원
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //탈퇴하면 스터디, 챌린지에서 나가지도록
