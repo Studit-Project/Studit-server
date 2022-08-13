@@ -26,7 +26,7 @@ public class Image extends BaseEntity {
         this.url = url;
     }
 
-    public void setChallenge(Challenge challenge){
+    public void saveChallenge(Challenge challenge){
         if(this.challenge != null){
             this.challenge.getImages().remove(this);
         }
