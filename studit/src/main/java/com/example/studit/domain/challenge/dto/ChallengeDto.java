@@ -33,7 +33,7 @@ public class ChallengeDto {
                 .title(challenge.getTitle())
                 .content(challenge.getContent())
                 .subject(challenge.getSubject().toString())
-                .status(challenge.getChallengeStatus().toString())
+                //.status(challenge.getChallengeStatus().toString())
                 .userId(challenge.getUser().getId())
                 .nickName(challenge.getUser().getNickname())
                 .imgUrl(imgs)
