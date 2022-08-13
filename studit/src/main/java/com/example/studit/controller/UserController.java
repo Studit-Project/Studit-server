@@ -19,6 +19,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -81,7 +82,7 @@ public class UserController {
 
     @ApiOperation("초대 수락 여부")
     @PatchMapping("/invitation/{invitationId}")
-    public BaseResponse<String> accept(@PathVariable(name = "invitationId") Long invitationId, @RequestParam boolean acceptance){
+    public BaseResponse<String> accept(@PathVariable(name = "invitationId") Long invitationId, @RequestParam boolean acceptance) throws IOException {
         studyService.accept(invitationId, acceptance);
         return new BaseResponse<String>("");
     }
