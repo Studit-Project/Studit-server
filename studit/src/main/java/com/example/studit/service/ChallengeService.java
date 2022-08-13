@@ -160,7 +160,7 @@ public class ChallengeService {
     public Long updateStatus(Long id, StudyStatus status) {
         Challenge challenge = challengeRepository.findById(id).orElseThrow(NoSuchElementException::new);
         if(challenge.getUser().equals(userService.getUserFromAuth())){
-            challenge.changeChallengeStatus(status);
+            //challenge.changeChallengeStatus(status);
             challengeRepository.save(challenge);
 
             return challenge.getId();
