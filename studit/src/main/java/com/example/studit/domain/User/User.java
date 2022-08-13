@@ -6,6 +6,7 @@ import com.example.studit.domain.comment.Comment;
 import com.example.studit.domain.badge.MyBadge;
 import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.domain.enumType.Gender;
+import com.example.studit.domain.enumType.Level;
 import com.example.studit.domain.enumType.Role;
 import com.example.studit.domain.invitation.Invitation;
 import com.example.studit.domain.likes.Likes;
@@ -14,6 +15,7 @@ import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
 import com.example.studit.domain.User.dto.UserInfoDto;
 import lombok.*;
+import org.hibernate.annotations.Formula;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -50,6 +52,15 @@ public class User extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String nickname;
+
+    @Enumerated(EnumType.STRING)
+    private Level level;
+
+    @Formula("(select count(1) from Challenge c where c.user_id = user_id)")
+    private Integer challengeCount;
+
+    @Formula("(select count(1) from Study m where m.user_id = user_id)")
+    private Integer studyCount;
 
     @Column(nullable = true, unique = true)
     private String fcmToken;
@@ -131,6 +142,7 @@ public class User extends BaseEntity {
         this.ageRange = ageRange;
         this.role = Role.USER;
         this.nickname = nickname;
+        this.level = Level.LV1;
     }
 
     public void encryptPassword(PasswordEncoder passwordEncoder) {
@@ -154,5 +166,17 @@ public class User extends BaseEntity {
 
     public void addFcmToken(String fcmToken){
         this.fcmToken = fcmToken;
+    }
+
+    public Level levelUp(){
+
+        if(!this.getLevel().equals(Level.LV3)){
+            Level nextLevel = Level.getNextLevel(this.getChallengeCount() + this.getStudyCount());
+            if(nextLevel != null){
+                this.level = nextLevel;
+                return nextLevel;
+            }
+        }
+        return null;
     }
 }

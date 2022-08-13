@@ -1,6 +1,9 @@
 package com.example.studit.service;
 
+import com.example.studit.domain.Status;
 import com.example.studit.domain.User.User;
+import com.example.studit.domain.enumType.Category;
+import com.example.studit.domain.enumType.Level;
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.invitation.Invitation;
 import com.example.studit.domain.notification.NotificationType;
@@ -13,6 +16,8 @@ import com.example.studit.domain.study.dto.PostCreateReq;
 import com.example.studit.domain.study.dto.GetManageRes;
 import com.example.studit.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

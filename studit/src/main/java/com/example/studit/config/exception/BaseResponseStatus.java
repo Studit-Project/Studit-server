@@ -67,6 +67,8 @@ public enum BaseResponseStatus {
     CHECK_INVALID_PRODUCT_ID(false,2080,"productIdx에 해당하는 값이 없습니다"),
     CHECK_INVALID_QUESTION_OR_PRODUCT_ID(false,2081,"questionIdx 또는 productIdx를 확인해 주세요"),
 
+    INVITATION_EXISTS(false, 2050, "이미 초대된 유저입니다."),
+
 
     /**
      * 3000 : Response 오류
@@ -99,7 +101,8 @@ public enum BaseResponseStatus {
     // Order
     DELETION_FAIL_ORDER(false, 4020, "주문취소 실패"),
 
-    DELETION_FAIL_Like(false,4030, "찜취소 실패");
+    DELETION_FAIL_Like(false,4030, "찜취소 실패"),
+    NO_EDIT_RIGHTS(false, 4040, "게시물 수정 권한 없음");
 
     // 5000 : 필요시 만들어서 쓰세요
     // 6000 : 필요시 만들어서 쓰세요
