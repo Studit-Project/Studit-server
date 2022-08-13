@@ -2,6 +2,7 @@ package com.example.studit.controller;
 
 import com.example.studit.config.exception.BaseResponse;
 import com.example.studit.config.exception.BaseResponseStatus;
+import com.example.studit.domain.challenge.Subject;
 import com.example.studit.domain.challenge.dto.ChallengeDto;
 import com.example.studit.domain.challenge.dto.ChallengeReq;
 import com.example.studit.domain.enumType.StudyStatus;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,11 +24,26 @@ public class ChallengeController {
     @Autowired
     private final ChallengeService challengeService;
 
+
     @ApiOperation("챌린지 리스트")
     @GetMapping
     public BaseResponse<List<ChallengeDto>> getChallenges(){
         return new BaseResponse<>(challengeService.getChallenges());
     }
+
+    @ApiOperation("챌린지 키워드 검색")
+    @GetMapping("/search")
+    public BaseResponse<List<ChallengeDto>> searchChallenges(@RequestParam(required = false, defaultValue="") String keyword){
+        return new BaseResponse<>(challengeService.searchChallenges(keyword));
+    }
+
+    @ApiOperation("챌린지 subject 검색")
+    @GetMapping("/search/subject")
+    public BaseResponse<List<ChallengeDto>> searchChallenges(@RequestParam(required=false, defaultValue="") List<String> subject){
+        if(subject.isEmpty()) subject = Stream.of(Subject.values()).map(Enum::name).collect(Collectors.toList());
+        return new BaseResponse<>(challengeService.searchChallengesBySubject(subject));
+    }
+
 
     @ApiOperation("챌린지 하나")
     @GetMapping("/detail/{challengeId}")
@@ -62,13 +80,14 @@ public class ChallengeController {
     }
 
 
+    /*
     @ApiOperation("챌린지에 유저 추가")
     @GetMapping("/adduser/{challengeId}")
     public BaseResponse<Long> addChallengeUser(@PathVariable Long challengeId){
         Long id = challengeService.addChallengeUser(challengeId);
 
         return new BaseResponse<>(id);
-    }
+    }*/
 
     @ApiOperation("챌린지 삭제")
     @PatchMapping("/{challengeId}")
