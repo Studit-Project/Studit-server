@@ -1,6 +1,5 @@
 package com.example.studit.domain.study.dto;
 
-import com.example.studit.domain.study.MyStudy;
 import com.example.studit.domain.study.ParticipatedStudy;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -23,12 +22,6 @@ public class GetHomeStudiesRes {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
 
-    public GetHomeStudiesRes(MyStudy myStudy){
-        this.id = myStudy.getStudy().getId();
-        this.name = myStudy.getStudy().getName();
-        this.introduction = myStudy.getStudy().getIntroduction();
-        this.createdAt = myStudy.getCreatedAt();
-    }
 
     public GetHomeStudiesRes(ParticipatedStudy participatedStudy){
         this.id = participatedStudy.getStudy().getId();
