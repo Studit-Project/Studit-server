@@ -1,12 +1,6 @@
 package com.example.studit.service;
 
 import com.example.studit.domain.User.User;
-import com.example.studit.domain.bulletin.BulletinBoard;
-import com.example.studit.domain.challenge.Challenge;
-import com.example.studit.domain.enumType.Category;
-import com.example.studit.domain.notification.NotificationType;
-import com.example.studit.domain.posting.Posting;
-import com.example.studit.domain.study.Study;
 import com.example.studit.dto.FCMRequestDto;
 import com.example.studit.repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -43,78 +37,19 @@ public class FCMService {
     @Autowired
     private final UserRepository userRepository;
 
-    @Autowired
-    private final PostingRepository postingRepository;
-
-    @Autowired
-    private final BulletinBoardRepository bulletinBoardRepository;
-
     private final UserService userService;
-
-    @Autowired
-    private final StudyRepository studyRepository;
-
-    @Autowired
-    private final ChallengeRepository challengeRepository;
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
+    public void sendMessageToUser(String infoMesseage, String bodyMessage, Long targetUserId) throws IOException{
 
-    public void sendMessageToWriter(Long contentId, NotificationType notificationType, Category category) throws IOException {
-
-
-        String info;
-        String contentTitle = null;
-        User user = new User();
-
-        switch (category){
-            case POSTING:
-                Posting posting = postingRepository.findById(contentId)
-                        .orElseThrow(NoSuchElementException::new);
-                user = posting.getUser();
-                contentTitle = posting.getTitle();
-                break;
-            case BULLETIN:
-                BulletinBoard bulletinBoard = bulletinBoardRepository.findById(contentId)
-                        .orElseThrow(NoSuchElementException::new);
-                user = bulletinBoard.getUser();
-                contentTitle = bulletinBoard.getTitle();
-
-        }
-
-        info = user.getNickname() + "님, " + notificationType.getMessage();
-
-        String message = makeMessage(user.getFcmToken(), info, contentTitle);
-        setBuild(message);
-    }
-
-
-    public void sendMessageToUser(Long contentId, Long userId,
-                                  NotificationType notificationType, Category category) throws IOException{
-        String info;
-        String contentTitle = null;
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(targetUserId)
                 .orElseThrow(NoSuchElementException::new);
 
-        switch (category){
-            case STUDY:
-                Study study = studyRepository.findById(contentId)
-                        .orElseThrow(NoSuchElementException::new);
-                contentTitle = study.getAnnouncement().substring(0,15) + "...";
-                break;
-            case CHALLENGE:
-                Challenge challenge = challengeRepository.findById(contentId)
-                        .orElseThrow(NoSuchElementException::new);
-                contentTitle = challenge.getContent().substring(0,15) + "...";
-                break;
-            default:
-                break;
-        }
+        String info = user.getNickname() + "님, " + infoMesseage;
 
-        info = user.getNickname() + "님, " + notificationType.getMessage();
-
-        String message = makeMessage(user.getFcmToken(), info, contentTitle);
+        String message = makeMessage(user.getFcmToken(), info, bodyMessage);
         setBuild(message);
 
     }
