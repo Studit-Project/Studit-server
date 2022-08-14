@@ -32,4 +32,9 @@ public class ParticipatedStudy extends BaseEntity {
     public void addStudy(Study study){
         this.study = study;
     }
+
+    public ParticipatedStudy(User user, Study study) {
+        this.user = user;
+        this.study = study;
+    }
 }
