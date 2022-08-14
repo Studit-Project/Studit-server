@@ -57,7 +57,9 @@ public class ChallengeService {
        List<Image> list = new ArrayList<>();
 
         if(!request.getImage().isEmpty()){
-            for(MultipartFile img : request.getImage()){
+            List<MultipartFile> requestImage = request.getImage();
+            if(requestImage.size() > 5) requestImage.subList(0,6);
+            for(MultipartFile img : requestImage){
                     String url = fileProcessService.uploadFile(img,Category.CHALLENGE);
                     Image tmp = new Image(url);
                     tmp.saveChallenge(challenge);
@@ -87,7 +89,17 @@ public class ChallengeService {
             challenge.modifyChallenge(request.getSubject(), request.getContent(), request.getTitle());
 
             if(!request.getImage().isEmpty()){
-                for(MultipartFile img : request.getImage()){
+                //수정시 기존에 업로드되었던 이미지 전부 삭제 처리 (클라이언트에 맞춰 추후 수정)
+                imageRepository.deleteAll(challenge.getImages());
+                challenge.getImages().stream().forEach(image -> {
+                    fileProcessService.deleteFile(image.getUrl(), Category.CHALLENGE);
+                });
+
+                List<MultipartFile> requestImage = request.getImage();
+
+                if(requestImage.size() > 5) requestImage.subList(0,6);
+
+                for(MultipartFile img : requestImage){
                     if(!img.getOriginalFilename().substring(0,7).equals("studit_")){
                         String url = fileProcessService.uploadFile(img,Category.CHALLENGE);
                         Image tmp = new Image(url);
@@ -144,6 +156,7 @@ public class ChallengeService {
                 fileProcessService.deleteFile(image.getUrl(), Category.CHALLENGE);
             });
             challengeRepository.save(challenge);
+            imageRepository.deleteAll(delImgs);
 
             return challenge.getId();
         }
@@ -193,7 +206,6 @@ public class ChallengeService {
         return getChallengeDtos(list);
     }
 
-    @NotNull
     private List<ChallengeDto> getChallengeDtos(List<Challenge> list) {
         List<ChallengeDto> result = new ArrayList<>();
         ChallengeDto dto = new ChallengeDto();
