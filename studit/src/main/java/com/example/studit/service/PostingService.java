@@ -111,8 +111,9 @@ public class PostingService {
 
         user.addLikes(likes);
         posting.get().addLiked(likes);
-        
-        fcmService.sendMessageToWriter(postingId, NotificationType.LIKES, Category.POSTING);
+
+        fcmService.sendMessageToUser(user.getNickname() + NotificationType.LIKES,
+                posting.get().getTitle() +"...", posting.get().getUser().getId());
 
         //notificationService.send(posting.get().getUser(), NotificationType.LIKES, user.getNickname() + "님이 좋아요를 누르셨습니다.", "");
     }

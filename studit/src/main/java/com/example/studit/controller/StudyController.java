@@ -64,7 +64,7 @@ public class StudyController {
     //스터디원 강퇴
     @ApiOperation("강퇴")
     @DeleteMapping("/{studyId}/expulsion/{followerId}")
-    public BaseResponse<String> expel(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "followerId") Long followerId){
+    public BaseResponse<String> expel(@PathVariable(name = "studyId") Long studyId, @PathVariable(name = "followerId") Long followerId) throws IOException {
         studyService.expelFollower(studyId, followerId);
         return new BaseResponse<String>("");
     }

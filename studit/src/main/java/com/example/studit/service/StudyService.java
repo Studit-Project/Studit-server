@@ -105,7 +105,7 @@ public class StudyService {
 
             //notificationService.send(user.get(), NotificationType.INVITE, "새로운 초대 요청이 도착했습니다.", "");
 
-            fcmService.sendMessageToUser(studyId, user.get().getId(), NotificationType.INVITE, Category.STUDY);
+            fcmService.sendMessageToUser(NotificationType.INVITE.getMessage(), study.get().getName() + "...", user.get().getId());
 
             return invitation.getId();
         } else{
@@ -145,7 +145,7 @@ public class StudyService {
     }
 
     /**스터디원 강퇴**/
-    public void expelFollower(Long studyId, Long followerId) {
+    public void expelFollower(Long studyId, Long followerId) throws IOException {
         Optional<Study> study = studyRepository.findById(studyId);
         Optional<User> user = userRepository.findById(followerId);
 
@@ -154,7 +154,10 @@ public class StudyService {
         ParticipatedStudy participatedStudy = participatedStudyRepository.findByUserAndStudy(user.get(), study.get());
         participatedStudyRepository.delete(participatedStudy);
 
-        notificationService.send(user.get(), NotificationType.EXPEL, studyId + "에서 강퇴당하셨습니다.", "");
+        fcmService.sendMessageToUser(study.get().getName() + NotificationType.EXPEL.getMessage(),
+                study.get().getName() + "...", user.get().getId());
+
+        //notificationService.send(user.get(), NotificationType.EXPEL, studyId + "에서 강퇴당하셨습니다.", "");
 
     }
 
@@ -176,12 +179,16 @@ public class StudyService {
             participatedStudy.addUser(user);
             study.get().addOne(participatedStudy);
 
-            fcmService.sendMessageToUser(study.get().getId(), study.get().getLeader().getId(), NotificationType.ACCEPT, Category.STUDY);
+            fcmService.sendMessageToUser(user.getNickname() + NotificationType.ACCEPT.getMessage(),
+                    study.get().getName() + "...", study.get().getLeader().getId());
+
 
             //notificationService.send(study.get().getLeader(), NotificationType.ACCEPT, user.getNickname() + "님이 초대를 수락하셨습니다.", "");
 
         } else {
-            fcmService.sendMessageToUser(study.get().getId(), study.get().getLeader().getId(), NotificationType.REFUSE, Category.STUDY);
+            fcmService.sendMessageToUser(user.getNickname() + NotificationType.REFUSE.getMessage(),
+                    study.get().getName() + "...", study.get().getLeader().getId());
+
             //notificationService.send(study.get().getLeader(), NotificationType.REFUSE, user.getNickname() + "님이 초대를 거절하셨습니다.", "");
         }
 
