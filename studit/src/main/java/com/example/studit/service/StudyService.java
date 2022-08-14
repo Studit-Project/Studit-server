@@ -13,6 +13,8 @@ import com.example.studit.domain.study.dto.PostCreateReq;
 import com.example.studit.domain.study.dto.GetManageRes;
 import com.example.studit.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,27 +47,26 @@ public class StudyService {
 
     private final FCMService fcmService;
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     /**스터디룸 개설**/
     public Long save(PostCreateReq studyCreateReq){
 
         //현재 로그인한 유저 정보
         User user = userService.getUserFromAuth();
 
-        //MyStudy myStudy = new MyStudy();
-        //myStudy.addUser(user);
 
         Study study = new Study(studyCreateReq);
-
-        studyRepository.save(study);
-       //myStudyRepository.save(myStudy);
-
-        //study.addLeader(myStudy);
         study.addLeader(user);
 
-        //유저 레벨업 체크
-        if(user.levelUp()!=null){
-            userRepository.save(user);
-        }
+        ParticipatedStudy participatedStudy = new ParticipatedStudy(user, study);
+
+        user.levelUp();
+
+        //user 무조건 업데이트 되어야 하므로 null 체크 삭제
+        participatedStudyRepository.save(participatedStudy);
+        studyRepository.save(study);
+        userRepository.save(user);
 
         return study.getId();
     }
@@ -74,7 +75,7 @@ public class StudyService {
     public List<GetManageRes> findIndividualStudies() {
         User user = userService.getUserFromAuth();
 
-        List<Study> studies = new ArrayList<>();
+        List<Study> studies = user.getStudies();
 
         List<ParticipatedStudy> participatedStudies = user.getParticipatedStudies(); //내가 참여한 스터디 리스트
 

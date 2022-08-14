@@ -66,5 +66,4 @@ public class Challenge extends BaseEntity {
         this.title = title;
     }
 
-
 }
