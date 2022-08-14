@@ -17,6 +17,8 @@ public class UserInfoDto {
     private String email;
     private String nickname;
 
+    private String level;
+
     @Builder
     public UserInfoDto(User user){
         this.id = user.getId();
@@ -24,6 +26,7 @@ public class UserInfoDto {
         this.phone = user.getPhone();
         this.email = user.getEmail();
         this.nickname = user.getNickname();
+        this.level = user.getLevel().toString();
 
     }
 
@@ -33,5 +36,6 @@ public class UserInfoDto {
         this.phone = participatedStudy.getUser().getPhone();
         this.email = participatedStudy.getUser().getEmail();
         this.nickname = participatedStudy.getUser().getNickname();
+        this.level = participatedStudy.getUser().getLevel().toString();
     }
 }
