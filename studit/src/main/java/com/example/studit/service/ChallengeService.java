@@ -68,17 +68,11 @@ public class ChallengeService {
         imageRepository.saveAll(list);
         list.stream().forEach(image -> {challenge.saveImg(image);});
 
-       //ChallengeParticipant participant = new ChallengeParticipant(user, challenge);
+        user.levelUp();
+        user.addChallenge(challenge);
 
-       Challenge result = challengeRepository.save(challenge);
-       //participantRepository.save(participant);
-
-       //유저 레벨업 체크
-       if(user.levelUp()!=null){
         userRepository.save(user);
-       }
-
-       return result.getId();
+        return challengeRepository.save(challenge).getId();
     }
 
     @Transactional

@@ -58,10 +58,6 @@ public class Study {
     @JoinColumn(name = "user_id")
     private User leader;
 
-    /*
-    //회장
-    @OneToOne(mappedBy = "study", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private MyStudy leader;*/
 
     //스터디원
     @OneToMany(mappedBy = "study", cascade = CascadeType.ALL)
@@ -114,6 +110,7 @@ public class Study {
     //리더 지정
     public void addLeader(User leader){
         this.leader = leader;
+        leader.addStudy(this);
     }
 
     //스터디원 추가
