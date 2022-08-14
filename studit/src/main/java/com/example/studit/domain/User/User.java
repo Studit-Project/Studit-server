@@ -1,6 +1,7 @@
 package com.example.studit.domain.User;
 
 import com.example.studit.domain.BaseEntity;
+import com.example.studit.domain.Image.Image;
 import com.example.studit.domain.challenge.Challenge;
 import com.example.studit.domain.comment.Comment;
 import com.example.studit.domain.badge.MyBadge;
@@ -13,6 +14,7 @@ import com.example.studit.domain.likes.Likes;
 import com.example.studit.domain.posting.Posting;
 import com.example.studit.domain.study.ParticipatedStudy;
 import com.example.studit.domain.User.dto.UserInfoDto;
+import com.example.studit.domain.study.Study;
 import lombok.*;
 import org.hibernate.annotations.Formula;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -81,6 +83,9 @@ public class User extends BaseEntity {
     //목표
     private String goal;
 
+    @OneToMany(mappedBy = "leader", cascade = CascadeType.ALL)
+    private List<Study> studies = new ArrayList<>();
+
     //수집한 뱃지
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyBadge> badges = new ArrayList<>();
@@ -113,6 +118,10 @@ public class User extends BaseEntity {
 
     public void addLikes(Likes like){
         likes.add(like);
+    }
+
+    public void addStudy(Study study){
+        studies.add(study);
     }
 
     public void addInvitation(Invitation invitation){
@@ -173,4 +182,11 @@ public class User extends BaseEntity {
         }
         return null;
     }
+
+    public void addChallenge(Challenge challenge){
+        if(!this.challenges.contains(challenge)){
+            this.challenges.add(challenge);
+        }
+    }
+
 }
