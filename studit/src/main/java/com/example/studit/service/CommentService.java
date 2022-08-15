@@ -54,8 +54,8 @@ public class CommentService {
 
         comment.addComment();
 
-        fcmService.sendMessageToWriter(postingId, NotificationType.COMMENT, Category.POSTING);
-        //notificationService.send(posting.get().getUser(), NotificationType.COMMENT, postingId + "에 새로운 댓글이 달렸습니다.", "");
+        fcmService.sendMessageToUser(posting.get().getTitle().substring(0,7) + "..." + NotificationType.COMMENT,
+                posting.get().getContent().substring(0,15) +"...", posting.get().getUser().getId());
 
         return commentRepository.save(comment).getId();
     }
@@ -69,7 +69,9 @@ public class CommentService {
 
         comment.addToBulletinBoard();
 
-        fcmService.sendMessageToWriter(bulletinId, NotificationType.COMMENT, Category.BULLETIN);
+        fcmService.sendMessageToUser(bulletinBoard.get().getTitle().substring(0,7) + "..." + NotificationType.COMMENT,
+                bulletinBoard.get().getContent().substring(0,15) +"...", bulletinBoard.get().getUser().getId());
+
         //notificationService.send(bulletinBoard.get().getUser(), NotificationType.COMMENT, bulletinId + "에 새로운 댓글이 달렸습니다.", "");
 
         return commentRepository.save(comment).getId();
