@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 public class CommentResponseDto {
     private Long id;
     private Long userId;
+    private String nickname;
     private String content;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime localDateTime;
@@ -24,6 +25,7 @@ public class CommentResponseDto {
     public CommentResponseDto(Comment comment){
         this.id = comment.getId();
         this.userId = comment.getUser().getId();
+        this.nickname = comment.getUser().getNickname();
         this.content = comment.getContent();
         this.localDateTime = comment.getUpdatedAt();
     }
