@@ -3,6 +3,7 @@ package com.example.studit.domain.posting.dto;
 import com.example.studit.domain.comment.dto.CommentResponseDto;
 import com.example.studit.domain.enumType.Gender;
 import com.example.studit.domain.enumType.Target;
+import com.example.studit.domain.posting.Field;
 import com.example.studit.domain.posting.Posting;
 import com.example.studit.domain.enumType.Category;
 import com.example.studit.domain.User.dto.UserInfoDto;
@@ -29,6 +30,8 @@ public class PostingDto {
     private Category category;
 
     private String title;
+
+    private Field field;
 
     private UserInfoDto userInfoDto;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
