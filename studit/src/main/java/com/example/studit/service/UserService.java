@@ -94,7 +94,7 @@ public class UserService {
         Optional<User> user = userRepository.findById(userId);
         Optional<User> isPresent = userRepository.findByNickname(patchDetailReq.getNickname());
 
-        if(!isPresent.isEmpty()){
+        if(isPresent.get() != user.get() &&   !isPresent.isEmpty()){
             throw new BaseException(BaseResponseStatus.INVALID_NICKNAME);
         }
 
