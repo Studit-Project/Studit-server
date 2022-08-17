@@ -46,6 +46,9 @@ public class Posting extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @Enumerated(EnumType.STRING)
+    private Field field;
+
     private String title;
 
     @Enumerated(EnumType.STRING)
@@ -89,6 +92,7 @@ public class Posting extends BaseEntity {
         this.content = postCreateReq.getContent();
         this.target = postCreateReq.getTarget();
         this.gender = postCreateReq.getGender();
+        this.field = postCreateReq.getField();
     }
 
     public void updatePosting(PatchPostingReq patchPostingReq) {
@@ -100,5 +104,6 @@ public class Posting extends BaseEntity {
         this.province = patchPostingReq.getProvince();
         this.title = patchPostingReq.getTitle();
         this.content = patchPostingReq.getContent();
+        this.field = patchPostingReq.getField();
     }
 }
