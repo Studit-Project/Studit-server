@@ -34,6 +34,7 @@ public class StudyService {
     @Autowired
     private final StudyRepository studyRepository;
 
+    private final ChallengeRepository challengeRepository;
     @Autowired
     private final ParticipatedStudyRepository participatedStudyRepository;
 
@@ -59,14 +60,16 @@ public class StudyService {
         Study study = new Study(studyCreateReq);
         study.addLeader(user);
 
-        ParticipatedStudy participatedStudy = new ParticipatedStudy(user, study);
+//        ParticipatedStudy participatedStudy = new ParticipatedStudy(user, study);
 
-        user.levelUp();
+//        user.levelUp();
+        Long count = studyRepository.countByLeader(user) + challengeRepository.countByUser(user);
+        user.levelUp(count);
 
         //user 무조건 업데이트 되어야 하므로 null 체크 삭제
-        participatedStudyRepository.save(participatedStudy);
+//        participatedStudyRepository.save(participatedStudy);
         studyRepository.save(study);
-        userRepository.save(user);
+//        userRepository.save(user);
 
         return study.getId();
     }
@@ -165,7 +168,13 @@ public class StudyService {
     public void delete(Long studyId) {
         Optional<Study> study = studyRepository.findById(studyId);
         study.get().deleteStudy();
-        studyRepository.save(study.get());
+        List<ParticipatedStudy> participatedStudies = participatedStudyRepository.findByStudy(study.get());
+
+        for(ParticipatedStudy participatedStudy : participatedStudies) {
+            participatedStudy.delete();
+        }
+
+//        studyRepository.save(study.get());
     }
 
     /**초대 승낙 여부**/
