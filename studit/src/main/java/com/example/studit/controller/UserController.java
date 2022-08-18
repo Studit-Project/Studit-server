@@ -3,6 +3,7 @@ package com.example.studit.controller;
 import com.example.studit.config.exception.BaseException;
 import com.example.studit.config.exception.BaseResponse;
 import com.example.studit.domain.User.dto.PatchDetailReq;
+import com.example.studit.domain.User.dto.StatusMessage;
 import com.example.studit.domain.invitation.dto.GetAllRes;
 import com.example.studit.dto.AuthenticationRes;
 import com.example.studit.dto.JwtRequestDto;
@@ -85,6 +86,12 @@ public class UserController {
     public BaseResponse<String> accept(@PathVariable(name = "invitationId") Long invitationId, @RequestParam boolean acceptance) throws IOException {
         studyService.accept(invitationId, acceptance);
         return new BaseResponse<String>("");
+    }
+
+    @ApiOperation("상태 메세지만 수정")
+    @PatchMapping("/info/message")
+    public BaseResponse<String> editStatusMessage(@RequestBody StatusMessage statusMessage) {
+        return new BaseResponse<String>(userService.editStatusMessage(statusMessage));
     }
 
 }
