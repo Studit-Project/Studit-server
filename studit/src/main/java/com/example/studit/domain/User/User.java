@@ -156,7 +156,7 @@ public class User extends BaseEntity {
         this.nickname = patchDetailReq.getNickname();
         this.gender = patchDetailReq.getGender();
         this.birth = patchDetailReq.getBirth();
-        this.statusMessage = patchDetailReq.getStatusMessage();
+//        this.statusMessage = patchDetailReq.getStatusMessage();
     }
 
 
