@@ -3,14 +3,12 @@ package com.example.studit.service;
 import com.example.studit.domain.Image.Image;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.challenge.Challenge;
-import com.example.studit.domain.challenge.ChallengeParticipant;
 import com.example.studit.domain.challenge.dto.ChallengeDto;
 import com.example.studit.domain.challenge.dto.ChallengeReq;
 import com.example.studit.domain.enumType.Category;
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +28,7 @@ public class ChallengeService {
     private final ChallengeRepository challengeRepository;
 
     @Autowired
-    private final ChallengeParticipantRepository participantRepository;
+    private final StudyRepository studyRepository;
 
     @Autowired
     private final UserRepository userRepository;
@@ -70,7 +68,9 @@ public class ChallengeService {
         imageRepository.saveAll(list);
         list.stream().forEach(image -> {challenge.saveImg(image);});
 
-        user.levelUp();
+        Long count = studyRepository.countByLeader(user) + challengeRepository.countByUser(user);
+
+        user.levelUp(count);
         user.addChallenge(challenge);
 
         userRepository.save(user);
@@ -119,26 +119,6 @@ public class ChallengeService {
 
 
         return null;
-
-    }
-
-    @Transactional
-    public Long addChallengeUser(Long challengeId){
-        //현재 로그인한 유저 정보 가져오기
-        User user = userService.getUserFromAuth();
-
-        Challenge challenge = challengeRepository.findById(challengeId)
-                .orElseThrow(NoSuchElementException::new);
-
-        Optional<ChallengeParticipant> entity = participantRepository.findByChallengeAndUser(challenge, user);
-
-        if(entity.isEmpty()){
-            ChallengeParticipant participant = new ChallengeParticipant(user, challenge);
-            return participantRepository.save(participant).getChallenge().getId();
-        }
-        else{
-            return null;
-        }
 
     }
 

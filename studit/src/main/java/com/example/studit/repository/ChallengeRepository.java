@@ -1,5 +1,6 @@
 package com.example.studit.repository;
 
+import com.example.studit.domain.User.User;
 import com.example.studit.domain.challenge.Challenge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -23,5 +24,7 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
             "where (c.title LIKE  %?1% or c.content LIKE  %?1%) and c.status = 'ACTIVE'"
             ,nativeQuery = true)
     List<Challenge> searchChallenge(String keyword);
+
+    Long countByUser(User user);
 
 }

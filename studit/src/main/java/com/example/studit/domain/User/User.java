@@ -57,12 +57,6 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Level level;
 
-    @Formula("(select count(1) from Challenge c where c.user_id = user_id)")
-    private Integer challengeCount;
-
-    @Formula("(select count(1) from Study m where m.user_id = user_id)")
-    private Integer studyCount;
-
     @Column(nullable = true, unique = true)
     private String fcmToken;
 
@@ -171,10 +165,10 @@ public class User extends BaseEntity {
         this.fcmToken = fcmToken;
     }
 
-    public Level levelUp(){
+    public Level levelUp(Long count){
 
         if(!this.getLevel().equals(Level.LV3)){
-            Level nextLevel = Level.getNextLevel(this.getChallengeCount() + this.getStudyCount());
+            Level nextLevel = Level.getNextLevel(Math.toIntExact(count));
             if(nextLevel != null){
                 this.level = nextLevel;
                 return nextLevel;
