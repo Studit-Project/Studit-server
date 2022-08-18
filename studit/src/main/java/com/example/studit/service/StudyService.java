@@ -35,6 +35,9 @@ public class StudyService {
     private final StudyRepository studyRepository;
 
     @Autowired
+    private final ChallengeRepository challengeRepository;
+
+    @Autowired
     private final ParticipatedStudyRepository participatedStudyRepository;
 
     @Autowired
@@ -61,7 +64,9 @@ public class StudyService {
 
         ParticipatedStudy participatedStudy = new ParticipatedStudy(user, study);
 
-        user.levelUp();
+        Long count = studyRepository.countByLeader(user) + challengeRepository.countByUser(user);
+
+        user.levelUp(count);
 
         //user 무조건 업데이트 되어야 하므로 null 체크 삭제
         participatedStudyRepository.save(participatedStudy);
