@@ -82,11 +82,18 @@ public class StudyService {
 
         List<ParticipatedStudy> participatedStudies = user.getParticipatedStudies(); //내가 참여한 스터디 리스트
 
+        List<GetManageRes> getManageRes = studies.stream()
+                .map(GetManageRes::new)
+                .collect(Collectors.toList());
 
-        List<GetManageRes> getManageRes = participatedStudies.stream()
+
+        List<GetManageRes> getManageResParticipated = participatedStudies.stream()
                         .map(GetManageRes::new)
                         .collect(Collectors.toList());
 
+        for(GetManageRes getManageRes1 : getManageResParticipated) {
+            getManageRes.add(getManageRes1);
+        }
 
         return getManageRes;
     }
