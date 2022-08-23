@@ -170,7 +170,8 @@ public class StudyService {
     public void delete(Long studyId) {
         Optional<Study> study = studyRepository.findById(studyId);
         study.get().deleteStudy();
-        studyRepository.save(study.get());
+        studyRepository.delete(study.get());
+        //studyRepository.save(study.get());
     }
 
     /**초대 승낙 여부**/
