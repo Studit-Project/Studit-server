@@ -36,6 +36,9 @@ public class StudyService {
 
     private final ChallengeRepository challengeRepository;
     @Autowired
+    private final ChallengeRepository challengeRepository;
+
+    @Autowired
     private final ParticipatedStudyRepository participatedStudyRepository;
 
     @Autowired
@@ -62,7 +65,6 @@ public class StudyService {
 
 //        ParticipatedStudy participatedStudy = new ParticipatedStudy(user, study);
 
-//        user.levelUp();
         Long count = studyRepository.countByLeader(user) + challengeRepository.countByUser(user);
         user.levelUp(count);
 
@@ -175,13 +177,13 @@ public class StudyService {
     public void delete(Long studyId) {
         Optional<Study> study = studyRepository.findById(studyId);
         study.get().deleteStudy();
+
         List<ParticipatedStudy> participatedStudies = participatedStudyRepository.findByStudy(study.get());
 
         for(ParticipatedStudy participatedStudy : participatedStudies) {
             participatedStudy.delete();
         }
 
-//        studyRepository.save(study.get());
     }
 
     /**초대 승낙 여부**/
