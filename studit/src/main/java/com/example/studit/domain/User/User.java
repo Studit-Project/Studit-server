@@ -150,6 +150,7 @@ public class User extends BaseEntity {
         this.nickname = patchDetailReq.getNickname();
         this.gender = patchDetailReq.getGender();
         this.birth = patchDetailReq.getBirth();
+//        this.statusMessage = patchDetailReq.getStatusMessage();
     }
 
 
@@ -183,4 +184,7 @@ public class User extends BaseEntity {
         }
     }
 
+    public void updateStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
+    }
 }

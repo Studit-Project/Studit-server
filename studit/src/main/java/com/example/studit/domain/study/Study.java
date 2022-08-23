@@ -12,6 +12,7 @@ import com.example.studit.domain.study.dto.PostCreateReq;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -22,6 +23,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Where(clause = "entity_status='ACTIVE'")
 @NoArgsConstructor
 public class Study {
     @Id
