@@ -57,7 +57,7 @@ public class CommentService {
         String title = (posting.get().getTitle().length() > 6 ) ? posting.get().getTitle().substring(0,7) : posting.get().getTitle();
         String content = (posting.get().getContent().length() > 14 ) ? posting.get().getContent().substring(0,15) : posting.get().getContent();
 
-        fcmService.sendMessageToUser(title + "..." + NotificationType.COMMENT,
+        fcmService.sendMessageToUser(title + "..." + NotificationType.COMMENT.getMessage(),
                 content +"...", posting.get().getUser().getId());
 
         return commentRepository.save(comment).getId();
@@ -75,7 +75,7 @@ public class CommentService {
         String title = (bulletinBoard.get().getTitle().length() > 6 ) ? bulletinBoard.get().getTitle().substring(0,7) : bulletinBoard.get().getTitle();
         String contentText = (bulletinBoard.get().getContent().length() > 14 ) ? bulletinBoard.get().getContent().substring(0,15) : bulletinBoard.get().getContent();
 
-        fcmService.sendMessageToUser(title + "..." + NotificationType.COMMENT,
+        fcmService.sendMessageToUser(title + "..." + NotificationType.COMMENT.getMessage(),
                 contentText +"...", bulletinBoard.get().getUser().getId());
 
         //notificationService.send(bulletinBoard.get().getUser(), NotificationType.COMMENT, bulletinId + "에 새로운 댓글이 달렸습니다.", "");
