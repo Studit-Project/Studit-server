@@ -31,7 +31,7 @@ public class UserInfoDto {
     }
 
     public UserInfoDto(ParticipatedStudy participatedStudy){
-        this.id = participatedStudy.getId();
+        this.id = participatedStudy.getUser().getId();
         this.userName = participatedStudy.getUser().getUserName();
         this.phone = participatedStudy.getUser().getPhone();
         this.email = participatedStudy.getUser().getEmail();

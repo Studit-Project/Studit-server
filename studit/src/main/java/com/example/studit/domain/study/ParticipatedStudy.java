@@ -1,14 +1,17 @@
 package com.example.studit.domain.study;
 
 import com.example.studit.domain.BaseEntity;
+import com.example.studit.domain.Status;
 import com.example.studit.domain.User.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Where(clause = "status='ACTIVE'")
 @NoArgsConstructor
 public class ParticipatedStudy extends BaseEntity {
 
@@ -36,5 +39,9 @@ public class ParticipatedStudy extends BaseEntity {
     public ParticipatedStudy(User user, Study study) {
         this.user = user;
         this.study = study;
+    }
+
+    public void delete() {
+        changeStatus(Status.DELETED);
     }
 }

@@ -34,6 +34,7 @@ public class StudyService {
     @Autowired
     private final StudyRepository studyRepository;
 
+    private final ChallengeRepository challengeRepository;
     @Autowired
     private final ChallengeRepository challengeRepository;
 
@@ -62,16 +63,15 @@ public class StudyService {
         Study study = new Study(studyCreateReq);
         study.addLeader(user);
 
-        ParticipatedStudy participatedStudy = new ParticipatedStudy(user, study);
+//        ParticipatedStudy participatedStudy = new ParticipatedStudy(user, study);
 
         Long count = studyRepository.countByLeader(user) + challengeRepository.countByUser(user);
-
         user.levelUp(count);
 
         //user 무조건 업데이트 되어야 하므로 null 체크 삭제
-        participatedStudyRepository.save(participatedStudy);
+//        participatedStudyRepository.save(participatedStudy);
         studyRepository.save(study);
-        userRepository.save(user);
+//        userRepository.save(user);
 
         return study.getId();
     }
@@ -84,11 +84,18 @@ public class StudyService {
 
         List<ParticipatedStudy> participatedStudies = user.getParticipatedStudies(); //내가 참여한 스터디 리스트
 
+        List<GetManageRes> getManageRes = studies.stream()
+                .map(GetManageRes::new)
+                .collect(Collectors.toList());
 
-        List<GetManageRes> getManageRes = participatedStudies.stream()
+
+        List<GetManageRes> getManageResParticipated = participatedStudies.stream()
                         .map(GetManageRes::new)
                         .collect(Collectors.toList());
 
+        for(GetManageRes getManageRes1 : getManageResParticipated) {
+            getManageRes.add(getManageRes1);
+        }
 
         return getManageRes;
     }
@@ -170,8 +177,13 @@ public class StudyService {
     public void delete(Long studyId) {
         Optional<Study> study = studyRepository.findById(studyId);
         study.get().deleteStudy();
-        studyRepository.delete(study.get());
-        //studyRepository.save(study.get());
+
+        List<ParticipatedStudy> participatedStudies = participatedStudyRepository.findByStudy(study.get());
+
+        for(ParticipatedStudy participatedStudy : participatedStudies) {
+            participatedStudy.delete();
+        }
+
     }
 
     /**초대 승낙 여부**/

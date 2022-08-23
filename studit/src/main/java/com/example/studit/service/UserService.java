@@ -5,6 +5,7 @@ import com.example.studit.config.exception.BaseResponseStatus;
 import com.example.studit.domain.User.User;
 import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.domain.User.dto.ProfileDto;
+import com.example.studit.domain.User.dto.StatusMessage;
 import com.example.studit.domain.invitation.Invitation;
 import com.example.studit.domain.invitation.dto.GetAllRes;
 import com.example.studit.dto.JwtRequestDto;
@@ -42,7 +43,7 @@ public class UserService {
     private final InvitationRepository invitationRepository;
     private final StudyRepository studyRepository;
 
-    /**회원가입**/
+    /** 회원가입 **/
     public Long join(UserJoinDto userJoinDto) throws BaseException {
         userJoinDto.setPassword(passwordEncoder.encode(userJoinDto.getPassword()));
         validateDuplicateMember(userJoinDto);
@@ -65,7 +66,7 @@ public class UserService {
         }
     }
 
-    /**로그인**/
+    /** 로그인 **/
     public JwtResponseDto login(JwtRequestDto request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getIdentity(), request.getPassword())
@@ -79,7 +80,7 @@ public class UserService {
         return new JwtResponseDto(token);
     }
 
-    /**현재 로그인한 유저 정보 반환**/
+    /** 현재 로그인한 유저 정보 반환 **/
     public User getUserFromAuth(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = authentication.getName();
@@ -88,27 +89,30 @@ public class UserService {
 
     }
 
-    /**유저 세부 정보 추가**/
+    /** 유저 세부 정보 추가 **/
     public void addDetailInfo(Long userId, PatchDetailReq patchDetailReq) throws BaseException {
 //        User user = getUserFromAuth();
         Optional<User> user = userRepository.findById(userId);
         Optional<User> isPresent = userRepository.findByNickname(patchDetailReq.getNickname());
 
         if(!isPresent.isEmpty()){
+            if(isPresent.get() == user.get()){
+                user.get().addDetailInfo(patchDetailReq);
+            }
             throw new BaseException(BaseResponseStatus.INVALID_NICKNAME);
         }
 
         user.get().addDetailInfo(patchDetailReq);
     }
 
-    /**프로필**/
+    /** 프로필 **/
     public ProfileDto getProfile() {
         User user = getUserFromAuth();
         ProfileDto profileDto = new ProfileDto(user);
         return profileDto;
     }
 
-    /**스터디 초대 목록**/
+    /** 스터디 초대 목록 **/
     public List<GetAllRes> getInvitations() {
         User user = getUserFromAuth();
         List<Invitation> invitations = invitationRepository.findByUser(user);
@@ -119,4 +123,10 @@ public class UserService {
         return getAllRes;
     }
 
+    /** 상태 메세지만 변경 **/
+    public String editStatusMessage(StatusMessage statusMessage) {
+        User user = getUserFromAuth();
+        user.updateStatusMessage(statusMessage.getStatusMessage());
+        return "상태 메세지가 '" + statusMessage.getStatusMessage() + "'로 변경되었습니다.";
+    }
 }

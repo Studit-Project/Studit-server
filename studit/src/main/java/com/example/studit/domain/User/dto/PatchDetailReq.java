@@ -12,4 +12,5 @@ public class PatchDetailReq {
     private String nickname;
     private Gender gender;
     private LocalDate birth;
+//    private String statusMessage;
 }
