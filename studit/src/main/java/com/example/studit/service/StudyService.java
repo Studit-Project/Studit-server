@@ -34,7 +34,6 @@ public class StudyService {
     @Autowired
     private final StudyRepository studyRepository;
 
-    private final ChallengeRepository challengeRepository;
     @Autowired
     private final ChallengeRepository challengeRepository;
 
