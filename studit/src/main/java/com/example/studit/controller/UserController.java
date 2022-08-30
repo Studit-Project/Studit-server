@@ -9,6 +9,7 @@ import com.example.studit.dto.AuthenticationRes;
 import com.example.studit.dto.JwtRequestDto;
 import com.example.studit.dto.JwtResponseDto;
 import com.example.studit.domain.User.dto.UserJoinDto;
+import com.example.studit.dto.Phone;
 import com.example.studit.service.NumberAuthenticationService;
 import com.example.studit.service.StudyService;
 import com.example.studit.service.UserService;
@@ -51,7 +52,7 @@ public class UserController {
 
     @ApiOperation("번호 인증 문자 전송")
     @PostMapping("/check")
-    protected @ResponseBody BaseResponse<String> sendSMS(@RequestBody String phone){
+    protected @ResponseBody BaseResponse<String> sendSMS(@RequestBody Phone phone){
         Random random = new Random();
         String numStr = "";
 
@@ -62,7 +63,7 @@ public class UserController {
 
         System.out.println("수신자 번호: " + phone);
         System.out.println("인증번호: " + numStr);
-//        numberAuthenticationService.sendMessage(phone, numStr);
+        numberAuthenticationService.sendMessage(phone.getPhone(), numStr);
 
         AuthenticationRes authenticationRes = new AuthenticationRes(numStr);
 
