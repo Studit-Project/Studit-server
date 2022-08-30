@@ -1,5 +1,6 @@
 package com.example.studit.domain.posting.dto;
 
+import com.example.studit.domain.enumType.Category;
 import com.example.studit.domain.enumType.StudyStatus;
 import com.example.studit.domain.posting.Field;
 import com.example.studit.domain.posting.Posting;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class PostingListDto {
     private Long id;
+    private Category category;
     private String title;
     private Field field;
     private Long userId;
@@ -26,9 +28,11 @@ public class PostingListDto {
     @Builder
     public PostingListDto(Posting posting){
         this.id = posting.getId();
+        this.category = posting.getCategory();
         this.title = posting.getTitle();
         this.userId = posting.getUser().getId();
         this.localDateTime = posting.getUpdatedAt();
         this.studyStatus = posting.getStudyStatus();
+        this.field = posting.getField();
     }
 }

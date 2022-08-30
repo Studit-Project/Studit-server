@@ -49,6 +49,7 @@ public class PostingDto {
     @Builder
     public PostingDto(Posting posting){
         this.id = posting.getId();
+        this.field = posting.getField();
         this.category = posting.getCategory();
         this.title = posting.getTitle();
         this.userInfoDto = posting.getUser().toUserInfoDto();
