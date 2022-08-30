@@ -36,8 +36,8 @@ public class PostingController {
         return new BaseResponse<Long>(postingService.save(postCreateReq));
     }
 
-    @ApiOperation("스터디 전체 글 보기")
-    @GetMapping("")
+    @ApiOperation("스터디 모집 전체 글 보기")
+    @GetMapping("/study")
     public BaseResponse<List<PostingListDto>> studyPostings(){
         return new BaseResponse<List<PostingListDto>>(postingService.findAllStudyPosting("STUDY"));
     }

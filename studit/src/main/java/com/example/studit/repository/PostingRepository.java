@@ -17,7 +17,7 @@ import java.util.List;
 public interface PostingRepository extends JpaRepository <Posting, Long> {
     List<Posting> findAllByCategory(Category category);
 
-    List<Posting> findByTitleContaining(String keyword);
+    List<Posting> findByTitleContaining(@Param("keyword") String keyword);
 
     @Query("select p from Posting p where p.target IN (:targets) and p.gender IN (:genders) and p.province IN (:provinces) and p.activity IN (:activities)")
     List<Posting> findByFilter(@Param("targets") List<Target> targets, @Param("genders") List<Gender> genders, @Param("provinces") List<Province> provinces, @Param("activities") List<Activity> activities);
