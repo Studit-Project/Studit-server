@@ -17,6 +17,9 @@ import com.example.studit.repository.UserRepository;
 import com.example.studit.security.JwtTokenProvider;
 import com.example.studit.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -41,7 +44,13 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
 
     private final InvitationRepository invitationRepository;
+
     private final StudyRepository studyRepository;
+
+    private JavaMailSender mailSender;
+
+    @Value("${spring.mail.username}")
+    String studitEmail;
 
     /** 회원가입 **/
     public Long join(UserJoinDto userJoinDto) throws BaseException {
@@ -134,5 +143,50 @@ public class UserService {
         User user = getUserFromAuth();
         user.updatePassword(passwordEncoder.encode(password));
         return userRepository.save(user);
+    }
+
+    public String findPassword(String email) throws BaseException {
+        //해당 이메일을 가진 유저가 있는지 체크
+        Optional<User> found = userRepository.findByEmail(email);
+        if(found.isEmpty()){
+            //없으면 에러
+            throw new BaseException(BaseResponseStatus.USERS_EMPTY_USER_EMAIL);
+        }
+        String tempPassword = getTempPassword();
+        found.get().updatePassword(passwordEncoder.encode(tempPassword));
+
+        sendMail(tempPassword, found.get().getEmail());
+
+        return userRepository.save(found.get()).getEmail();
+    }
+
+    private String getTempPassword() {
+        char[] charSet = new char[] {
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+        };
+        int idx;
+        String password = "";
+
+        for(int i=0; i<10; i++){
+            //마지막 인덱스 : charSet.length-1
+            //0 ~ 마지막 인덱스 - 정수 랜덤 생성
+            idx = (int) Math.floor(Math.random()*charSet.length);
+            password += charSet[idx];
+        }
+
+        return password;
+    }
+
+    private void sendMail(String password, String email){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(studitEmail);
+        message.setTo(email);
+        message.setSubject("[Studit] 임시 비밀번호가 발급되었습니다.");
+        message.setText("회원님의 임시 비밀번호는\n\n" +password+
+                "\n\n입니다.\n로그인 후 임시 비밀번호를 변경해주세요.");
+
+        mailSender.send(message);
     }
 }
