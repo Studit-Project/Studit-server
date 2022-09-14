@@ -31,6 +31,17 @@ spring:
   thymeleaf:
     enabled: false
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: studit34@gmail.com
+    password: huowbqmfsgleuzwr
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace
