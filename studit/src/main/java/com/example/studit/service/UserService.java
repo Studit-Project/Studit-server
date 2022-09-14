@@ -17,6 +17,7 @@ import com.example.studit.repository.UserRepository;
 import com.example.studit.security.JwtTokenProvider;
 import com.example.studit.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -46,7 +47,7 @@ public class UserService {
     private final InvitationRepository invitationRepository;
 
     private final StudyRepository studyRepository;
-
+    @Autowired
     private JavaMailSender mailSender;
 
     @Value("${spring.mail.username}")
@@ -139,8 +140,15 @@ public class UserService {
         return "상태 메세지가 '" + statusMessage.getStatusMessage() + "'로 변경되었습니다.";
     }
 
-    public User modifyPassword(String password) {
+    public User modifyPassword(String currentpwd, String password) throws BaseException {
         User user = getUserFromAuth();
+
+        //입력한 현재 패스워드와 저장된 패스워드 비교
+        if(!passwordEncoder.matches(currentpwd, user.getPwd())){
+            throw new BaseException(BaseResponseStatus.CHECK_PASSWORD);
+        }
+
+        //현재 패스워드가 유저가 입력한 패스워드와 같으면 패스워드 업데이트 실행
         user.updatePassword(passwordEncoder.encode(password));
         return userRepository.save(user);
     }
@@ -186,7 +194,7 @@ public class UserService {
         message.setSubject("[Studit] 임시 비밀번호가 발급되었습니다.");
         message.setText("회원님의 임시 비밀번호는\n\n" +password+
                 "\n\n입니다.\n로그인 후 임시 비밀번호를 변경해주세요.");
-
+        message.setReplyTo(studitEmail);
         mailSender.send(message);
     }
 }
