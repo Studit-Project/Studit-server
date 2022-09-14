@@ -129,4 +129,10 @@ public class UserService {
         user.updateStatusMessage(statusMessage.getStatusMessage());
         return "상태 메세지가 '" + statusMessage.getStatusMessage() + "'로 변경되었습니다.";
     }
+
+    public User modifyPassword(String password) {
+        User user = getUserFromAuth();
+        user.updatePassword(passwordEncoder.encode(password));
+        return userRepository.save(user);
+    }
 }

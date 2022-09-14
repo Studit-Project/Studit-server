@@ -187,4 +187,8 @@ public class User extends BaseEntity {
     public void updateStatusMessage(String statusMessage) {
         this.statusMessage = statusMessage;
     }
+
+    public void updatePassword(String password){
+        this.pwd = password;
+    }
 }

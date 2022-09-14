@@ -2,6 +2,7 @@ package com.example.studit.controller;
 
 import com.example.studit.config.exception.BaseException;
 import com.example.studit.config.exception.BaseResponse;
+import com.example.studit.domain.User.User;
 import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.domain.User.dto.StatusMessage;
 import com.example.studit.domain.invitation.dto.GetAllRes;
@@ -93,6 +94,13 @@ public class UserController {
     @PatchMapping("/info/message")
     public BaseResponse<String> editStatusMessage(@RequestBody StatusMessage statusMessage) {
         return new BaseResponse<String>(userService.editStatusMessage(statusMessage));
+    }
+
+    @ApiOperation("상태 메세지만 수정")
+    @PatchMapping("/password")
+    public BaseResponse<Long> modifyPassword(@RequestParam("password") String password){
+        User user = userService.modifyPassword(password);
+        return new BaseResponse<Long>(user.getId());
     }
 
 }
