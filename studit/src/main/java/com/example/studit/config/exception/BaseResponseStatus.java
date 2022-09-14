@@ -67,6 +67,8 @@ public enum BaseResponseStatus {
     CHECK_INVALID_PRODUCT_ID(false,2080,"productIdx에 해당하는 값이 없습니다"),
     CHECK_INVALID_QUESTION_OR_PRODUCT_ID(false,2081,"questionIdx 또는 productIdx를 확인해 주세요"),
 
+    CHECK_PASSWORD(false,2012,"패스워드를 확인해주세요."),
+
     INVITATION_EXISTS(false, 2050, "이미 초대된 유저입니다."),
     USERS_EMPTY_USER_EMAIL(false, 2012, "이메일을 확인해주세요"),
 

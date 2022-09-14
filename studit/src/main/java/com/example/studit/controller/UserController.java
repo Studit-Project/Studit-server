@@ -98,8 +98,9 @@ public class UserController {
 
     @ApiOperation("패스워드 수정")
     @PatchMapping("/password/modify")
-    public BaseResponse<Long> modifyPassword(@RequestParam("password") String password){
-        User user = userService.modifyPassword(password);
+    public BaseResponse<Long> modifyPassword(@RequestParam("currentpwd") String currentpwd, @RequestParam("password") String password)
+            throws BaseException {
+        User user = userService.modifyPassword(currentpwd, password);
         return new BaseResponse<Long>(user.getId());
     }
 
