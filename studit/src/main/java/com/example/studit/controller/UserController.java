@@ -2,6 +2,7 @@ package com.example.studit.controller;
 
 import com.example.studit.config.exception.BaseException;
 import com.example.studit.config.exception.BaseResponse;
+import com.example.studit.domain.User.User;
 import com.example.studit.domain.User.dto.PatchDetailReq;
 import com.example.studit.domain.User.dto.StatusMessage;
 import com.example.studit.domain.invitation.dto.GetAllRes;
@@ -44,7 +45,7 @@ public class UserController {
     }
 
     @ApiOperation("회원 세부 정보 설정")
-    @PatchMapping("join/detail/{userId}")
+    @PatchMapping("/join/detail/{userId}")
     public BaseResponse<String> configDetail(@PathVariable(name = "userId") Long userId, @RequestBody @Validated PatchDetailReq patchDetailReq) throws BaseException {
         userService.addDetailInfo(userId, patchDetailReq);
         return new BaseResponse<String>("");
@@ -93,6 +94,21 @@ public class UserController {
     @PatchMapping("/info/message")
     public BaseResponse<String> editStatusMessage(@RequestBody StatusMessage statusMessage) {
         return new BaseResponse<String>(userService.editStatusMessage(statusMessage));
+    }
+
+    @ApiOperation("패스워드 수정")
+    @PatchMapping("/password/modify")
+    public BaseResponse<Long> modifyPassword(@RequestParam("currentpwd") String currentpwd, @RequestParam("password") String password)
+            throws BaseException {
+        User user = userService.modifyPassword(currentpwd, password);
+        return new BaseResponse<Long>(user.getId());
+    }
+
+    @ApiOperation("임시 비밀번호 발급")
+    @GetMapping("/password/find")
+    public BaseResponse<String> findPassword(@RequestParam("email") String email) throws BaseException {
+        //비밀번호 찾기를 누르면 1. 이메일로 유저 체크 2. 이메일로 임시 비밀번호 발급
+        return new BaseResponse<String>(userService.findPassword(email) + "로 이메일이 발송되었습니다.");
     }
 
 }
