@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @ApiOperation(value = "로그인 완료후 리다이렉트")
-    @GetMapping("/auth")
+    @GetMapping("")
     @ResponseBody
     public BaseResponse<OAuthResponse> jwtResponse(@RequestParam String jwt, @RequestParam Long id) {
         System.out.println("jwt: " + jwt + "!!!!!!!!!!!!!!");

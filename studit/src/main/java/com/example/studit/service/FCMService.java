@@ -2,7 +2,7 @@ package com.example.studit.service;
 
 import com.example.studit.domain.User.User;
 import com.example.studit.dto.FCMRequestDto;
-import com.example.studit.repository.*;
+import com.example.studit.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;

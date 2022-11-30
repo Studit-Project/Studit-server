@@ -7,8 +7,6 @@ import org.springframework.web.socket.config.annotation.*;
 
 @Configuration
 @EnableWebSocketMessageBroker //stomp를 사용하기 위해 선언
-//@RequiredArgsConstructor
-//@EnableWebSocket
 public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 //    private final ChatHandler chatHandler;
@@ -24,7 +22,7 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry){
         //WebSockdet 또는 SockJS Client가 웹소켓 핸드셰이크 커넥션을 생성할 경로
         registry.addEndpoint("/stomp/chat")
-                .setAllowedOriginPatterns("*")
+                .setAllowedOriginPatterns("*") //도메인 허용
                 .withSockJS();
     }
 

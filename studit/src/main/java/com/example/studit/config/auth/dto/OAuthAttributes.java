@@ -96,6 +96,7 @@ public class OAuthAttributes {
                 .ageRange(age)
                 .nickname(nickname)
                 .phone(phone)
+                .pwd(pwd)
                 .build();
     }
 }
