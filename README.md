@@ -5,8 +5,20 @@
 
 - 프로젝트 기간: 2022.03 ~ 2022.11
 
-### 실행영상
-https://user-images.githubusercontent.com/70634740/205228502-35a2591d-0c07-4e28-81a5-496c9dc09c4d.mp4
+### About Studit
+
+<img height = 500 alt="studit1" src="https://github.com/Studit-Project/Studit-server/assets/70634740/5827d85a-c429-4a69-a180-1ca65a1e41bb">
+
+
+<img height = 500 alt="studit2" src="https://github.com/Studit-Project/Studit-server/assets/70634740/9bb0b499-f530-41b2-a693-8e850e7f96e9">
+
+
+<img height = 500 alt="studit3" src="https://github.com/Studit-Project/Studit-server/assets/70634740/c748bd95-0c3b-4368-b63d-514f2f748c3f">
+
+
+<img height = 500 alt="studit4" src="https://github.com/Studit-Project/Studit-server/assets/70634740/9e692c4f-2464-4489-b74e-f0c8d3657c40">
+
+
 
 
 ### CI/CD 파이프라인
